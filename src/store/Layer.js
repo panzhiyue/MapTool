@@ -6,7 +6,7 @@ export const useLayerStore = defineStore({
   id: 'layer',
   state: () => ({
     layer: JSON.parse(
-      fs.readFileSync(path.join(__static, '/static/config/layer.json'), 'utf-8')
+      fs.readFileSync(path.join(__static, '/config/layer.json'), 'utf-8')
     )
   }),
   getters: {},
@@ -14,7 +14,7 @@ export const useLayerStore = defineStore({
     read() {
       return JSON.parse(
         fs.readFileSync(
-          path.join(__static, '/static/config/layer.json'),
+          path.join(__static, '/config/layer.json'),
           'utf-8'
         )
       )

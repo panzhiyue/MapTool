@@ -1,7 +1,6 @@
 <template>
-  <div>333</div>
-  <a-layout class="main">
-    <!-- <a-layout-header class="header">
+  <a-layout  class="main">
+    <a-layout-header class="header">
       <div class="logo" />
       <a-menu
         v-model:selectedKeys="selectedKeys1"
@@ -36,32 +35,41 @@
             background: '#fff',
             padding: '24px',
             margin: 0,
-            minHeight: '280px'
+            minHeight: '280px',
           }"
         >
-          <Map></Map>
+          <Map v-if="mapInfo"></Map>
         </a-layout-content>
       </a-layout>
-    </a-layout> -->
+    </a-layout>
   </a-layout>
 </template>
 <script setup>
-// import {
-//   UserOutlined,
-//   LaptopOutlined,
-//   NotificationOutlined
-// } from '@ant-design/icons-vue'
+import {
+  UserOutlined,
+  LaptopOutlined,
+  NotificationOutlined,
+} from "@ant-design/icons-vue";
+import { defineComponent, ref } from "vue";
+import Map from "./components/map/index.vue";
+import MapLayerManager from "./components/map-layer-manager/index.vue";
+import { getById } from "@/api/mapInfo.ts";
+import { useHomeStore } from "@/store/home.js";
 
+const homeStore = useHomeStore();
 
-// import { defineComponent, ref } from 'vue'
-// import Map from './components/map/index.vue'
-// import MapLayerManager from './components/map-layer-manager/index.vue'
+const mapInfo = computed(() => {
+  return homeStore.mapInfo;
+});
 
+const selectedKeys1 = ref(["2"]);
+const selectedKeys2 = ref(["1"]);
+const collapsed = ref(false);
+const openKeys = ref(["sub1"]);
 
-// const selectedKeys1 = ref(['2'])
-// const selectedKeys2 = ref(['1'])
-// const collapsed = ref(false)
-// const openKeys = ref(['sub1'])
+getById(1).then((res) => {
+  homeStore.setMapInfo(res.data);
+});
 </script>
 <style>
 .main {

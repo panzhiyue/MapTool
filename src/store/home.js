@@ -1,34 +1,30 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
 export const useHomeStore = defineStore({
-  id: 'home',
+  id: "home",
   state: () => ({
-    map: null
-    // center: null,
-    // zoom: null,
+    map: null,
+    mapInfo: null,
   }),
   actions: {
     setMap(data) {
-      this.map = data
+      this.map = data;
     },
-    // setCenter(data) {
-    //   this.center = data;
-    // },
-    // setZoom(data) {
-    //   this.zoom = data;
-    // },
+    setMapInfo(data) {
+      this.mapInfo = data;
+    },
     getLayerBySysId(layerId) {
       if (!layerId) {
-        return null
+        return null;
       }
-      let lyr = null
-      let layers = this.map.getLayers()
+      let lyr = null;
+      let layers = this.map.getLayers();
       layers.forEach((layer, index) => {
-        if (layer.get('sysId') == layerId) {
-          lyr = layer
+        if (layer.get("sysId") == layerId) {
+          lyr = layer;
         }
-      })
-      return lyr
-    }
-  }
-})
+      });
+      return lyr;
+    },
+  },
+});

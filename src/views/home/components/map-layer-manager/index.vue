@@ -39,52 +39,75 @@
 </template>
 
 <script>
-import { useMapLayerStore } from '@/store/MapLayer.js'
-import { useHomeStore } from '@/store/home.js'
-let mapLayerStore = null
-let homeStore = null
+import { useMapLayerStore } from "@/store/MapLayer.js";
+import { useHomeStore } from "@/store/home.js";
+// import db from "../../../../../db/index";
+
+let mapLayerStore = null;
+let homeStore = null;
 export default {
   data() {
     return {
       contextData: {}, //右键结点信息
       contextRoot: {}, //右键结点信息
       contextNode: {}, //右键结点信息
-      checkedKeys: []
-    }
+      checkedKeys: [],
+    };
   },
   computed: {
     mapLayer() {
-      return mapLayerStore.mapLayer
-    }
+      return mapLayerStore.mapLayer;
+    },
   },
   created() {
-    mapLayerStore = useMapLayerStore()
-    homeStore = useHomeStore()
+    mapLayerStore = useMapLayerStore();
+    homeStore = useHomeStore();
   },
   mounted() {
     this.checkedKeys = this.mapLayer
-      .filter(item => {
-        return item.checked == true
+      .filter((item) => {
+        return item.checked == true;
       })
-      .map(item => {
-        return item.key
-      })
+      .map((item) => {
+        return item.key;
+      });
+    // console.log(db);
+
+
+    // const db = knex({
+    //   client: "better-sqlite3",
+    //   connection: {
+    //     filename: "I:\\MapTool\\static\\Map_Data.ti",
+    //   },
+    //   useNullAsDefault: true,
+    // });
+
+    // console.log(333);
+    // console.log(db);
+    // db.schema
+    //   .createTableIfNotExists("persons", (table) => {
+    //     table.increments("id").primary();
+    //     table.string("name").notNullable();
+    //   })
+    //   .then(() => {
+    //     db("persons").insert({ id: 1, name: "Test" });
+    //   });
   },
   methods: {
     handleContextMenu({ root, node, data }) {
-      this.contextRoot = root
-      this.contextNode = node
-      this.contextData = data
+      this.contextRoot = root;
+      this.contextNode = node;
+      this.contextData = data;
     },
     handleCheck(checkeds, node) {
-      let info = this.mapLayer
+      let info = this.mapLayer;
       info.forEach((item, index) => {
         if (checkeds.indexOf(item.key) == -1) {
-          item.checked = false
+          item.checked = false;
         } else {
-          item.checked = true
+          item.checked = true;
         }
-      })
+      });
       // mapLayerStore.write(JSON.stringify(info))
     },
     updateLayer() {
@@ -92,29 +115,29 @@ export default {
     },
     remove(root, node, data) {
       this.$Modal.confirm({
-        title: '是否删除菜单',
+        title: "是否删除菜单",
         onOk: () => {
-          mapLayerStore.removeLayer(data)
-        }
-      })
+          mapLayerStore.removeLayer(data);
+        },
+      });
     },
     renderContent(h, { root, node, data }) {
       return h(
-        'span',
+        "span",
         {
           style: {
-            display: 'inline-block',
-            width: '100%'
+            display: "inline-block",
+            width: "100%",
           },
           on: {
-            contextmenu: e => {
-              e.preventDefault()
-              this.handleContextMenu({ root, node, data })
-            }
-          }
+            contextmenu: (e) => {
+              e.preventDefault();
+              this.handleContextMenu({ root, node, data });
+            },
+          },
         },
         [
-          h('span', [
+          h("span", [
             // h('Icon', {
             //     props: {
             //         type: 'ios-paper-outline'
@@ -123,31 +146,31 @@ export default {
             //         marginRight: '8px'
             //     }
             // }),
-            h('span', data.title)
+            h("span", data.title),
           ]),
           h(
-            'span',
+            "span",
             {
               style: {
-                display: 'inline-block',
-                float: 'right',
-                marginRight: '64px'
-              }
+                display: "inline-block",
+                float: "right",
+                marginRight: "64px",
+              },
             },
             [
-              h('Icon', {
+              h("Icon", {
                 props: {
-                  type: 'ios-trash-outline'
+                  type: "ios-trash-outline",
                 },
                 style: {
-                  marginRight: '8px'
+                  marginRight: "8px",
                 },
                 on: {
                   click: () => {
-                    this.remove(root, node, data)
-                  }
-                }
-              })
+                    this.remove(root, node, data);
+                  },
+                },
+              }),
               // h('Button', {
               //     props: Object.assign({}, this.buttonProps, {
               //         icon: 'ios-remove'
@@ -157,20 +180,20 @@ export default {
               //     }
               // })
             ]
-          )
+          ),
         ]
-      )
+      );
     },
     /**
      * 缩放至图层
      */
     zoomToLayer() {
-      const node = this.contextNode
-      let layer = homeStore.getLayerBySysId(node.nodeKey)
-      homeStore.map.getView().fit(layer.getSource().getExtent())
-    }
-  }
-}
+      const node = this.contextNode;
+      let layer = homeStore.getLayerBySysId(node.nodeKey);
+      homeStore.map.getView().fit(layer.getSource().getExtent());
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -68,10 +68,8 @@ import path from 'path'
 import GeoJSON from 'ol/format/GeoJSON'
 import fs from 'fs'
 import { useMapLayerStore } from '@/store/MapLayer.js'
-import { useMapInfoStore } from '@/store/MapInfo.js'
 import { useHomeStore } from '@/store/home.js'
 let mapLayerStore = null
-let mapInfoStore = null
 let homeStore = null
 let format = new GeoJSON()
 export default {
@@ -96,15 +94,15 @@ export default {
   },
   computed: {
     mapLayer() {
+      console.log(mapLayerStore.mapLayer);
       return mapLayerStore.mapLayer
     },
     mapInfo() {
-      return mapInfoStore.mapInfo
+      return homeStore.mapInfo
     }
   },
   created() {
     mapLayerStore = useMapLayerStore()
-    mapInfoStore = useMapInfoStore()
     homeStore = useHomeStore()
   },
   mounted() {
@@ -119,7 +117,7 @@ export default {
     onMoveEnd(e) {
       let center = e.target.getView().getCenter()
       let zoom = e.target.getView().getZoom()
-      mapInfoStore.setMapInfo({
+      homeStore.setMapInfo({
         ...this.mapInfo,
         center,
         zoom

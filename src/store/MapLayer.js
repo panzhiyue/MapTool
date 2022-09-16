@@ -6,7 +6,7 @@ export const useMapLayerStore = defineStore({
   state: () => ({
     mapLayer: JSON.parse(
       fs.readFileSync(
-        path.join(__static, '/static/config/mapLayer.json'),
+        path.join(__static, '/config/mapLayer.json'),
         'utf-8'
       )
     )
@@ -26,7 +26,7 @@ export const useMapLayerStore = defineStore({
     read() {
       return JSON.parse(
         fs.readFileSync(
-          path.join(__static, '/static/config/mapLayer.json'),
+          path.join(__static, '/config/mapLayer.json'),
           'utf-8'
         )
       )
