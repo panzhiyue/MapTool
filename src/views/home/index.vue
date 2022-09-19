@@ -1,5 +1,5 @@
 <template>
-  <a-layout  class="main">
+  <a-layout class="main">
     <a-layout-header class="header">
       <div class="logo" />
       <a-menu
@@ -15,7 +15,7 @@
     </a-layout-header>
     <a-layout>
       <a-layout-sider width="300" style="background: #fff">
-        <a-collapse v-model="collapse">
+        <a-collapse>
           <a-collapse-Panel key="1" header="图层管理">
             <layer-manager></layer-manager>
           </a-collapse-Panel>
@@ -38,7 +38,7 @@
             minHeight: '280px',
           }"
         >
-          <Map v-if="mapInfo"></Map>
+          <Map></Map>
         </a-layout-content>
       </a-layout>
     </a-layout>
@@ -53,22 +53,18 @@ import {
 import { defineComponent, ref } from "vue";
 import Map from "./components/map/index.vue";
 import MapLayerManager from "./components/map-layer-manager/index.vue";
-import { getById } from "@/api/mapInfo.ts";
-import { useHomeStore } from "@/store/home.js";
+import LayerManager from "./components/layer-manager/index";
+import { useHomeStore } from "@/store/home";
 
-const homeStore = useHomeStore();
-
-const mapInfo = computed(() => {
-  return homeStore.mapInfo;
-});
+let homeStore = useHomeStore();
 
 const selectedKeys1 = ref(["2"]);
 const selectedKeys2 = ref(["1"]);
 const collapsed = ref(false);
 const openKeys = ref(["sub1"]);
 
-getById(1).then((res) => {
-  homeStore.setMapInfo(res.data);
+onMounted(() => {
+  homeStore.initData(1);
 });
 </script>
 <style>

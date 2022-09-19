@@ -1,3 +1,6 @@
+import { getDB } from "../../src/utils/db/index.ts"
+const db=getDB();
+
 function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
   return new Promise(resolve => {
     if (condition.includes(document.readyState)) {

@@ -92,7 +92,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       alias: {
         '@': path.resolve(__dirname, './src')
       },
-      extensions: ['.ts', '.js', '.json', '.mjs'],
+      extensions: ['.ts', '.js', '.json', '.mjs',".vue"],
     },
 
     css: {

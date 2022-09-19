@@ -14,11 +14,13 @@
     "sourceMap": true,
     "baseUrl": "./",
     "strict": true,
-    "paths": {},
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["src/*"]
+    },
   },
-  "include": ["src/*","vite.config.ts"],
+  "include": ["**/*.ts","**/*.vue","src/**/**/*.ts","electron/**/**/*.ts","vite.config.ts","types/**/*.d.ts"],
   "references": [
     { "path": "./tsconfig.node.json" }
   ]

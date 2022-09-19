@@ -1,7 +1,7 @@
 import ResponseCode from "@/enum/ResponseCode.ts";
 class ResponseResult<T> {
     public data: T;
-    public code: Number;
+    public code: ResponseCode;
     public msg: String;
 
     public constructor(data: T, code: Number, msg: String) {
