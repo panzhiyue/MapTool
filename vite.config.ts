@@ -12,6 +12,7 @@ import {
 } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import { viteMockServe } from 'vite-plugin-mock'
+import copy from 'rollup-plugin-copy'
 
 rmSync('dist', { recursive: true, force: true }) // v14.14.0
 
@@ -21,9 +22,15 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     define: {
       __static: `"${path.join(__dirname, './static').replace(/\\/g, '\\\\')}"`
     },
+    
     plugins: [
 
       vue(),
+      copy({
+        targets: [
+          { src: './src/styles/common/iconfont/fonts/*', dest: './dist/electron/main' }, //执行拷贝
+        ]
+      }),
       // 
       AutoImport({
         imports: [
@@ -86,13 +93,14 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
           esbuildCommonjs(['ant-design-vue'])
         ],
       },
+      exclude:['@electron/remote']
     },
     resolve: {
       //设置路径别名
       alias: {
         '@': path.resolve(__dirname, './src')
       },
-      extensions: ['.ts', '.js', '.json', '.mjs',".vue"],
+      extensions: ['.ts', '.js', '.json', '.mjs',".vue"]
     },
 
     css: {
@@ -100,9 +108,9 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
         less: {
           javascriptEnabled: true,
           modifyVars: { // 在这里自定义主题色等样式
-            'primary-color': '#1da57a',
-            'link-color': '#1da57a',
-            'border-radius-base': '2px',
+            // 'primary-color': '#1da57a',
+            // 'link-color': '#1da57a',
+            // 'border-radius-base': '2px',
           },
         },
       },

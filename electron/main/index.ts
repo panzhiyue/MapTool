@@ -1,8 +1,11 @@
 import { app, BrowserWindow, shell, ipcMain, Menu } from 'electron'
 import { release } from 'os'
 import { join } from 'path'
+import { windowListener } from "../utils/windowBasic"
 import electronDebug from 'electron-debug'
 electronDebug({ showDevTools: true })
+const remote = require("@electron/remote/main") //1 
+remote.initialize()//2
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -33,8 +36,10 @@ async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
     icon: join(process.env.PUBLIC, 'favicon.ico'),
+    frame: false,
     webPreferences: {
       preload,
+
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // Consider using contextBridge.exposeInMainWorld
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
@@ -63,6 +68,8 @@ async function createWindow() {
     return { action: 'deny' }
   })
   Menu.setApplicationMenu(null)
+  windowListener(win, "main");
+  remote.enable(win.webContents);
 }
 
 app.whenReady().then(createWindow)

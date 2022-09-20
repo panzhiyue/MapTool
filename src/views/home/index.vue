@@ -1,8 +1,9 @@
 <template>
   <a-layout class="main">
     <a-layout-header class="header">
-      <div class="logo" />
-      <a-menu
+      <sys-header></sys-header>
+      <!-- <div class="logo" /> -->
+      <!-- <a-menu
         v-model:selectedKeys="selectedKeys1"
         theme="dark"
         mode="horizontal"
@@ -11,7 +12,7 @@
         <a-menu-item key="1">nav 1</a-menu-item>
         <a-menu-item key="2">nav 2</a-menu-item>
         <a-menu-item key="3">nav 3</a-menu-item>
-      </a-menu>
+      </a-menu> -->
     </a-layout-header>
     <a-layout>
       <a-layout-sider width="300" style="background: #fff">
@@ -54,6 +55,7 @@ import { defineComponent, ref } from "vue";
 import Map from "./components/map/index.vue";
 import MapLayerManager from "./components/map-layer-manager/index.vue";
 import LayerManager from "./components/layer-manager/index";
+import SysHeader from "./components/header/index";
 import { useHomeStore } from "@/store/home";
 
 let homeStore = useHomeStore();
@@ -72,20 +74,17 @@ onMounted(() => {
   width: 100%;
   height: 100%;
 }
-#components-layout-demo-top-side-2 .logo {
-  float: left;
-  width: 120px;
-  height: 31px;
-  margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.3);
-}
 
+.ant-layout-header {
+  background-color: rgba(0, 0, 0, 0);
+}
+/* 
 .ant-row-rtl #components-layout-demo-top-side-2 .logo {
   float: right;
   margin: 16px 0 16px 24px;
-}
+} */
 
-.site-layout-background {
+/* .site-layout-background {
   background: #fff;
-}
+} */
 </style>

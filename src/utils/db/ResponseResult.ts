@@ -1,4 +1,4 @@
-import ResponseCode from "@/enum/ResponseCode.ts";
+import ResponseCode from "@/enum/ResponseCode";
 class ResponseResult<T> {
     public data: T;
     public code: ResponseCode;

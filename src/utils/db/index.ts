@@ -294,7 +294,7 @@ const createTable = async () => {
           db("MapLayerInfo")
             .insert([{
               layerId: '1-1-4',
-              mapId: 0,
+              mapId: 1,
               title: '影像地图',
               checked: true,
               info: JSON.stringify({
@@ -306,7 +306,7 @@ const createTable = async () => {
             },
             {
               layerId: '1-1-5',
-              mapId: 0,
+              mapId: 1,
               title: '影像注记',
               checked: true,
               info: JSON.stringify({

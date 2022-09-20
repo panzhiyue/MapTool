@@ -5,7 +5,7 @@ import { getById as getMapInfoById } from "@/api/mapInfo";
 import olMap from "ol/Map"
 import Collection from "ol/Collection"
 import BaseLayer from "ol/layer/Base"
-import { ILayerInfo, IMapInfo, IMapLayerInfo, Nullable } from "types";
+import { ILayerInfo, IMapInfo, IMapLayerInfo, Nullable, Undefinerable } from "types";
 
 interface IState {
   map: Nullable<olMap>,
@@ -29,37 +29,42 @@ export const useHomeStore = defineStore({
     setMapInfo(data: IMapInfo) {
       this.mapInfo = data;
     },
-    async getMapInfo(mapId: Number, callback?: Function) {
-      getMapInfoById(1).then((result) => {
-        console.log(result);
-        this.mapInfo = result.data;
-        if (callback instanceof Function) {
-          callback();
-        }
-      });
+    async getMapInfo(mapId: Number): Promise<IMapInfo> {
+      return new Promise((inject, reject) => {
+        getMapInfoById(mapId).then((result) => {
+          this.mapInfo = result.data;
+          inject(this.mapInfo);
+        }).catch((err) => {
+          reject(err);
+        });
+      })
     },
     setLayerInfos(data: ILayerInfo[]) {
       this.layerInfos = data;
     },
-    async getLayerInfos(mapId: Number, callback?: Function) {
-      getLayerInfoList(mapId).then((result) => {
-        this.layerInfos = result.data;
-        if (callback instanceof Function) {
-          callback();
-        }
-      });
+    async getLayerInfos(mapId: Number): Promise<ILayerInfo[]> {
+      return new Promise((inject, reject) => {
+        getLayerInfoList(mapId).then((result) => {
+          this.layerInfos = result.data;
+          inject(this.layerInfos);
+        }).catch((err) => {
+          reject(err);
+        });
+      })
+
     },
     setMapLayerInfos(data: IMapLayerInfo[]) {
       this.mapLayerInfos = data;
     },
-    async getMapLayerInfos(mapId: Number, callback?: Function) {
-      getMapLayerInfoList(mapId).then((result) => {
-        console.log(result);
-        this.mapLayerInfos = result.data;
-        if (callback instanceof Function) {
-          callback();
-        }
-      });
+    async getMapLayerInfos(mapId: Number): Promise<IMapLayerInfo[]> {
+      return new Promise((inject, reject) => {
+        getMapLayerInfoList(mapId).then((result) => {
+          this.mapLayerInfos = result.data;
+          inject(this.mapLayerInfos);
+        }).catch((err) => {
+          reject(err);
+        });
+      })
     },
     async initData(mapId: Number) {
       await this.getMapInfo(mapId);
@@ -71,7 +76,7 @@ export const useHomeStore = defineStore({
         return null;
       }
       let lyr = null;
-      let layers: Nullable<Collection<BaseLayer>> = this.map?.getLayers();
+      let layers: Undefinerable<Collection<BaseLayer>> = this.map?.getLayers();
       layers?.forEach((layer, index) => {
         if (layer.get("sysId") == layerId) {
           lyr = layer;

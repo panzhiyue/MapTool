@@ -48,7 +48,6 @@ const mapLayerInfos = computed(() => {
 
 const treeData: ComputedRef<Undefinerable<DataNode[]>> = computed(() => {
   return mapLayerInfos.value.map((item, index) => {
-    console.log(item);
     return {
       key: item.id,
       title: item.title,
@@ -81,16 +80,6 @@ const handleCheck = (
     homeStore.getMapLayerInfos(1);
   });
 };
-
-// watch(treeData, () => {
-//   checkedKeys.value = mapLayerInfos.value
-//     .filter((item: IMapLayerInfo) => {
-//       return item.checked == true;
-//     })
-//     .map((item) => {
-//       return item.id as Key;
-//     });
-// });
 
 const handleDelete = (id: Number) => {
   deleteById(id).then(() => {

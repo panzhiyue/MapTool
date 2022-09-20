@@ -1,16 +1,15 @@
 <template>
-  <Modal
-    v-model="visible"
+  <a-modal
+    v-model:visible="visible"
     title="添加图层"
-    @on-ok="ok"
-    @on-cancel="cancel"
-    @on-visible-change="handleVisibleChange"
-    footer-hide
+    @ok="ok"
+    @cancel="cancel"
+    :footer="null"
   >
-    <Steps :current="current">
-      <Step title="选择图层类型"></Step>
-      <Step title="添加图层"></Step>
-    </Steps>
+    <a-steps :current="current">
+      <a-step title="选择图层类型"></a-step>
+      <a-Step title="添加图层"></a-Step>
+    </a-steps>
     <div class="content">
       <layer-type v-show="current == 0" @sure="selectLayerType"> </layer-type>
       <add-shp
@@ -34,7 +33,7 @@
         @sure="addLayer"
       ></AddWMTS>
     </div>
-  </Modal>
+  </a-modal>
 </template>
 
 <script>

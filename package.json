@@ -17,6 +17,7 @@
     "node": "^14.18.0 || >=16.0.0"
   },
   "devDependencies": {
+    "@electron/remote": "^2.0.8",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@types/knex": "^0.16.1",
     "@vitejs/plugin-vue": "^3.1.0",
@@ -26,11 +27,13 @@
     "electron-builder": "^23.3.3",
     "electron-debug": "^3.2.0",
     "electron-rebuild": "^3.2.9",
+    "electron-store": "^8.1.0",
     "knex": "^2.3.0",
     "less": "^4.0.0",
     "less-loader": "^8.0.0",
     "node-gyp": "8.4.1",
     "prebuild": "^11.0.4",
+    "rollup-plugin-copy": "^3.4.0",
     "typescript": "^4.7.4",
     "unplugin-auto-import": "^0.11.2",
     "unplugin-vue-components": "^0.22.7",

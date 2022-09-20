@@ -22,7 +22,7 @@
 
 <script setup>
 import { buildUUID } from "@/utils/uuid";
-import { add } from "@/api/layerInfo.ts";
+import { add, updateById } from "@/api/layerInfo.ts";
 import ResponseCode from "../../../../enum/ResponseCode";
 import { useHomeStore } from "@/store/home";
 
@@ -67,13 +67,24 @@ defineExpose({ show });
 const handleOk = () => {
   formRef.value.validate().then((valid) => {
     if (valid) {
-      add(menu.value).then((result) => {
-        if (result.code == ResponseCode.SUCCESS) {
-          homeSotre.getLayerInfos(() => {
-            visible.value = false;
-          });
-        }
-      });
+      console.log(type.value == "add");
+      if (type.value == "add") {
+        add(menu.value).then((result) => {
+          if (result.code == ResponseCode.SUCCESS) {
+            homeSotre.getLayerInfos(1).then(() => {
+              visible.value = false;
+            });
+          }
+        });
+      } else {
+        updateById(menu.value).then((result) => {
+          if (result.code == ResponseCode.SUCCESS) {
+            homeSotre.getLayerInfos(1).then(() => {
+              visible.value = false;
+            });
+          }
+        });
+      }
     }
   });
 };

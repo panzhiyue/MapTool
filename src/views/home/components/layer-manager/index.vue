@@ -13,30 +13,34 @@
           <span>{{ title }}</span>
           <template #overlay>
             <a-menu v-if="type == 'root'">
-              <a-menu-item>添加菜单</a-menu-item>
-              <a-menu-item>添加图层</a-menu-item>
+              <a-menu-item @click="handleContextMenuAddMenu(data)"
+                >添加菜单</a-menu-item
+              >
+              <a-menu-item @click="handleContextMenuAddLayer(data)"
+                >添加图层</a-menu-item
+              >
             </a-menu>
 
             <a-menu v-else-if="type == 'menu'">
-              <a-menu-item
-                v-if="canEdit"
-                @click.native="handleContextMenuEdit(data)"
+              <!-- <a-menu-item v-if="canEdit" @click="handleContextMenuEdit(data)"
                 >编辑</a-menu-item
-              >
-              <a-menu-item @click.native="handleContextMenuAddMenu(data)"
+              > -->
+              <a-menu-item @click="handleContextMenuAddMenu(data)"
                 >添加菜单</a-menu-item
               >
-              <a-menu-item @click.native="handleContextMenuAddLayer(data)"
+              <a-menu-item @click="handleContextMenuAddLayer(data)"
                 >添加图层</a-menu-item
               ><a-menu-item v-if="canDelete">删除</a-menu-item>
             </a-menu>
 
             <a-menu v-else-if="type == 'layer'">
-              <a-menu-item v-if="canEdit">编辑</a-menu-item>
+              <!-- <a-menu-item v-if="canEdit">编辑</a-menu-item> -->
               <a-menu-item @click="handleAddToMap(data)"
                 >添加到地图</a-menu-item
               >
-              <a-menu-item v-if="canDelete">删除</a-menu-item>
+              <a-menu-item v-if="canDelete" @click="handleDelete(id)"
+                >删除</a-menu-item
+              >
             </a-menu>
           </template>
         </a-dropdown>
@@ -94,23 +98,24 @@
       :ref="'addOrEditMenu'"
       @sure="updateLayer"
     ></add-or-edit-menu>
-    <!-- <add-or-edit-layer
-      :contextData="contextData"
+    <add-or-edit-layer
       :ref="'addOrEditLayer'"
       @sure="updateLayer"
-    ></add-or-edit-layer> -->
+    ></add-or-edit-layer>
   </div>
 </template>
 <script setup lang="ts">
 import { useHomeStore } from "@/store/home";
+
 import { ILayerInfo } from "types";
-import { onMounted } from "vue";
+import { onMounted, Ref } from "vue";
 import { add as addMapLayerInfo } from "@/api/mapLayerInfo";
+import { getByWhere } from "@/api/layerInfo";
 // import { useLayerStore } from "@/store/Layer.js";
 // import { useMapLayerStore } from "@/store/MapLayer.js";
 // import { buildUUID } from "@/utils/uuid";
 import AddOrEditMenu from "./AddOrEditMenu.vue";
-// import AddOrEditLayer from "./AddOrEditLayer/index.vue";
+import AddOrEditLayer from "./AddOrEditLayer/index.vue";
 let homeStore = useHomeStore();
 
 const layerInfos = computed(() => {
@@ -159,17 +164,25 @@ const getTreeDataItem = (data) => {
 onMounted(() => {});
 
 const addOrEditMenu = ref(null);
+/**
+ * 编辑菜单
+ */
 const handleContextMenuEdit = (data) => {
-  addOrEditMenu.value.show("edit", data);
+  addOrEditMenu.value.show("edit", data.data);
 };
 
+/**
+ * 添加菜单
+ */
 const handleContextMenuAddMenu = (data) => {
-  addOrEditMenu.value.show("add", data);
+  addOrEditMenu.value!.show("add", data.data);
 };
 
+const addOrEditLayer = ref(null);
 const handleContextMenuAddLayer = (data) => {
-  console.log(data);
+  addOrEditLayer.value!.show("add", data.data);
 };
+
 
 const updateLayer = () => {};
 
@@ -179,12 +192,18 @@ const updateLayer = () => {};
 const handleAddToMap = (data: ILayerInfo) => {
   addMapLayerInfo({
     layerId: data.id!,
-    mapId: 0,
+    mapId: 1,
     title: data.title,
     info: data.info,
     checked: true,
   }).then((result) => {
     homeStore.getMapLayerInfos(1);
+  });
+};
+
+const handleDelete = (id: String) => {
+  getByWhere({ id: id }).then((result) => {
+    console.log(result);
   });
 };
 
