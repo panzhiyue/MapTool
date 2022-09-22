@@ -14,7 +14,7 @@
       <vue2ol-layer-tile
         v-if="layer.info.type === 'TDT'"
         :visible="layer.checked"
-        :options="{ sysId: layer.nodeKey }"
+        :options="{ sysId: layer.id }"
       >
         <vue2ol-source-tdt :layer="layer.info.layer"></vue2ol-source-tdt>
       </vue2ol-layer-tile>
@@ -22,7 +22,7 @@
       <vue2ol-layer-tile
         v-else-if="layer.info.type === 'BaiDu'"
         :visible="layer.checked"
-        :options="{ sysId: layer.nodeKey }"
+        :options="{ sysId: layer.id }"
       >
         <vue2ol-source-baidu :layer="layer.info.layer"></vue2ol-source-baidu>
       </vue2ol-layer-tile>
@@ -30,7 +30,7 @@
       <vue2ol-layer-tile
         v-else-if="layer.info.type === 'GaoDe'"
         :visible="layer.checked"
-        :options="{ sysId: layer.nodeKey }"
+        :options="{ sysId: layer.id }"
       >
         <vue2ol-source-gaode :layer="layer.info.layer"></vue2ol-source-gaode>
       </vue2ol-layer-tile>
@@ -38,7 +38,7 @@
       <vue2ol-layer-tile
         v-else-if="layer.info.type === 'Geoq'"
         :visible="layer.checked"
-        :options="{ sysId: layer.nodeKey }"
+        :options="{ sysId: layer.id }"
       >
         <vue2ol-source-geoq :layer="layer.info.layer"></vue2ol-source-geoq>
       </vue2ol-layer-tile>
@@ -84,7 +84,7 @@ const viewOptions = reactive({
 
 // const format = new GeoJSON();
 
-const mapLayer = computed(() => {
+const mapLayer: ComputedRef<IMapLayerInfo[]> = computed(() => {
   return homeStore.mapLayerInfos.map((item: IMapLayerInfo) => {
     return {
       ...item,
@@ -93,7 +93,7 @@ const mapLayer = computed(() => {
   });
 });
 
-const mapInfo: ComputedRef<IMapInfo|null> = computed(() => {
+const mapInfo: ComputedRef<IMapInfo | null> = computed(() => {
   return homeStore.mapInfo;
 });
 

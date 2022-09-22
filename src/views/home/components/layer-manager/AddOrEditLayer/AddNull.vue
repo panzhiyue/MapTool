@@ -1,17 +1,18 @@
 <template>
+  <span>这个向导允许你指定如何导入数据。你要选择那种数据导入格式？</span>
   <div>
-    <Row style="margin-top: 10px">
-      <Col flex="100px" class-name="name">图层名称</Col>
-      <Col flex="auto"> <Input v-model="name" placeholder="图层名称" /></Col>
-    </Row>
-    <Row>
-      <Button
+    <a-row style="margin-top: 10px">
+      <a-col flex="100px" class-name="name">图层名称</a-col>
+      <a-col flex="auto"> <a-input v-model="name" placeholder="图层名称" /></a-col>
+    </a-row>
+    <a-row>
+      <a-button
         type="primary"
         style="margin-top: 10px; margin-left: 400px"
         @click="sure"
-        >确定</Button
+        >确定</a-button
       >
-    </Row>
+    </a-row>
   </div>
 </template>
 
@@ -54,4 +55,7 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+  
+</style>

@@ -29,7 +29,7 @@ export interface IMapLayerInfo {
     layerId?: String,
     mapId?: Number,
     title?: String,
-    info?: Object,
+    info?: any,
     checked?: Boolean
 }
 

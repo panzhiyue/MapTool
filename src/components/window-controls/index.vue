@@ -26,40 +26,51 @@
     </button>
   </div>
 </template>
-<script>
-export default {
+<script setup lang="ts">
+import { ipcRenderer } from "electron";
+const remote = require("@electron/remote"); //1
+defineOptions({
   name: "WindowControls",
-  props: {
-    isMaximized: {
-      type: Boolean,
-      default: false,
-    },
+});
+
+const props = defineProps({
+  name: {
+    type: String,
+    default: () => "Main",
   },
-  emits: ["minimize", "maximize", "restore", "close"],
-  methods: {
-    //最小化
-    handleMin() {
-      this.$emit("minimize");
-    },
-    //最大化
-    handleMax() {
-      this.$emit("maximize");
-    },
-    //还原
-    handleRestore() {
-      this.$emit("restore");
-    },
-    //关闭
-    handleClose() {
-      this.$emit("close");
-    },
-  },
+});
+
+const window = remote.getCurrentWindow();
+const isMaximized = ref(window.isMaximized());
+
+const handleMin = () => {
+  ipcRenderer.send(`${props.name}-minimize`);
 };
+
+const handleMax = () => {
+  ipcRenderer.send(`${props.name}-maximize`);
+};
+
+const handleRestore = () => {
+  ipcRenderer.send(`${props.name}-unmaximize`);
+};
+
+const handleClose = () => {
+  ipcRenderer.send(`${props.name}-close`);
+};
+
+ipcRenderer.on(`${props.name}-maximize`, () => {
+  isMaximized.value = true;
+});
+
+ipcRenderer.on(`${props.name}-unmaximize`, () => {
+  isMaximized.value = false;
+});
 </script>
 <style lang="less" scoped>
 .window-controls {
   display: grid;
-  grid-template-columns: repeat(3, 25px);
+  grid-template-columns: repeat(3, 40px);
   padding-right: 16px;
   padding-left: 16px;
 

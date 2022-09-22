@@ -22,9 +22,6 @@
             </a-menu>
 
             <a-menu v-else-if="type == 'menu'">
-              <!-- <a-menu-item v-if="canEdit" @click="handleContextMenuEdit(data)"
-                >编辑</a-menu-item
-              > -->
               <a-menu-item @click="handleContextMenuAddMenu(data)"
                 >添加菜单</a-menu-item
               >
@@ -34,7 +31,6 @@
             </a-menu>
 
             <a-menu v-else-if="type == 'layer'">
-              <!-- <a-menu-item v-if="canEdit">编辑</a-menu-item> -->
               <a-menu-item @click="handleAddToMap(data)"
                 >添加到地图</a-menu-item
               >
@@ -45,54 +41,6 @@
           </template>
         </a-dropdown>
       </template>
-      <!-- <template slot="contextMenu">
-        <div v-if="contextData.type == 'root'">
-          <DropdownItem @click.native="handleContextMenuEdit"
-            >编辑</DropdownItem
-          >
-          <DropdownItem @click.native="handleContextMenuAddMenu"
-            >添加菜单</DropdownItem
-          >
-          <DropdownItem @click.native="handleContextMenuAddLayer"
-            >添加图层</DropdownItem
-          >
-        </div>
-        <div v-else-if="contextData.type == 'menu'">
-          <DropdownItem
-            v-if="contextData.canEdit == true"
-            @click.native="handleContextMenuEdit"
-            >编辑</DropdownItem
-          >
-          <DropdownItem @click.native="handleContextMenuAddMenu"
-            >添加菜单</DropdownItem
-          >
-          <DropdownItem @click.native="handleContextMenuAddLayer"
-            >添加图层</DropdownItem
-          >
-          <DropdownItem
-            v-if="contextData.canDelete == true"
-            @click.native="handleContextMenuDelete"
-            style="color: #ed4014"
-            >删除</DropdownItem
-          >
-        </div>
-        <div v-else-if="contextData.type == 'layer'">
-          <DropdownItem
-            v-if="contextData.canEdit == true"
-            @click.native="handleContextMenuEdit"
-            >编辑</DropdownItem
-          >
-          <DropdownItem @click.native="handleContextMenuAddToMap"
-            >添加到地图</DropdownItem
-          >
-          <DropdownItem
-            v-if="contextData.canDelete == true"
-            @click.native="handleContextMenuDelete"
-            style="color: #ed4014"
-            >删除</DropdownItem
-          >
-        </div>
-      </template> -->
     </a-tree>
     <add-or-edit-menu
       :ref="'addOrEditMenu'"
@@ -105,6 +53,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { ipcRenderer } from "electron";
 import { useHomeStore } from "@/store/home";
 
 import { ILayerInfo } from "types";
@@ -116,6 +65,7 @@ import { getByWhere } from "@/api/layerInfo";
 // import { buildUUID } from "@/utils/uuid";
 import AddOrEditMenu from "./AddOrEditMenu.vue";
 import AddOrEditLayer from "./AddOrEditLayer/index.vue";
+
 let homeStore = useHomeStore();
 
 const layerInfos = computed(() => {
@@ -179,10 +129,19 @@ const handleContextMenuAddMenu = (data) => {
 };
 
 const addOrEditLayer = ref(null);
-const handleContextMenuAddLayer = (data) => {
-  addOrEditLayer.value!.show("add", data.data);
+const handleContextMenuAddLayer = (data: any) => {
+  console.log(data);
+  ipcRenderer.send(
+    "open-win",
+    "AddLayer",
+    `addLayer?parentId=${data.id}`,
+    {
+      width: 700,
+      height: 500,
+      frame: false,
+    }
+  );
 };
-
 
 const updateLayer = () => {};
 
@@ -207,6 +166,11 @@ const handleDelete = (id: String) => {
   });
 };
 
+onMounted(() => {
+  ipcRenderer.addListener("addLayer-close", () => {
+    homeStore.getMapLayerInfos(1).then(() => {});
+  });
+});
 //     // handleContextMenuAddMenu(data) {
 //     //   this.$refs["addOrEditMenu"].show("add");
 //     // },

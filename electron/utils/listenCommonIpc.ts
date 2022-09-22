@@ -1,4 +1,4 @@
-import { ipcMain } from "electron";
+import { app, ipcMain } from "electron";
 
 /**
  * 窗口事件监听
@@ -41,4 +41,13 @@ export function windowListener(window, name) {
         window.setFullScreen(true)
         event.sender.send(`${name}-fullscreen`);
     })
+}
+
+export function commonListener() {
+    // console.log("commonListener");
+    // //窗口最小化
+    // ipcMain.on(`refresh-mapLayerInfo1`, (event, arg) => {
+    //     console.log(3333);
+    //     ipcMain.send(`refresh-mapLayerInfo2`);
+    // })
 }

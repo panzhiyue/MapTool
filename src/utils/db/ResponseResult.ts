@@ -4,7 +4,7 @@ class ResponseResult<T> {
     public code: ResponseCode;
     public msg: String;
 
-    public constructor(data: T, code: Number, msg: String) {
+    public constructor(data: T, code: ResponseCode, msg: String) {
         this.data = data;
         this.code = code;
         this.msg = msg;

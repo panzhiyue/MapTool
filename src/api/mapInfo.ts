@@ -13,7 +13,7 @@ export const getList = async () => {
     })
   }).catch((err: any) => {
     return new Promise((resolve, reject) => {
-      resolve(ResponseResult.buildError(err))
+      resolve(ResponseResult.buildError(err.message))
     })
   })
 }
@@ -31,7 +31,7 @@ export const getById = async (id: Number): Promise<IResponseResult<IMapInfo>> =>
     })
   }).catch((err: any) => {
     return new Promise((resolve, reject) => {
-      resolve(ResponseResult.buildError(err))
+      resolve(ResponseResult.buildError(err.message))
     })
   })
 }
@@ -51,7 +51,7 @@ export const updateById = async (data: IMapInfo): Promise<IResponseResult<any>> 
     })
   }).catch((err: any) => {
     return new Promise((resolve, reject) => {
-      resolve(ResponseResult.buildError(err))
+      resolve(ResponseResult.buildError(err.message))
     })
   })
 }

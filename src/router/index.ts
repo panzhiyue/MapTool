@@ -3,9 +3,14 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 const routes = [
   {
     path: '/',
-    name:"home",
+    name: "home",
     component: () => import(/* webpackChunkName: "about" */ '../views/home/index.vue')
-  }
+  },
+  {
+    path: '/addLayer',
+    name: "AddLayer",
+    component: () => import(/* webpackChunkName: "about" */ '../views/addLayer/index.vue')
+  },
   // {
   //   path: '/home',
   //   name: 'home',

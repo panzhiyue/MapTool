@@ -2,17 +2,6 @@
   <a-layout class="main">
     <a-layout-header class="header">
       <sys-header></sys-header>
-      <!-- <div class="logo" /> -->
-      <!-- <a-menu
-        v-model:selectedKeys="selectedKeys1"
-        theme="dark"
-        mode="horizontal"
-        :style="{ lineHeight: '64px' }"
-      >
-        <a-menu-item key="1">nav 1</a-menu-item>
-        <a-menu-item key="2">nav 2</a-menu-item>
-        <a-menu-item key="3">nav 3</a-menu-item>
-      </a-menu> -->
     </a-layout-header>
     <a-layout>
       <a-layout-sider width="300" style="background: #fff">
@@ -55,8 +44,9 @@ import { defineComponent, ref } from "vue";
 import Map from "./components/map/index.vue";
 import MapLayerManager from "./components/map-layer-manager/index.vue";
 import LayerManager from "./components/layer-manager/index";
-import SysHeader from "./components/header/index";
+import SysHeader from "@/components/header/index";
 import { useHomeStore } from "@/store/home";
+import { ipcRenderer } from "electron";
 
 let homeStore = useHomeStore();
 
@@ -67,6 +57,12 @@ const openKeys = ref(["sub1"]);
 
 onMounted(() => {
   homeStore.initData(1);
+
+  ipcRenderer.on("refresh-mapLayerInfo", () => {
+    homeStore.getMapLayerInfos(1).then(() => {
+      console.log("refresh-mapLayerInfo2");
+    });
+  });
 });
 </script>
 <style>
@@ -77,6 +73,8 @@ onMounted(() => {
 
 .ant-layout-header {
   background-color: rgba(0, 0, 0, 0);
+  padding: 0px;
+  margin: 0px;
 }
 /* 
 .ant-row-rtl #components-layout-demo-top-side-2 .logo {

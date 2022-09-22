@@ -6,26 +6,22 @@
     @cancel="cancel"
     :footer="null"
   >
-    <a-steps :current="current">
-      <a-step title="选择图层类型"></a-step>
-      <a-Step title="添加图层"></a-Step>
-    </a-steps>
     <div class="content">
       <layer-type v-show="current == 0" @sure="selectLayerType"> </layer-type>
       <add-shp
-        v-show="(current == 1) & (layerType == '矢量数据(.shp)')"
+        v-show="(current == 1) & (layerType == 'shp')"
         @sure="addLayer"
       ></add-shp>
       <add-null
-        v-show="(current == 1) & (layerType == '矢量数据(空)')"
+        v-show="(current == 1) & (layerType == 'null')"
         @sure="addLayer"
       ></add-null>
       <add-geoJSON
-        v-show="(current == 1) & (layerType == '矢量数据(.geojson)')"
+        v-show="(current == 1) & (layerType == 'geojson')"
         @sure="addLayer"
       ></add-geoJSON>
       <add-topoJSON
-        v-show="(current == 1) & (layerType == '矢量数据(.topojson)')"
+        v-show="(current == 1) & (layerType == 'topojson')"
         @sure="addLayer"
       ></add-topoJSON>
       <AddWMTS

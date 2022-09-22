@@ -1,64 +1,65 @@
 <template>
   <div>
-    <RadioGroup vertical v-model="layerType">
-      <Radio
+    <a-radio-group v-model:value="layerType">
+      <a-radio
         v-for="(item, index) in layerTypes"
         :value="item.value"
-        :label="item.label"
         :key="index"
+        :style="radioStyle"
       >
-      </Radio>
-    </RadioGroup>
+        {{ item.label }}
+      </a-radio>
+    </a-radio-group>
 
-    <Button
+    <a-button
       type="primary"
       style="margin-top: 10px; margin-left: 400px"
       @click="next"
-      >下一步</Button
+      >下一步</a-button
     >
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      layerTypes: [
-      {
-          label: "矢量数据(空)",
-          value: "null",
-        },
-        {
-          label: "矢量数据(.shp)",
-          value: "shp",
-        },
-        {
-          label: "矢量数据(.geojson)",
-          value: "geojson",
-        },
-                {
-          label: "矢量数据(.topojson)",
-          value: "topojson",
-        },
-        {
-          label: "wms",
-          value: "wms",
-        },
-        {
-          label: "wmts",
-          value: "wmts",
-        },
-      ],
-      layerType: "矢量数据(空)",
-    };
+<script setup lang="ts">
+const layerTypes = ref([
+  {
+    label: "矢量数据(空)",
+    value: "null",
   },
-  methods: {
-    next() {
-      this.$emit("sure", this.layerType);
-    },
+  {
+    label: "矢量数据(.shp)",
+    value: "shp",
   },
+  {
+    label: "矢量数据(.geojson)",
+    value: "geojson",
+  },
+  {
+    label: "矢量数据(.topojson)",
+    value: "topojson",
+  },
+  {
+    label: "wms",
+    value: "wms",
+  },
+  {
+    label: "wmts",
+    value: "wmts",
+  },
+]);
+
+const layerType = ref("null");
+
+const radioStyle = reactive({
+  display: "flex",
+  height: "30px",
+  lineHeight: "30px",
+});
+
+const emit = defineEmits(["sure"]);
+const next = () => {
+  emit("sure", layerType.value);
 };
 </script>
 
-<style>
-</style>
+<style lang="less" scoped></style>

@@ -23,3 +23,5 @@ createApp(App).use(router).use(store)
   .$nextTick(() => {
     postMessage({ payload: 'removeLoading' }, '*')
   })
+
+

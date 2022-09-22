@@ -39,6 +39,7 @@ import { DataNode } from "ant-design-vue/es/tree";
 import { IMapLayerInfo, Nullable, Undefinerable } from "types";
 import { Key } from "ant-design-vue/es/vc-tree/interface";
 import { CheckInfo } from "ant-design-vue/es/vc-tree/props";
+import { ipcRenderer } from "electron";
 
 let homeStore = useHomeStore();
 
@@ -86,6 +87,8 @@ const handleDelete = (id: Number) => {
     homeStore.getMapLayerInfos(1);
   });
 };
+
+
 </script>
 
 <style lang="less" scoped>

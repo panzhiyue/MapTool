@@ -271,17 +271,17 @@ const createTable = async () => {
                 expand: false,
                 canEdit: false,
               },])
-            .then((result:any) => { });
+            .then((result: any) => { });
         });
     }
   });
 
 
 
-  db.schema.hasTable("MapLayerInfo").then((exists:Boolean) => {
+  db.schema.hasTable("MapLayerInfo").then((exists: Boolean) => {
     if (!exists) {
       db.schema
-        .createTable("MapLayerInfo", (table:any) => {
+        .createTable("MapLayerInfo", (table: any) => {
           table.increments('id').notNullable().unique();
           table.primary(['id']);
           table.string('layerId').comment('图层id').notNullable();
@@ -316,7 +316,7 @@ const createTable = async () => {
                 minZoom: 1
               })
             },])
-            .then((result:any) => { });
+            .then((result: any) => { });
         });
     }
   });

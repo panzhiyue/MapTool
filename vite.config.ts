@@ -13,6 +13,7 @@ import {
 import AutoImport from 'unplugin-auto-import/vite'
 import { viteMockServe } from 'vite-plugin-mock'
 import copy from 'rollup-plugin-copy'
+import DefineOptions from 'unplugin-vue-define-options/vite';
 
 rmSync('dist', { recursive: true, force: true }) // v14.14.0
 
@@ -22,13 +23,18 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     define: {
       __static: `"${path.join(__dirname, './static').replace(/\\/g, '\\\\')}"`
     },
-    
+    base: "./",
+    build: {
+      outDir: "dist"
+    },
     plugins: [
 
       vue(),
+      DefineOptions(),
       copy({
         targets: [
-          { src: './src/styles/common/iconfont/fonts/*', dest: './dist/electron/main' }, //执行拷贝
+          { src: './src/styles/common/iconfonts/fonts/**', dest: './dist/fonts' }, //执行拷贝
+          { src: './src/styles/common/iconfonts/fonts/**', dest: './public/fonts' } //执行拷贝
         ]
       }),
       // 
@@ -78,7 +84,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
             build: {
               // For Debug
               sourcemap: 'inline',
-              outDir: 'dist/electron/preload',
+              outDir: 'dist/electron/preload'
             },
           },
         },
@@ -93,14 +99,14 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
           esbuildCommonjs(['ant-design-vue'])
         ],
       },
-      exclude:['@electron/remote']
+      // exclude: ['@electron/remote']
     },
     resolve: {
       //设置路径别名
       alias: {
         '@': path.resolve(__dirname, './src')
       },
-      extensions: ['.ts', '.js', '.json', '.mjs',".vue"]
+      extensions: ['.ts', '.js', '.json', '.mjs', ".vue"]
     },
 
     css: {

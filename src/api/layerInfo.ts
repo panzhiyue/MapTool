@@ -1,7 +1,7 @@
 import { getDB } from "@/utils/db/index"
 import ResponseResult from "@/utils/db/ResponseResult"
 import { ILayerInfo, IResponseResult } from "types";
-const db = await getDB();
+
 
 /**
  * 获取图层列表
@@ -9,6 +9,7 @@ const db = await getDB();
  * @returns 
  */
 export const getList = async (mapId: Number): Promise<IResponseResult<ILayerInfo[]>> => {
+    const db = await getDB();
     return await db('LayerInfo').select().whereIn('mapId', [0, mapId]).then((result: any) => {
         result.forEach((item: any) => {
             item.info = JSON.parse(item.info)
@@ -18,7 +19,7 @@ export const getList = async (mapId: Number): Promise<IResponseResult<ILayerInfo
         })
     }).catch((err: any) => {
         return new Promise((resolve, reject) => {
-            resolve(ResponseResult.buildError(err))
+            resolve(ResponseResult.buildError(err.message))
         })
     })
 }
@@ -29,13 +30,14 @@ export const getList = async (mapId: Number): Promise<IResponseResult<ILayerInfo
  * @returns 
  */
 export const add = async (layerInfo: ILayerInfo) => {
+    const db = await getDB();
     return await db('LayerInfo').insert(layerInfo).then((result: any) => {
         return new Promise((resolve, reject) => {
             resolve(ResponseResult.buildSuccess(result));
         })
     }).catch((err: any) => {
         return new Promise((resolve, reject) => {
-            resolve(ResponseResult.buildError(err))
+            resolve(ResponseResult.buildError(err.message))
         })
     })
 }
@@ -44,6 +46,7 @@ export const add = async (layerInfo: ILayerInfo) => {
  * 更新数据
  */
 export const updateById = async (data: ILayerInfo) => {
+    const db = await getDB();
     let id = data.id;
     let param = data;
     delete param.id;
@@ -54,7 +57,7 @@ export const updateById = async (data: ILayerInfo) => {
         })
     }).catch((err: any) => {
         return new Promise((resolve, reject) => {
-            resolve(ResponseResult.buildError(err))
+            resolve(ResponseResult.buildError(err.message))
         })
     })
 }
@@ -64,13 +67,14 @@ export const updateById = async (data: ILayerInfo) => {
  * @param params
  */
 export const getByWhere = async (params: ILayerInfo): Promise<ResponseResult<ILayerInfo[]>> => {
+    const db = await getDB();
     return await db('LayerInfo').where(params).select().then((result: any) => {
         return new Promise((resolve, reject) => {
             resolve(ResponseResult.buildSuccess(result));
         })
     }).catch((err: any) => {
         return new Promise((resolve, reject) => {
-            resolve(ResponseResult.buildError(err))
+            resolve(ResponseResult.buildError(err.message))
         })
     })
 }
