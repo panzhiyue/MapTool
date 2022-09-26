@@ -40,12 +40,16 @@ declare module '@vue/runtime-core' {
     ATree: typeof import('ant-design-vue/es')['Tree']
     Header: typeof import('./src/components/header/index.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    InputSelectFile: typeof import('./src/components/input-select-file/src/input-select-file.vue')['default']
+    InputSelectFilepath: typeof import('./src/components/input-select-file/src/input-select-filepath.vue')['default']
+    InputSelectPath: typeof import('./src/components/input-select-path/src/input-select-path.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SqliteColumnType: typeof import('./src/components/sqlite-column-type/index.vue')['default']
     Src: typeof import('./src/components/table-structure/src/index.vue')['default']
     StepFooter: typeof import('./src/components/step-footer/index.vue')['default']
     TableStructure: typeof import('./src/components/table-structure/src/table-structure.vue')['default']
+    TableStructureCompare: typeof import('./src/components/table-structure-compare/src/table-structure-compare.vue')['default']
     WindowControls: typeof import('./src/components/window-controls/index.vue')['default']
   }
 }

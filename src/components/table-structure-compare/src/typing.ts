@@ -1,8 +1,9 @@
 import SqliteColumnType from "@/enum/SqliteColumnType";
 
-export interface ITableStructure {
-    key?: Number | String,
-    name: String,
+export interface ITableStructureCompare {
+    key?: Number|String,
+    originName: String,
+    destName: String,
     type: SqliteColumnType,
     length?: String | Number,
     scale?: String | Number,

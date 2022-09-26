@@ -18,10 +18,12 @@
   ></step-footer>
 </template>
 <script lang="ts" setup>
-import TableStructure, { IStructure } from "@/components/table-structure/index";
+import TableStructure, {
+  ITableStructure,
+} from "@/components/table-structure/index";
 import { useWindow } from "@/hooks/electron/useWindow";
 import { useVModel } from "@vueuse/core";
-import { createTable } from "@/api/index";
+import { create as createTable } from "@/api/table";
 import SqliteColumnType from "@/enum/SqliteColumnType";
 import { add as addLayerInfo } from "@/api/layerInfo";
 import { useRoute } from "vue-router";
@@ -29,6 +31,8 @@ import { useHomeStore } from "@/store/home";
 import { message } from "ant-design-vue";
 import ResponseResult from "@/utils/db/ResponseResult";
 import ResponseCode from "@/enum/ResponseCode";
+import { ReactiveEffect } from "vue";
+import { buildUUID } from "@/utils/uuid";
 
 const route = useRoute();
 const homeStore = useHomeStore();
@@ -44,7 +48,7 @@ const currentStep = useVModel(props, "current", emits);
 
 const layerName = ref("");
 const tableName = ref("vector");
-const tableData: Reactive<IStructure[]> = reactive([
+const tableData = reactive([
   {
     key: 1,
     name: "name",
@@ -95,7 +99,8 @@ const handleOk = () => {
   createTable(tableName.value, tableData)
     .then((result) => {
       addLayerInfo({
-        parentId: route.query.parentId,
+        id: buildUUID(),
+        parentId: route.query.parentId as String,
         mapId: 1,
         title: layerName.value,
         type: "vector",
@@ -103,12 +108,11 @@ const handleOk = () => {
         canEdit: true,
         expand: true,
         info: {
-          table: tableName,
+          table: tableName.value,
         },
       }).then((result1) => {
-        console.log(result1);
         if (result1 == ResponseCode.SUCCESS) {
-          homeStore.getLayerInfos(1).then((result2: ResponseResult) => {
+          homeStore.getLayerInfos(1).then((result2: any) => {
             if (result2.code == ResponseCode.SUCCESS) {
               close();
             } else {

@@ -15,7 +15,10 @@
         :pagination="false"
       >
         <template #bodyCell="{ value, index, column }">
-          <template v-if="column.key == 'name'">
+          <template v-if="column.key == 'originName'">
+            <a-input placeholder="" :value="value" />
+          </template>
+          <template v-if="column.key == 'destName'">
             <a-input
               placeholder=""
               :value="value"
@@ -58,25 +61,29 @@
         </template>
       </a-table>
     </div>
-    <a-button class="w-full mt-10px" @click="handleAddRow">+</a-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useVModel } from "@vueuse/core";
-import { ITableStructure } from "./typing";
-import { buildUUID } from "@/utils/uuid";
-import { ComputedRef, Ref } from "vue";
 import { Key } from "ant-design-vue/lib/_util/type";
-import { table } from "console";
+import { ComputedRef, Ref } from "vue";
+import { ITableStructureCompare } from "./typing";
 
-const columns: any = ref([
+const columns: Ref<any> = ref([
   {
-    title: "名称",
+    title: "源字段",
     align: "center",
-    dataIndex: "name",
+    dataIndex: "originName",
     width: 120,
-    key: "name",
+    key: "originName",
+  },
+  {
+    title: "目标字段",
+    align: "center",
+    dataIndex: "destName",
+    width: 120,
+    key: "destName",
   },
   {
     title: "类型",
@@ -111,7 +118,7 @@ const columns: any = ref([
 const emits = defineEmits(["update:value"]);
 const props = defineProps({
   value: {
-    type: Array<ITableStructure>,
+    type: Array<ITableStructureCompare>,
   },
 });
 
@@ -128,8 +135,8 @@ const selectedRowKeys: ComputedRef<Key[]> = computed(() => {
 });
 
 const onSelectChange = (keys: Key[]) => {
-  // selectedRowKeys.value = keys;
-  tableData.value.forEach((item: ITableStructure, index) => {
+  //   selectedRowKeys.value = keys;
+  tableData.value.forEach((item: ITableStructureCompare, index) => {
     if (keys.indexOf(item.key as Key) > -1) {
       item.selected = true;
     } else {
@@ -143,18 +150,6 @@ const handleChange = (value, index, column): void => {
 };
 
 const tableLoading = ref(false);
-
-const handleAddRow = () => {
-  tableData.value.push({
-    key: buildUUID(),
-    name: "",
-    type: null,
-    length: "",
-    scale: "",
-    primary: false,
-    selected: true,
-  });
-};
 </script>
 <style lang="less" scoped>
 /deep/.ant-table {

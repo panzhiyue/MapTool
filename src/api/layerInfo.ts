@@ -51,7 +51,6 @@ export const updateById = async (data: ILayerInfo) => {
     let param = data;
     delete param.id;
     return await db('LayerInfo').where({ id: id }).update(param).then((result: any) => {
-        console.log(9999);
         return new Promise((resolve, reject) => {
             resolve(ResponseResult.buildSuccess(result));
         })

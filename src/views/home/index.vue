@@ -63,6 +63,12 @@ onMounted(() => {
       console.log("refresh-mapLayerInfo2");
     });
   });
+
+  ipcRenderer.on("refresh-layerInfo", () => {
+    homeStore.getLayerInfo(1).then(() => {
+      console.log("refresh-layerInfo");
+    });
+  });
 });
 </script>
 <style>

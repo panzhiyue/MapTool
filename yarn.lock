@@ -130,7 +130,7 @@
   resolved "https://registry.yarnpkg.com/@gis-js/geojson2shp/-/geojson2shp-1.0.0-beta.1.tgz#49c32b3dfe214fc54d383c9e29cd81936737e647"
   integrity sha512-Ymp0/c3aWxW/ESqrshFTJgutaR2Lv69nQd77eQY4tV6vasU68q5nNlaUuMc6JF2UP/918n/nVe3Zv6+9y2MHWA==
 
-"@gis-js/utilsol@1.0.0-beta.3":
+"@gis-js/utilsol@1.0.0-beta.3", "@gis-js/utilsol@^1.0.0-beta.3":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@gis-js/utilsol/-/utilsol-1.0.0-beta.3.tgz#fd15f8e86f12649afaafefacd553df7af0e8525e"
   integrity sha512-zzI3a9nHg9r5J/q7jtPe4S38ySRC78nuVuhTZMceKXs6VhIbaOZxAsE0PDc4zcRm9CjqMDNR4RHK8pqigV0ijQ==
