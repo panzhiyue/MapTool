@@ -3,8 +3,12 @@ const remote = require("@electron/remote")
 let sharedObject = remote.getGlobal("sharedObject");
 
 export function useMainWindow() {
-    const refreshLayerInfo = () => {
+    const refreshLayerInfos = () => {
         ipcRenderer.sendTo(sharedObject.Main, "refresh-layerInfo");
     }
-    return {refreshLayerInfo}
+
+    const refreshMapLayerInfos = () => {
+        ipcRenderer.sendTo(sharedObject.Main, "refresh-mapLayerInfo");
+    }
+    return {refreshLayerInfos,refreshMapLayerInfos}
 }

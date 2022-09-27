@@ -34,23 +34,27 @@ export const add = async (data: IMapLayerInfo) => {
 
 export const updateChecked = async (checkedKeys: Array<Number>) => {
     const db = await getDB();
-    await db.transaction((trx: any) => {
+    return await db.transaction(async (trx: any) => {
         const query1 = db("MapLayerInfo").whereIn('id', checkedKeys).update({
             checked: true
         }).transacting(trx)
         const query2 = db("MapLayerInfo").whereNotIn('id', checkedKeys).update({
             checked: false
         }).transacting(trx)
-        Promise.all([query1, query2]).then((result: any) => {
+        return await Promise.all([query1, query2]).then(async (result: any) => {
             trx.commit();
-            return new Promise((resolve, reject) => {
-                resolve(ResponseResult.buildSuccess(result));
-            })
-        }).catch((err: any) => {
+        }).catch(async (err: any) => {
             trx.rollback();
-            return new Promise((resolve, reject) => {
-                resolve(ResponseResult.buildError(err.message))
-            })
+            throw err;
+        })
+
+    }).then(() => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess("成功"));
+        })
+    }).catch((err) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
         })
     })
 }

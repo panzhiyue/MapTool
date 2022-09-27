@@ -13,15 +13,17 @@
       <template #title="{ key: treeKey, title, data }">
         <a-dropdown :trigger="['contextmenu']">
           <span>{{ title }}</span>
-          <template #overlay v-if="data.info?.type == 'Vector'">
+          <template #overlay v-if="data.data.info.type == 'vector'">
             <a-menu>
-              <a-menu-item>缩放至图层</a-menu-item>
+              <a-menu-item @click="handleZoomTo(treeKey)"
+                >缩放至图层</a-menu-item
+              >
               <a-menu-item @click="handleDelete(treeKey)">删除</a-menu-item>
             </a-menu>
           </template>
           <template #overlay v-else>
             <a-menu>
-              <a-menu-item>缩放至图层</a-menu-item>
+              <a-menu-item @click="handleTest(data)">测试</a-menu-item>
               <a-menu-item @click="handleDelete(treeKey)">删除</a-menu-item>
             </a-menu>
           </template>
@@ -49,6 +51,7 @@ const mapLayerInfos = computed(() => {
 
 const treeData: ComputedRef<Undefinerable<DataNode[]>> = computed(() => {
   return mapLayerInfos.value.map((item, index) => {
+    console.log(item);
     return {
       key: item.id,
       title: item.title,
@@ -77,7 +80,8 @@ const handleCheck = (
       },
   node: CheckInfo
 ) => {
-  updateChecked(checked as Number[]).then(() => {
+  updateChecked(checked as Number[]).then((result) => {
+    console.log(result);
     homeStore.getMapLayerInfos(1);
   });
 };
@@ -88,7 +92,16 @@ const handleDelete = (id: Number) => {
   });
 };
 
+const handleZoomTo = (id) => {
+  let layer = homeStore.getLayerBySysId(id);
+  homeStore.map.getView().fit(layer.getSource().getExtent(), {
+    padding: [30, 30, 30, 30],
+  });
+};
 
+const handleTest = (a) => {
+  console.log(a);
+};
 </script>
 
 <style lang="less" scoped>

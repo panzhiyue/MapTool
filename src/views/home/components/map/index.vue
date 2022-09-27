@@ -43,15 +43,13 @@
         <vue2ol-source-geoq :layer="layer.info.layer"></vue2ol-source-geoq>
       </vue2ol-layer-tile>
 
-      <!-- <vue2ol-layer-vector
-        v-else-if="layer.layerInfo.type === 'vector'"
+      <vector-layer
+        v-else-if="layer.info.type === 'vector'"
         :visible="layer.checked"
-        :options="{ sysId: layer.nodeKey }"
+        :options="{ sysId: layer.id }"
+        :tableName="layer.info.table"
       >
-        <vue2ol-source-vector
-          :features="layer.layerInfo.path | readeGeoJSON"
-        ></vue2ol-source-vector>
-      </vue2ol-layer-vector> -->
+      </vector-layer>
       <vue2ol-layer-tile
         v-else-if="layer.info.type === 'wmts'"
         :visible="layer.checked"
@@ -71,6 +69,8 @@ import { getById, updateById } from "@/api/mapInfo";
 import { IMapInfo, IMapLayerInfo } from "types";
 import { MapEvent } from "ol";
 import { ComputedRef, Ref } from "vue";
+import VectorLayer from "./components/vector-layer.vue";
+
 let homeStore = useHomeStore();
 const format = ref(new GeoJSON());
 
@@ -91,6 +91,10 @@ const mapLayer: ComputedRef<IMapLayerInfo[]> = computed(() => {
       checked: item.checked ? true : false,
     };
   });
+});
+
+onMounted(() => {
+  console.log(mapLayer.value);
 });
 
 const mapInfo: ComputedRef<IMapInfo | null> = computed(() => {

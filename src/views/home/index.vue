@@ -65,7 +65,7 @@ onMounted(() => {
   });
 
   ipcRenderer.on("refresh-layerInfo", () => {
-    homeStore.getLayerInfo(1).then(() => {
+    homeStore.getLayerInfos(1).then(() => {
       console.log("refresh-layerInfo");
     });
   });

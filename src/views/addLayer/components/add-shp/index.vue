@@ -59,6 +59,9 @@ import { useRoute } from "vue-router";
 import { useHomeStore } from "@/store/home";
 import { useMainWindow } from "@/hooks/electron/useMainWindow";
 import { useWindow } from "@/hooks/electron/useWindow";
+import dayjs from "dayjs";
+import { WKT } from "ol/format";
+import { Geometry } from "ol/geom";
 
 const route = useRoute();
 
@@ -86,7 +89,7 @@ const filters = ref([
 
 const layerName = ref("");
 
-const tableName = ref("");
+const tableName = ref("vector_" + dayjs().unix().toString());
 
 let tableData: any = reactive([]);
 
@@ -121,15 +124,20 @@ watch(path, () => {
     });
     eShapeFile.on("loaded", () => {
       const features = eShapeFile.getFeatures();
-      console.log(features);
-      const jsons: IGeoJSON = JSON.parse(new GeoJSON().writeFeatures(features));
-
+      let wktFormat = new WKT();
       const data = getTableData(
-        jsons.features.map((item: IFeature) => {
+        features.map((item) => {
           let obj = {};
-          for (let field in item.properties) {
-            obj[field.trim()] = item.properties[field];
+          for (let field in item.getProperties()) {
+            if (field=="geometry") {
+              
+              obj["geom_wkt"] = wktFormat.writeGeometry(item.getGeometry());
+              console.log(obj["geom_wkt"]);
+            } else {
+              obj[field.trim()] = item.get[field];
+            }
           }
+          // obj["geom_wkt"]=wktFormat.readGeometry(item.getGeometry())
           return obj;
         })
       );
@@ -164,7 +172,7 @@ const handlePreMost = () => {
   currentStep.value = 0;
 };
 
-const { refreshLayerInfo } = useMainWindow();
+const { refreshLayerInfos, refreshMapLayerInfos } = useMainWindow();
 const { close } = useWindow();
 const handleOk = () => {
   createTable(
@@ -195,32 +203,25 @@ const handleOk = () => {
           return obj;
         })
       ).then((result) => {
-        console.log(result.msg);
+        console.log(result);
         if (result.code == ResponseCode.SUCCESS) {
           insertLayerInfo({
             id: buildUUID(),
             parentId: route.query.parentId as String,
             mapId: 1,
             title: layerName.value,
-            type: "vector",
+            type: "layer",
             canDelete: true,
             canEdit: true,
             expand: true,
             info: {
+              type: "vector",
               table: tableName.value,
             },
           }).then((result) => {
             if (result.code == ResponseCode.SUCCESS) {
-              refreshLayerInfo();
+              refreshLayerInfos();
               close();
-              // message.success("添加成功！");
-              // homeStore.getLayerInfos(1).then((result2: any) => {
-              //   if (result2.code == ResponseCode.SUCCESS) {
-              //     close();
-              //   } else {
-              //     message.error(result2.msg, 1);
-              //   }
-              // });
             } else {
               message.error(result.msg as string, 1);
             }
