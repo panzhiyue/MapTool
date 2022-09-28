@@ -29,7 +29,6 @@ export default {
     };
   },
   mounted() {
-    console.log(2);
   },
   methods: {
     sure() {

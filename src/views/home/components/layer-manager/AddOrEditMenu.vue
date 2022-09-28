@@ -67,7 +67,6 @@ defineExpose({ show });
 const handleOk = () => {
   formRef.value.validate().then((valid) => {
     if (valid) {
-      console.log(type.value == "add");
       if (type.value == "add") {
         add(menu.value).then((result) => {
           if (result.code == ResponseCode.SUCCESS) {

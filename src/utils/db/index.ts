@@ -26,7 +26,6 @@ const initDB = async () => {
 
 const createTable = async () => {
   db.schema.hasTable("MapInfo").then((exists: Boolean) => {
-    console.log(exists);
     if (!exists) {
       db.schema
         .createTable("MapInfo", (table: any) => {
@@ -243,6 +242,54 @@ const createTable = async () => {
                 canEdit: false,
               },
               {
+                id: '1-2-1',
+                parentId: '1-2',
+                mapId: 0,
+                title: '矢量地图',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "BaiDu",
+                  layer: "normal_map",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+              {
+                id: '1-2-2',
+                parentId: '1-2',
+                mapId: 0,
+                title: '影像地图',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "BaiDu",
+                  layer: "satellite_map",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+              {
+                id: '1-2-3',
+                parentId: '1-2',
+                mapId: 0,
+                title: '影像注记',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "BaiDu",
+                  layer: "satellite_annotion",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+              {
                 id: '1-3',
                 parentId: '1',
                 mapId: 0,
@@ -253,6 +300,54 @@ const createTable = async () => {
                 canEdit: false,
               },
               {
+                id: '1-3-1',
+                parentId: '1-3',
+                mapId: 0,
+                title: '矢量地图',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "GaoDe",
+                  layer: "normal_map",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+              {
+                id: '1-3-2',
+                parentId: '1-3',
+                mapId: 0,
+                title: '影像地图',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "GaoDe",
+                  layer: "satellite_map",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+              {
+                id: '1-3-3',
+                parentId: '1-3',
+                mapId: 0,
+                title: '影像注记',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "GaoDe",
+                  layer: "satellite_annotion",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+              {
                 id: '1-4',
                 parentId: '1',
                 mapId: 0,
@@ -261,7 +356,89 @@ const createTable = async () => {
                 canDelete: false,
                 expand: false,
                 canEdit: false,
-              }, {
+              },
+              {
+                id: '1-4-1',
+                parentId: '1-4',
+                mapId: 0,
+                title: '矢量地图',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "Geoq",
+                  layer: "normal_map",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+              {
+                id: '1-4-2',
+                parentId: '1-4',
+                mapId: 0,
+                title: '午夜蓝',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "Geoq",
+                  layer: "normal_purplishblue",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+
+              {
+                id: '1-4-3',
+                parentId: '1-4',
+                mapId: 0,
+                title: '灰色',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "Geoq",
+                  layer: "normal_gray",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+              {
+                id: '1-4-4',
+                parentId: '1-4',
+                mapId: 0,
+                title: '暖色',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "Geoq",
+                  layer: "normal_warm",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+              {
+                id: '1-4-5',
+                parentId: '1-4',
+                mapId: 0,
+                title: '水系',
+                type: 'layer',
+                canDelete: false,
+                expand: false,
+                canEdit: false,
+                info: JSON.stringify({
+                  type: "Geoq",
+                  layer: "theme_hydro",
+                  maxZoom: 18,
+                  minZoom: 1
+                })
+              },
+              {
                 id: '2',
                 parentId: '0',
                 mapId: 0,

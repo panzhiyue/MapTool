@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { useWindow } from "@/hooks/electron/useWindow.ts";
+import { useWindow } from "@/hooks/electron/useWindow";
 import { useVModel } from "@vueuse/core";
 
 const props = defineProps({
@@ -63,6 +63,10 @@ const layerTypes = ref([
   {
     label: "wmts",
     value: "wmts",
+  },
+  {
+    label: "ImageArcGISRest",
+    value: "ImageArcGISRest",
   },
 ]);
 

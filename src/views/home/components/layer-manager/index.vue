@@ -27,7 +27,9 @@
               >
               <a-menu-item @click="handleContextMenuAddLayer(data)"
                 >添加图层</a-menu-item
-              ><a-menu-item v-if="canDelete">删除</a-menu-item>
+              ><a-menu-item v-if="canDelete" @click="handleDelete(id)"
+                >删除</a-menu-item
+              >
             </a-menu>
 
             <a-menu v-else-if="type == 'layer'">
@@ -59,12 +61,15 @@ import { useHomeStore } from "@/store/home";
 import { ILayerInfo } from "types";
 import { onMounted, Ref } from "vue";
 import { add as addMapLayerInfo } from "@/api/mapLayerInfo";
-import { getByWhere } from "@/api/layerInfo";
+import { getByWhere, deleteById } from "@/api/layerInfo";
 // import { useLayerStore } from "@/store/Layer.js";
 // import { useMapLayerStore } from "@/store/MapLayer.js";
 // import { buildUUID } from "@/utils/uuid";
 import AddOrEditMenu from "./AddOrEditMenu.vue";
 import AddOrEditLayer from "./AddOrEditLayer/index.vue";
+import ResponseCode from "@/enum/ResponseCode";
+import { message } from "ant-design-vue";
+import * as MapLayerInfoApi from "@/api/mapLayerInfo";
 
 let homeStore = useHomeStore();
 
@@ -130,17 +135,11 @@ const handleContextMenuAddMenu = (data) => {
 
 const addOrEditLayer = ref(null);
 const handleContextMenuAddLayer = (data: any) => {
-  console.log(data);
-  ipcRenderer.send(
-    "open-win",
-    "AddLayer",
-    `addLayer?parentId=${data.id}`,
-    {
-      width: 700,
-      height: 500,
-      frame: false,
-    }
-  );
+  ipcRenderer.send("open-win", "AddLayer", `addLayer?parentId=${data.id}`, {
+    width: 700,
+    height: 500,
+    frame: false,
+  });
 };
 
 const updateLayer = () => {};
@@ -161,8 +160,29 @@ const handleAddToMap = (data: ILayerInfo) => {
 };
 
 const handleDelete = (id: String) => {
-  getByWhere({ id: id }).then((result) => {
-    console.log(result);
+  // deleteById(id).then((result) => {
+  //   console.log(result);
+  // });
+  getByWhere({ parentId: id }).then((result) => {
+    if (result.code == ResponseCode.SUCCESS) {
+      if (result.data.length > 0) {
+        message.error("请先删除子菜单！");
+        return;
+      }
+
+      MapLayerInfoApi.getByWhere({
+        layerId: id,
+      }).then((result) => {
+        if (result.data.length > 0) {
+          message.error("图层已添加到地图！");
+          return;
+        } else {
+          deleteById(id).then((result) => {
+            homeStore.getLayerInfos(1).then(() => {});
+          });
+        }
+      });
+    }
   });
 };
 

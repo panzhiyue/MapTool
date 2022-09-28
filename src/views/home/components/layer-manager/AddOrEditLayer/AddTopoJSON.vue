@@ -55,7 +55,6 @@ export default {
     };
   },
   mounted() {
-    console.log(3333);
   },
   methods: {
     selectFiles() {

@@ -51,7 +51,6 @@ const mapLayerInfos = computed(() => {
 
 const treeData: ComputedRef<Undefinerable<DataNode[]>> = computed(() => {
   return mapLayerInfos.value.map((item, index) => {
-    console.log(item);
     return {
       key: item.id,
       title: item.title,
@@ -81,7 +80,6 @@ const handleCheck = (
   node: CheckInfo
 ) => {
   updateChecked(checked as Number[]).then((result) => {
-    console.log(result);
     homeStore.getMapLayerInfos(1);
   });
 };
@@ -99,9 +97,7 @@ const handleZoomTo = (id) => {
   });
 };
 
-const handleTest = (a) => {
-  console.log(a);
-};
+const handleTest = (a) => {};
 </script>
 
 <style lang="less" scoped>

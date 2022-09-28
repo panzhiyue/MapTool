@@ -107,7 +107,6 @@ export default {
     selectLayerType(layerType) {
       this.current += 1;
       this.layerType = layerType;
-      console.log(layerType);
     },
     addLayer(info) {
       const children = this.contextData.children || [];

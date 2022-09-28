@@ -49,7 +49,6 @@ export default {
         });
 
         eShapeFile.on("error", () => {
-          console.log(argument);
         });
         eShapeFile.readFile(files);
       });

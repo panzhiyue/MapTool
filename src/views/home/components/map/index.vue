@@ -10,7 +10,7 @@
       :center="[mapInfo.centerx, mapInfo.centery]"
       :options="viewOptions"
     ></vue2ol-view>
-    <div v-for="(layer, index) in mapLayer" :key="index">
+    <div v-for="(layer) in mapLayer" :key="layer.id.toString()">
       <vue2ol-layer-tile
         v-if="layer.info.type === 'TDT'"
         :visible="layer.checked"
@@ -59,6 +59,16 @@
           :projection="'EPSG:4326'"
         ></vue2ol-source-xyz>
       </vue2ol-layer-tile>
+
+      <vue2ol-layer-image
+        v-else-if="layer.info.type === 'ImageArcGISRest'"
+        :visible="layer.checked"
+      >
+        <vue2ol-source-imagearcgisrest
+          :url="layer.info.url"
+          :projection="'EPSG:4326'"
+        ></vue2ol-source-imagearcgisrest>
+      </vue2ol-layer-image>
     </div>
   </vue2ol-map>
 </template>
@@ -93,9 +103,7 @@ const mapLayer: ComputedRef<IMapLayerInfo[]> = computed(() => {
   });
 });
 
-onMounted(() => {
-  console.log(mapLayer.value);
-});
+onMounted(() => {});
 
 const mapInfo: ComputedRef<IMapInfo | null> = computed(() => {
   return homeStore.mapInfo;
@@ -116,9 +124,7 @@ const handleMapMoveEnd = (e: MapEvent) => {
     centery: center[1],
     zoom,
   };
-  updateById(info).then((result) => {
-    console.log(result);
-  });
+  updateById(info).then((result) => {});
 
   homeStore.setMapInfo(info);
 };

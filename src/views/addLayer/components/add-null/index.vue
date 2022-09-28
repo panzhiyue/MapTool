@@ -33,6 +33,7 @@ import ResponseResult from "@/utils/db/ResponseResult";
 import ResponseCode from "@/enum/ResponseCode";
 import { ReactiveEffect } from "vue";
 import { buildUUID } from "@/utils/uuid";
+import { useMainWindow } from "@/hooks/electron/useMainWindow";
 
 const route = useRoute();
 const homeStore = useHomeStore();
@@ -78,9 +79,6 @@ const tableData = reactive([
   },
 ]);
 
-watch(tableData, (newValue) => {
-  console.log(newValue);
-});
 
 const { close } = useWindow();
 const handleCancel = () => {
@@ -94,7 +92,7 @@ const handlePre = () => {
 const handlePreMost = () => {
   currentStep.value = 0;
 };
-
+const { refreshLayerInfos, refreshMapLayerInfos } = useMainWindow();
 const handleOk = () => {
   createTable(tableName.value, tableData)
     .then((result) => {
@@ -103,22 +101,18 @@ const handleOk = () => {
         parentId: route.query.parentId as String,
         mapId: 1,
         title: layerName.value,
-        type: "vector",
+        type: "layer",
         canDelete: true,
         canEdit: true,
         expand: true,
         info: {
+          type: "vector",
           table: tableName.value,
         },
       }).then((result1) => {
-        if (result1 == ResponseCode.SUCCESS) {
-          homeStore.getLayerInfos(1).then((result2: any) => {
-            if (result2.code == ResponseCode.SUCCESS) {
-              close();
-            } else {
-              message.error(result2.msg, 1);
-            }
-          });
+        if (result1.code == ResponseCode.SUCCESS) {
+          refreshLayerInfos();
+          close();
         } else {
           message.error(result1.msg, 1);
         }

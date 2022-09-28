@@ -12,7 +12,6 @@ import { WKT, GeoJSON } from "ol/format"
  * @returns 
  */
 export const create = async (tableName: String, tableStructure: ITableStructure[]): Promise<IResponseResult<any>> => {
-    console.log("create", tableName, tableStructure);
     const db = await getDB();
     return await db.schema.hasTable(tableName).then(async (exists: Boolean) => {
         if (!exists) {
@@ -114,13 +113,9 @@ export const insert = async (tableName: String, data: Object[]): Promise<IRespon
 
 export const readAsGeoJSON = async (tableName: String) => {
     const db = await getDB();
-    console.log(tableName);
-    console.log("readAsGeoJSON");
     return await db.schema.hasTable(tableName).then(async (exists) => {
-        console.log(exists);
         if (exists) {
             return await db(tableName).select().then((result) => {
-                console.log(result);
                 let geojson: IGeoJSON = {
                     type: "FeatureCollection",
                     features: []
@@ -141,5 +136,19 @@ export const readAsGeoJSON = async (tableName: String) => {
                 return geojson;
             })
         }
+    })
+}
+
+
+export const getByWhere = async (tableName: String, params: Object) => {
+    const db = await getDB();
+    return await db(tableName).where(params).select().then((result: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
     })
 }

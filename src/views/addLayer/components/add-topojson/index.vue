@@ -41,7 +41,7 @@ import { getFile } from "@/utils/file";
 import { EShapeFile } from "@gis-js/utilsol";
 import * as olProj from "ol/proj";
 import { message } from "ant-design-vue";
-import GeoJSON from "ol/format/GeoJSON";
+import TopoJSON from "ol/format/TopoJSON";
 import { getStructure, getTableData } from "@/utils/json";
 import { IFeature, IGeoJSON } from "#/geojson";
 import TableStructureCompare, {
@@ -62,6 +62,7 @@ import { useWindow } from "@/hooks/electron/useWindow";
 import dayjs from "dayjs";
 import { WKT } from "ol/format";
 import { Geometry } from "ol/geom";
+import fs from "fs";
 
 const route = useRoute();
 
@@ -80,11 +81,11 @@ const homeStore = useHomeStore();
 const path = ref("");
 
 const filters = ref([
-  {
-    name: "shp",
-    extensions: ["shp"], // 只选择jsp, png
-    buttonLabel: "确认",
-  },
+  // {
+  //   name: "shp",
+  //   extensions: ["shp"], // 只选择jsp, png
+  //   buttonLabel: "确认",
+  // },
 ]);
 
 const layerName = ref("");
@@ -97,66 +98,36 @@ const attributes = ref(null);
 
 
 watch(path, () => {
-  const shpPath = path.value;
-  const dirPath = dirname(shpPath);
-  const fileName = basename(shpPath, ".shp");
-
-  const cpgPath = join(dirPath, fileName + ".cpg");
-  const dbfPath = join(dirPath, fileName + ".dbf");
-  const prjPath = join(dirPath, fileName + ".prj");
-  const shxPath = join(dirPath, fileName + ".shx");
-
-  Promise.all([
-    getFile(shpPath),
-    getFile(cpgPath),
-    getFile(dbfPath),
-    getFile(prjPath),
-    getFile(shxPath),
-  ]).then((result) => {
-    const files = result.filter((item) => {
-      return item != null;
-    });
-    const eShapeFile: any = new EShapeFile({
-      projection: olProj.get("EPSG:4326"),
-    });
-    eShapeFile.on("loaded", () => {
-      const features = eShapeFile.getFeatures();
-      let wktFormat = new WKT();
-      const data = getTableData(
-        features.map((item) => {
-          let obj = {};
-          for (let field in item.getProperties()) {
-            if (field=="geometry") {
-              
-              obj["geom_wkt"] = wktFormat.writeGeometry(item.getGeometry());
-            } else {
-              obj[field.trim()] = item.get[field];
-            }
+  fs.readFile(path.value, (err, result) => {
+    let features = new TopoJSON().readFeatures(result.toString());
+    let wktFormat = new WKT();
+    const data = getTableData(
+      features.map((item) => {
+        let obj = {};
+        for (let field in item.getProperties()) {
+          if (field == "geometry") {
+            obj["geom_wkt"] = wktFormat.writeGeometry(item.getGeometry());
+          } else {
+            obj[field.trim()] = item.get[field];
           }
-          // obj["geom_wkt"]=wktFormat.readGeometry(item.getGeometry())
-          return obj;
-        })
-      );
-      data.fields.forEach((item) => {
-        tableData.push({
-          key: buildUUID(),
-          originName: item.name,
-          destName: item.name,
-          type: item.type,
-          length: item.length,
-          scale: item.scale,
-          primary: item.primary,
-          selected: true,
-        });
+        }
+        return obj;
+      })
+    );
+    data.fields.forEach((item) => {
+      tableData.push({
+        key: buildUUID(),
+        originName: item.name,
+        destName: item.name,
+        type: item.type,
+        length: item.length,
+        scale: item.scale,
+        primary: item.primary,
+        selected: true,
       });
-
-      attributes.value = data.attributes;
     });
 
-    eShapeFile.on("error", (err: any) => {
-      message.error(err.message);
-    });
-    eShapeFile.readFile(files);
+    attributes.value = data.attributes;
   });
 });
 

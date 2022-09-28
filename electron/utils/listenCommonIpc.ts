@@ -44,10 +44,5 @@ export function windowListener(window, name) {
 }
 
 export function commonListener() {
-    // console.log("commonListener");
-    // //窗口最小化
-    // ipcMain.on(`refresh-mapLayerInfo1`, (event, arg) => {
-    //     console.log(3333);
-    //     ipcMain.send(`refresh-mapLayerInfo2`);
-    // })
+
 }

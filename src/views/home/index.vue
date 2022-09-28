@@ -4,7 +4,7 @@
       <sys-header></sys-header>
     </a-layout-header>
     <a-layout>
-      <a-layout-sider width="300" style="background: #fff">
+      <a-layout-sider width="300" style="background: #fff" class="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
         <a-collapse>
           <a-collapse-Panel key="1" header="图层管理">
             <layer-manager></layer-manager>
@@ -15,11 +15,6 @@
         </a-collapse>
       </a-layout-sider>
       <a-layout style="padding: 0 24px 24px">
-        <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>Home</a-breadcrumb-item>
-          <a-breadcrumb-item>List</a-breadcrumb-item>
-          <a-breadcrumb-item>App</a-breadcrumb-item>
-        </a-breadcrumb>
         <a-layout-content
           :style="{
             background: '#fff',
@@ -60,13 +55,11 @@ onMounted(() => {
 
   ipcRenderer.on("refresh-mapLayerInfo", () => {
     homeStore.getMapLayerInfos(1).then(() => {
-      console.log("refresh-mapLayerInfo2");
     });
   });
 
   ipcRenderer.on("refresh-layerInfo", () => {
     homeStore.getLayerInfos(1).then(() => {
-      console.log("refresh-layerInfo");
     });
   });
 });
@@ -82,6 +75,7 @@ onMounted(() => {
   padding: 0px;
   margin: 0px;
 }
+
 /* 
 .ant-row-rtl #components-layout-demo-top-side-2 .logo {
   float: right;

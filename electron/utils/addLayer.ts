@@ -8,7 +8,6 @@ process.env.DIST = join(__dirname, '../..')
 const indexHtml = join(process.env.DIST, 'index.html/#/addLayer')
 const url = process.env.VITE_DEV_SERVER_URL as string + '#/addLayer'
 const createAddLayerWindow = () => {
-    console.log(indexHtml, url);
     const addLayerWindow = new BrowserWindow({
         title: 'AddLayerWindow',
         show: false,

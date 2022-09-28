@@ -130,7 +130,7 @@
   resolved "https://registry.yarnpkg.com/@gis-js/geojson2shp/-/geojson2shp-1.0.0-beta.1.tgz#49c32b3dfe214fc54d383c9e29cd81936737e647"
   integrity sha512-Ymp0/c3aWxW/ESqrshFTJgutaR2Lv69nQd77eQY4tV6vasU68q5nNlaUuMc6JF2UP/918n/nVe3Zv6+9y2MHWA==
 
-"@gis-js/utilsol@1.0.0-beta.3", "@gis-js/utilsol@^1.0.0-beta.3":
+"@gis-js/utilsol@^1.0.0-beta.3", "@gis-js/utilsol@workspace:*":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@gis-js/utilsol/-/utilsol-1.0.0-beta.3.tgz#fd15f8e86f12649afaafefacd553df7af0e8525e"
   integrity sha512-zzI3a9nHg9r5J/q7jtPe4S38ySRC78nuVuhTZMceKXs6VhIbaOZxAsE0PDc4zcRm9CjqMDNR4RHK8pqigV0ijQ==
@@ -144,16 +144,16 @@
     proj4 "^2.8.0"
     shapefile "^0.6.6"
 
-"@gis-js/vue2ol-extend@^1.0.0-alpha.38":
-  version "1.0.0-alpha.38"
-  resolved "https://registry.yarnpkg.com/@gis-js/vue2ol-extend/-/vue2ol-extend-1.0.0-alpha.38.tgz#7e0f2e97721c22bf5a081bc57684fb56dc4d418c"
-  integrity sha512-FoykojG+r+OAH/Hgk4JcePMYxq7axMazkwwzoQIM7JktULnqdN0EjDxMXjtCEPsmLCXRqQOqXOl31bLkZu374Q==
+"@gis-js/vue2ol-extend@^1.0.0-alpha.39":
+  version "1.0.0-alpha.39"
+  resolved "https://registry.yarnpkg.com/@gis-js/vue2ol-extend/-/vue2ol-extend-1.0.0-alpha.39.tgz#17be855c91c0fea068f6fd3b25c685719d1525b5"
+  integrity sha512-hX8PWpkb0mKuLq+vWhnKwEu2+7/zPdxOeCjZT7gWuT7woQ9y0n+4yJb1YoNFZwatJe0urazuK4iy8fRmHeJNzA==
   dependencies:
-    "@gis-js/utilsol" "1.0.0-beta.3"
-    "@gis-js/vue2ol" "1.0.0-alpha.37"
+    "@gis-js/utilsol" "workspace:*"
+    "@gis-js/vue2ol" "workspace:*"
     ol "^6.14.1"
 
-"@gis-js/vue2ol@1.0.0-alpha.37", "@gis-js/vue2ol@^1.0.0-alpha.37":
+"@gis-js/vue2ol@^1.0.0-alpha.37", "@gis-js/vue2ol@workspace:*":
   version "1.0.0-alpha.37"
   resolved "https://registry.yarnpkg.com/@gis-js/vue2ol/-/vue2ol-1.0.0-alpha.37.tgz#c6a50377e8f0f6afa6f8b136c2b9ed5e93f1dedc"
   integrity sha512-cIwhqUifkTJuFosKzxYwJHRE/vrJksHeZfooFWbT9MYChCRhoZCbsUB7f1krotyNGSLawZnGyI4Z9osphwktoA==

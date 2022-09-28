@@ -25,7 +25,6 @@ export const getList = async () => {
 export const getById = async (id: Number): Promise<IResponseResult<IMapInfo>> => {
   const db = await getDB();
   return await db('MapInfo').select().where({ id: id }).first().then((result: any) => {
-    console.log(result);
     return new Promise((resolve, reject) => {
       resolve(ResponseResult.buildSuccess(result));
     })
