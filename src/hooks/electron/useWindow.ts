@@ -26,5 +26,9 @@ export function useWindow() {
     const fullscreen = () => {
         currentWindow.fullscreen();
     }
-    return { currentWindow, minimize, maximize, restore, unmaximize, close, fullscreen }
+
+    const changePosition = (pos) => {
+        currentWindow.setBounds({ x: pos.x, y: pos.y })
+    }
+    return { currentWindow, minimize, maximize, restore, unmaximize, close, fullscreen, changePosition }
 }

@@ -19,6 +19,38 @@
       <a-col flex="auto"><a-input v-model:value="tableName"></a-input></a-col>
     </a-row>
     <a-row>
+      <a-space>
+        格式:
+        <a-select v-model:value="format" class="w-200px">
+          <a-select-option v-for="item in formatList" :value="item">{{
+            item
+          }}</a-select-option>
+        </a-select>
+        <div v-if="format == '经纬度'">
+          经度字段
+          <a-select v-model:value="lngField" class="w-120px">
+            <a-select-option v-for="item in header" :value="item">{{
+              item
+            }}</a-select-option>
+          </a-select>
+          纬度字段
+          <a-select v-model:value="latField" class="w-120px">
+            <a-select-option v-for="item in header" :value="item">{{
+              item
+            }}</a-select-option>
+          </a-select>
+        </div>
+        <div v-if="format != '经纬度'">
+          几何字段
+          <a-select v-model:value="geometryField" class="w-120px">
+            <a-select-option v-for="item in header" :value="item">{{
+              item
+            }}</a-select-option>
+          </a-select>
+        </div>
+      </a-space>
+    </a-row>
+    <a-row>
       <table-structure-compare
         class="tableStructureCompare w-full mt-20px scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
         v-model:value="tableData"
@@ -63,6 +95,10 @@ import dayjs from "dayjs";
 import { WKT } from "ol/format";
 import { Geometry } from "ol/geom";
 import fs from "fs";
+import { excel2json } from "@/utils/excel";
+import { Point } from "ol/geom";
+import Feature from "ol/Feature";
+import { WKT as FormatWKT } from "ol/format";
 
 const route = useRoute();
 
@@ -73,36 +109,133 @@ const props = defineProps({
 });
 
 const emits = defineEmits(["update:current"]);
-
 const currentStep = useVModel(props, "current", emits);
-
 const homeStore = useHomeStore();
-
+const formatList = ref(["经纬度", "wkt", "geojson"]);
+const format = ref("经纬度");
+const lngField = ref("");
+const latField = ref("");
+const geometryField = ref("");
 const path = ref("");
-
 const filters = ref([
-  // {
-  //   name: "shp",
-  //   extensions: ["shp"], // 只选择jsp, png
-  //   buttonLabel: "确认",
-  // },
+  {
+    name: "excel",
+    extensions: ["xlsx"],
+    buttonLabel: "确认",
+  },
 ]);
-
 const layerName = ref("");
-
 const tableName = ref("vector_" + dayjs().unix().toString());
-
 let tableData: any = reactive([]);
-
 const attributes = ref(null);
 
+const header = ref([]);
+
+const excelData = ref(null);
+const features = ref(null);
+watch([excelData, format, lngField, latField, geometryField], () => {
+  if (
+    excelData.value &&
+    format.value == "经纬度" &&
+    lngField.value &&
+    latField.value
+  ) {
+    let fs = [];
+    for (let i = 0; i < excelData.value.length; i++) {
+      let item = excelData.value[i];
+      try {
+        let geometry = new Point([
+          parseFloat(item[lngField.value]),
+          parseFloat(item[latField.value]),
+        ]);
+        delete item.geometry;
+        let feature = new Feature({
+          geometry,
+        });
+        feature.setProperties(item);
+        
+        fs.push(feature);
+      } catch {
+        console.log("error:" + i, item.geometry);
+      }
+    }
+    features.value = fs;
+  } else if (
+    !excelData.value &&
+    format.value != "经纬度" &&
+    geometryField.value
+  ) {
+    let fs = [];
+    for (let i = 0; i < excelData.value.length; i++) {
+      let item = excelData.value[i];
+      try {
+        let geometry = new FormatWKT().readGeometry(
+          typeof item.geometry == "string"
+            ? item.geometry
+            : item.geometry.result
+        );
+        delete item.geometry;
+        let feature = new Feature({
+          geometry,
+        });
+        feature.setProperties(item);
+        fs.push(feature);
+      } catch {
+        console.log("error:" + i, item.geometry);
+      }
+    }
+    features.value = fs;
+  } else {
+    features.value = null;
+  }
+});
 
 watch(path, () => {
   fs.readFile(path.value, (err, result) => {
-    let features = new GeoJSON().readFeatures(result.toString());
+    excel2json(result).then((res) => {
+      if (res.length > 0) {
+        let data = res[0];
+        header.value = data.header;
+        excelData.value = data.data;
+      }
+    });
+    // let features = new GeoJSON().readFeatures(result.toString());
+    // let wktFormat = new WKT();
+    // const data = getTableData(
+    //   features.map((item) => {
+    //     let obj = {};
+    //     for (let field in item.getProperties()) {
+    //       if (field == "geometry") {
+    //         obj["geom_wkt"] = wktFormat.writeGeometry(item.getGeometry());
+    //       } else {
+    //         obj[field.trim()] = item.get(field);
+    //       }
+    //     }
+    //     return obj;
+    //   })
+    // );
+    // data.fields.forEach((item) => {
+    //   tableData.push({
+    //     key: buildUUID(),
+    //     originName: item.name,
+    //     destName: item.name,
+    //     type: item.type,
+    //     length: item.length,
+    //     scale: item.scale,
+    //     primary: item.primary,
+    //     selected: true,
+    //   });
+    // });
+
+    // attributes.value = data.attributes;
+  });
+});
+
+watch(features, () => {
+  if (features.value) {
     let wktFormat = new WKT();
     const data = getTableData(
-      features.map((item) => {
+      features.value.map((item) => {
         let obj = {};
         for (let field in item.getProperties()) {
           if (field == "geometry") {
@@ -111,6 +244,7 @@ watch(path, () => {
             obj[field.trim()] = item.get(field);
           }
         }
+        // obj["geom_wkt"]=wktFormat.readGeometry(item.getGeometry())
         return obj;
       })
     );
@@ -128,7 +262,10 @@ watch(path, () => {
     });
 
     attributes.value = data.attributes;
-  });
+  } else {
+    tableData.value = [];
+    attributes.value = null;
+  }
 });
 
 const handlePre = () => {

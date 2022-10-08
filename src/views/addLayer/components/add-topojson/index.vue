@@ -108,7 +108,7 @@ watch(path, () => {
           if (field == "geometry") {
             obj["geom_wkt"] = wktFormat.writeGeometry(item.getGeometry());
           } else {
-            obj[field.trim()] = item.get[field];
+            obj[field.trim()] = item.get(field);
           }
         }
         return obj;

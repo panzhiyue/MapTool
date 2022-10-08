@@ -111,7 +111,7 @@ export const insert = async (tableName: String, data: Object[]): Promise<IRespon
 }
 
 
-export const readAsGeoJSON = async (tableName: String) => {
+export const readAsGeoJSON = async (tableName: String): Promise<ResponseResult<any>> => {
     const db = await getDB();
     return await db.schema.hasTable(tableName).then(async (exists) => {
         if (exists) {
@@ -140,9 +140,26 @@ export const readAsGeoJSON = async (tableName: String) => {
 }
 
 
-export const getByWhere = async (tableName: String, params: Object) => {
+export const getByWhere = async (tableName: String, params: Object): Promise<ResponseResult<any>> => {
     const db = await getDB();
     return await db(tableName).where(params).select().then((result: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
+
+/**
+ * 删除表
+ * @param tableName 表名
+ */
+export const drop = async (tableName: String): Promise<ResponseResult<any>> => {
+    const db = await getDB();
+    return await db.schema.dropTable(tableName).then((result) => {
         return new Promise((resolve, reject) => {
             resolve(ResponseResult.buildSuccess(result));
         })

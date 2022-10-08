@@ -41,6 +41,25 @@ export interface IMapInfo {
     centery?: Number
 }
 
+/**
+ * electron通讯参数
+ */
+interface IElectronCommunicationOptions {
+    fromWindowId: String | Number,
+    fromWindowName: String | Number,
+    toWindowId: String | Number,
+    toWindowName: String | Number,
+}
+
+/**
+ * 导出图片参数
+ */
+export interface IExportImageOptions extends IElectronCommunicationOptions {
+    path: String,  //图片路径
+    control?: Boolean,
+    format: "png" | "jpg"
+}
+
 
 
 

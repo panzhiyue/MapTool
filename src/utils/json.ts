@@ -78,7 +78,9 @@ export const getTableData = (json): { fields: ITableStructure[], attributes: Arr
     let attributes: Array<Object> = json.map((item) => {
         let obj = {};
         for (let index in header) {
+         
             let field: string = header[index] as string;
+            // console.log(item,field,item[field]);
             obj[field] = item[field];
         }
         return obj;

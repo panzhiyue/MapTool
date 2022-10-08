@@ -27,7 +27,7 @@
               >
               <a-menu-item @click="handleContextMenuAddLayer(data)"
                 >添加图层</a-menu-item
-              ><a-menu-item v-if="canDelete" @click="handleDelete(id)"
+              ><a-menu-item v-if="canDelete" @click="handleDelete(data)"
                 >删除</a-menu-item
               >
             </a-menu>
@@ -36,7 +36,7 @@
               <a-menu-item @click="handleAddToMap(data)"
                 >添加到地图</a-menu-item
               >
-              <a-menu-item v-if="canDelete" @click="handleDelete(id)"
+              <a-menu-item v-if="canDelete" @click="handleDelete(data)"
                 >删除</a-menu-item
               >
             </a-menu>
@@ -62,6 +62,7 @@ import { ILayerInfo } from "types";
 import { onMounted, Ref } from "vue";
 import { add as addMapLayerInfo } from "@/api/mapLayerInfo";
 import { getByWhere, deleteById } from "@/api/layerInfo";
+import { drop as dropTable } from "@/api/table";
 // import { useLayerStore } from "@/store/Layer.js";
 // import { useMapLayerStore } from "@/store/MapLayer.js";
 // import { buildUUID } from "@/utils/uuid";
@@ -159,10 +160,8 @@ const handleAddToMap = (data: ILayerInfo) => {
   });
 };
 
-const handleDelete = (id: String) => {
-  // deleteById(id).then((result) => {
-  //   console.log(result);
-  // });
+const handleDelete = async (data: any) => {
+  const id = data.data.id;
   getByWhere({ parentId: id }).then((result) => {
     if (result.code == ResponseCode.SUCCESS) {
       if (result.data.length > 0) {
@@ -177,7 +176,12 @@ const handleDelete = (id: String) => {
           message.error("图层已添加到地图！");
           return;
         } else {
-          deleteById(id).then((result) => {
+          deleteById(id).then(async (result) => {
+            if (data.data.info?.table) {
+              await dropTable(data.data.info.table).then((r) => {
+                console.log("deleteTable", r);
+              });
+            }
             homeStore.getLayerInfos(1).then(() => {});
           });
         }

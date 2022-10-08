@@ -12,10 +12,10 @@
     <a-button v-if="nextMostText" class="right-most" @click="handleNextMost">{{
       nextMostText
     }}</a-button>
+    <a-button v-if="okText" class="ok" @click="handleOk">{{ okText }}</a-button>
     <a-button v-if="cancelText" class="cancel" @click="handleCancel">{{
       cancelText
     }}</a-button>
-    <a-button v-if="okText" class="ok" @click="handleOk">{{ okText }}</a-button>
   </div>
 </template>
 <script lang="ts" setup>

@@ -1,8 +1,9 @@
 <template>
-  <div class="global-header">
+  <div class="global-header" v-mouse-drag="changePosition">
     <div class="left">
       <img :src="iconUrl" />
       <span class="title">{{ title }}</span>
+      <slot name="left"></slot>
     </div>
     <div class="right">
       <window-controls :name="windowName"></window-controls>
@@ -21,6 +22,7 @@ import {
 import { onMounted, computed, ref } from "vue";
 import WindowControls from "@/components/window-controls";
 import icon from "@/assets/vite.svg";
+import { useWindow } from "@/hooks/electron/useWindow";
 
 const props = defineProps({
   iconUrl: {
@@ -39,10 +41,21 @@ const props = defineProps({
 
 onMounted(() => {});
 
+const { changePosition } = useWindow();
+
+// const changePosition=(pos)=>{
+//   console.log(pos);
+//   // assistWindow.setBounds({ x: pos.x, y: pos.y, width: 320, height: 720 })
+//   // ipcRenderer.send('move-assistWindow', {
+//   //   x: pos.x,
+//   //   y: pos.y,
+//   //   isWindow: 'horse'
+//   // })
+// }
 </script>
 <style lang="less" scoped>
 .global-header {
-  height: 48px;
+  height: 30px;
   display: flex;
   justify-content: space-between;
 
@@ -55,7 +68,7 @@ onMounted(() => {});
     }
 
     .title {
-      line-height: 48px;
+      line-height: 30px;
       margin-left: 8px;
     }
   }

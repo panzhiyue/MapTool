@@ -10,5 +10,13 @@ export function useMainWindow() {
     const refreshMapLayerInfos = () => {
         ipcRenderer.sendTo(sharedObject.Main, "refresh-mapLayerInfo");
     }
-    return {refreshLayerInfos,refreshMapLayerInfos}
+
+    const exportImage = (options: IExportImageOptions): String => {
+        ipcRenderer.sendTo(sharedObject.Main, "exportImage", options);
+    }
+
+    const getParams = (name) => {
+        ipcRenderer.sendTo(sharedObject.Main, "getParams", name);
+    }
+    return { refreshLayerInfos, refreshMapLayerInfos, exportImage, getParams }
 }

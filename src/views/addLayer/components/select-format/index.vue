@@ -45,16 +45,20 @@ const layerTypes = ref([
     value: "null",
   },
   {
-    label: "矢量数据(.shp)",
+    label: "矢量数据(shp)",
     value: "shp",
   },
   {
-    label: "矢量数据(.geojson)",
+    label: "矢量数据(geojson)",
     value: "geojson",
   },
   {
-    label: "矢量数据(.topojson)",
+    label: "矢量数据(topojson)",
     value: "topojson",
+  },
+  {
+    label: "矢量数据(excel)",
+    value: "excel",
   },
   {
     label: "wms",

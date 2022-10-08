@@ -11,6 +11,16 @@ const routes = [
     name: "AddLayer",
     component: () => import(/* webpackChunkName: "about" */ '../views/addLayer/index.vue')
   },
+  {
+    path: '/tool',
+    name: "Tool",
+    component: () => import(/* webpackChunkName: "about" */ '../views/tool/index.vue')
+  },
+  {
+    path: '/exportImage',
+    name: "ExportImage",
+    component: () => import(/* webpackChunkName: "about" */ '../views/exportImage/index.vue')
+  },
   // {
   //   path: '/home',
   //   name: 'home',

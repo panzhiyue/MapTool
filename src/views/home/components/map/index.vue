@@ -10,13 +10,16 @@
       :center="[mapInfo.centerx, mapInfo.centery]"
       :options="viewOptions"
     ></vue2ol-view>
-    <div v-for="(layer) in mapLayer" :key="layer.id.toString()">
+    <div v-for="layer in mapLayer" :key="layer.id.toString()">
       <vue2ol-layer-tile
         v-if="layer.info.type === 'TDT'"
         :visible="layer.checked"
         :options="{ sysId: layer.id }"
       >
-        <vue2ol-source-tdt :layer="layer.info.layer"></vue2ol-source-tdt>
+        <vue2ol-source-tdt
+          :layer="layer.info.layer"
+          @init="onSourceInit"
+        ></vue2ol-source-tdt>
       </vue2ol-layer-tile>
 
       <vue2ol-layer-tile
@@ -24,7 +27,10 @@
         :visible="layer.checked"
         :options="{ sysId: layer.id }"
       >
-        <vue2ol-source-baidu :layer="layer.info.layer"></vue2ol-source-baidu>
+        <vue2ol-source-baidu
+          :layer="layer.info.layer"
+          @init="onSourceInit"
+        ></vue2ol-source-baidu>
       </vue2ol-layer-tile>
 
       <vue2ol-layer-tile
@@ -32,7 +38,10 @@
         :visible="layer.checked"
         :options="{ sysId: layer.id }"
       >
-        <vue2ol-source-gaode :layer="layer.info.layer"></vue2ol-source-gaode>
+        <vue2ol-source-gaode
+          :layer="layer.info.layer"
+          @init="onSourceInit"
+        ></vue2ol-source-gaode>
       </vue2ol-layer-tile>
 
       <vue2ol-layer-tile
@@ -40,7 +49,10 @@
         :visible="layer.checked"
         :options="{ sysId: layer.id }"
       >
-        <vue2ol-source-geoq :layer="layer.info.layer"></vue2ol-source-geoq>
+        <vue2ol-source-geoq
+          :layer="layer.info.layer"
+          @init="onSourceInit"
+        ></vue2ol-source-geoq>
       </vue2ol-layer-tile>
 
       <vector-layer
@@ -57,6 +69,7 @@
         <vue2ol-source-xyz
           :url="layer.info.url"
           :projection="'EPSG:4326'"
+          @init="onSourceInit"
         ></vue2ol-source-xyz>
       </vue2ol-layer-tile>
 
@@ -70,6 +83,7 @@
         ></vue2ol-source-imagearcgisrest>
       </vue2ol-layer-image>
     </div>
+    <status-bar></status-bar>
   </vue2ol-map>
 </template>
 <script setup lang="ts">
@@ -80,6 +94,7 @@ import { IMapInfo, IMapLayerInfo } from "types";
 import { MapEvent } from "ol";
 import { ComputedRef, Ref } from "vue";
 import VectorLayer from "./components/vector-layer.vue";
+import StatusBar from "@/components/status-bar/index";
 
 let homeStore = useHomeStore();
 const format = ref(new GeoJSON());
@@ -128,5 +143,16 @@ const handleMapMoveEnd = (e: MapEvent) => {
 
   homeStore.setMapInfo(info);
 };
+
+const onSourceInit = (source) => {
+  source.setTileLoadFunction((tile, src) => {
+    tile.getImage().src = src;
+    tile.getImage().crossOrigin = "*";
+  });
+};
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.vue2ol-map {
+  position: relative;
+}
+</style>

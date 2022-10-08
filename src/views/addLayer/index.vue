@@ -10,12 +10,26 @@
     </add-null>
     <add-shp v-if="current == 1 && format == 'shp'" v-model:current="current">
     </add-shp>
-    <add-geojson v-if="current == 1 && format == 'geojson'" v-model:current="current">
+    <add-geojson
+      v-if="current == 1 && format == 'geojson'"
+      v-model:current="current"
+    >
     </add-geojson>
-    <add-topojson v-if="current == 1 && format == 'topojson'" v-model:current="current">
+    <add-topojson
+      v-if="current == 1 && format == 'topojson'"
+      v-model:current="current"
+    >
     </add-topojson>
-    <add-image-arcgis-rest v-if="current == 1 && format == 'ImageArcGISRest'" v-model:current="current">
+    <add-image-arcgis-rest
+      v-if="current == 1 && format == 'ImageArcGISRest'"
+      v-model:current="current"
+    >
     </add-image-arcgis-rest>
+    <add-excel
+      v-if="current == 1 && format == 'excel'"
+      v-model:current="current"
+    >
+    </add-excel>
   </div>
 </template>
 
@@ -23,13 +37,14 @@
 import { deleteById } from "@/api/mapLayerInfo";
 import { useHomeStore } from "@/store/home";
 import { ipcRenderer } from "electron";
-import SysHeader from "@/components/header";
-import SelectFormat from "./components/select-format/index";
-import AddNull from "./components/add-null/index";
-import AddShp from "./components/add-shp/index";
-import AddGeojson from "./components/add-geojson/index";
-import AddTopojson from "./components/add-topojson/index";
-import AddImageArcgisRest from "./components/add-image-arcgis-rest"
+import SysHeader from "@/components/header/index.vue";
+import SelectFormat from "./components/select-format/index.vue";
+import AddNull from "./components/add-null/index.vue";
+import AddShp from "./components/add-shp/index.vue";
+import AddGeojson from "./components/add-geojson/index.vue";
+import AddTopojson from "./components/add-topojson/index.vue";
+import AddImageArcgisRest from "./components/add-image-arcgis-rest/index.vue";
+import AddExcel from "./components/add-excel/index.vue";
 const remote = require("@electron/remote");
 const homeStore = useHomeStore();
 
