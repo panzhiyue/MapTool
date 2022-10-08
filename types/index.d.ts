@@ -1,6 +1,7 @@
 import ResponseCode from "@/enum/ResponseCode.ts";
 declare module '@gis-js/vue2ol'
 declare module '@gis-js/vue2ol-extend'
+declare module '@panzhiyue/utilscommon'
 
 declare type Nullable<T> = T | null;  //类型T或Null
 declare type Undefinerable<T> = T | undefined
@@ -57,9 +58,27 @@ interface IElectronCommunicationOptions {
 export interface IExportImageOptions extends IElectronCommunicationOptions {
     path: String,  //图片路径
     control?: Boolean,
-    format: "png" | "jpg"
+    format: string
 }
 
+/**
+ * 导出矢量参数
+ */
+export interface IExportVectorOptions extends IElectronCommunicationOptions {
+    layerId: String | Number,  //导出图层Id
+    savePath: String,  //保存路径
+    format: string
+}
+
+
+/**
+ * 导出属性表
+ */
+export interface IExportAttributeTableOptions extends IElectronCommunicationOptions {
+    layerId: String | Number,  //导出图层Id
+    savePath: String,  //保存路径
+    header: Boolean  //是否添加表头
+}
 
 
 

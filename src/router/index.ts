@@ -21,6 +21,16 @@ const routes = [
     name: "ExportImage",
     component: () => import(/* webpackChunkName: "about" */ '../views/exportImage/index.vue')
   },
+  {
+    path: '/exportVector',
+    name: "ExportVector",
+    component: () => import(/* webpackChunkName: "about" */ '../views/exportVector/index.vue')
+  },
+  {
+    path: '/exportAttributeTable',
+    name: "ExportAttributeTable",
+    component: () => import(/* webpackChunkName: "about" */ '../views/exportAttributeTable/index.vue')
+  },
   // {
   //   path: '/home',
   //   name: 'home',

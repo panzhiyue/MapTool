@@ -37,7 +37,7 @@ const filters = [
   },
 ];
 
-const { close, currentWindow } = useWindow();
+const { close } = useWindow();
 const { exportImage } = useMainWindow();
 const handleOk = () => {
   let ext = path.extname(filePath.value).slice(1);
@@ -46,7 +46,7 @@ const handleOk = () => {
     control: false,
     format:ext,
     fromWindowId: sharedObject["ExportImage"],
-    fromWindowName: WindowName.EXPORTIMAGE,
+    fromWindowName: WindowName.EXPORT_IMAGE,
     toWindowId: sharedObject["Main"],
     toWindowName: WindowName.MAIN,
   });

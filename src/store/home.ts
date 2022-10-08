@@ -66,6 +66,7 @@ export const useHomeStore = defineStore({
         });
       })
     },
+    
     async initData(mapId: Number) {
       await this.getMapInfo(mapId);
       await this.getLayerInfos(mapId);

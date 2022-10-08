@@ -65,6 +65,7 @@
     "@gis-js/utilsol": "^1.0.0-beta.3",
     "@gis-js/vue2ol": "^1.0.0-alpha.37",
     "@gis-js/vue2ol-extend": "^1.0.0-alpha.39",
+    "@panzhiyue/utilscommon": "^1.1.1",
     "ant-design-vue": "^3.2.12",
     "better-sqlite3": "^7.1.5",
     "dom-to-image": "^2.6.0",

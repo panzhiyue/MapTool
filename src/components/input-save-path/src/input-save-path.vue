@@ -55,7 +55,6 @@ const handleSelect = () => {
 .input {
   display: flex;
   flex: 1;
-  margin-left: 10px;
   margin-right: 10px;
 }
 

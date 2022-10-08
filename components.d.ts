@@ -49,6 +49,7 @@ declare module '@vue/runtime-core' {
     InputSelectFile: typeof import('./src/components/input-select-file/src/input-select-file.vue')['default']
     InputSelectFilepath: typeof import('./src/components/input-select-file/src/input-select-filepath.vue')['default']
     InputSelectPath: typeof import('./src/components/input-select-path/src/input-select-path.vue')['default']
+    MapLayerSelect: typeof import('./src/components/map-layer-select/src/map-layer-select.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SqliteColumnType: typeof import('./src/components/sqlite-column-type/index.vue')['default']

@@ -54,9 +54,22 @@ const treeData: TreeProps["treeData"] = [
         },
       },
       {
-        title: "leaf 1-1",
+        title: "导出矢量",
         key: "0-1-1",
         isLeaf: true,
+        options: {
+          name: "ExportVector",
+          url: "exportVector",
+        },
+      },
+      {
+        title: "导出属性表",
+        key: "0-1-2",
+        isLeaf: true,
+        options: {
+          name: "ExportAttributeTable",
+          url: "exportAttributeTable",
+        },
       },
     ],
   },
