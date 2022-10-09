@@ -18,12 +18,14 @@
               <a-menu-item @click="handleZoomTo(treeKey)"
                 >缩放至图层</a-menu-item
               >
+              <a-menu-item @click="handleOpenAttributeTable(treeKey)"
+                >打开属性表</a-menu-item
+              >
               <a-menu-item @click="handleDelete(treeKey)">删除</a-menu-item>
             </a-menu>
           </template>
           <template #overlay v-else>
             <a-menu>
-              <a-menu-item @click="handleTest(data)">测试</a-menu-item>
               <a-menu-item @click="handleDelete(treeKey)">删除</a-menu-item>
             </a-menu>
           </template>
@@ -42,6 +44,7 @@ import { IMapLayerInfo, Nullable, Undefinerable } from "types";
 import { Key } from "ant-design-vue/es/vc-tree/interface";
 import { CheckInfo } from "ant-design-vue/es/vc-tree/props";
 import { ipcRenderer } from "electron";
+import WindowName from "@/enum/WindowName";
 
 let homeStore = useHomeStore();
 
@@ -95,6 +98,19 @@ const handleZoomTo = (id) => {
   homeStore.map.getView().fit(layer.getSource().getExtent(), {
     padding: [30, 30, 30, 30],
   });
+};
+
+const handleOpenAttributeTable = (id: Number) => {
+  ipcRenderer.send(
+    "open-win",
+    WindowName.ATTRIBUTE_TABLE,
+    "attributeTable?layerId=" + id,
+    {
+      width: 700,
+      height: 400,
+      frame: true,
+    }
+  );
 };
 
 const handleTest = (a) => {};

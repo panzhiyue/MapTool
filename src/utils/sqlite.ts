@@ -8,17 +8,17 @@ import SqliteColumnType from "@/enum/SqliteColumnType";
 export const getSqliteTypeFromJsType = (jsType: String):SqliteColumnType => {
     switch (jsType) {
         case "string": {
-            return SqliteColumnType.VARCHAR;
+            return SqliteColumnType.TEXT;
         }
         case "number": {
-            return SqliteColumnType.DECIMAL
+            return SqliteColumnType.DOUBLE
 
         }
         case "boolean": {
             return SqliteColumnType.BOOLEAN;
         }
         default: {
-            return SqliteColumnType.VARCHAR;
+            return SqliteColumnType.TEXT;
         }
     }
 }

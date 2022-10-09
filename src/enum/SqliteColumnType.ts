@@ -1,10 +1,9 @@
 enum SqliteColumnType {
     INTEGER = "integer",
-    DECIMAL = "decimal",
+    DOUBLE = "double",
     BOOLEAN = "boolean",
-    VARCHAR = "varchar",
-    JSON = "json",
-    JSONB = "jsonb"
+    FLOAT = "float",
+    TEXT = "text"
 }
 
 export default SqliteColumnType;

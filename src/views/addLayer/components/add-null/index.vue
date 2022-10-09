@@ -53,7 +53,7 @@ const tableData = reactive([
   {
     key: 1,
     name: "name",
-    type: SqliteColumnType.VARCHAR,
+    type: SqliteColumnType.TEXT,
     length: "",
     scale: "",
     primary: true,
@@ -62,23 +62,22 @@ const tableData = reactive([
   {
     key: 2,
     name: "type",
-    type: SqliteColumnType.VARCHAR,
+    type: SqliteColumnType.TEXT,
     length: "",
     scale: "",
     primary: false,
     selected: true,
   },
-  {
-    key: 3,
-    name: "info",
-    type: SqliteColumnType.JSON,
-    length: "",
-    scale: "",
-    primary: false,
-    selected: true,
-  },
+  // {
+  //   key: 3,
+  //   name: "info",
+  //   type: SqliteColumnType.JSON,
+  //   length: "",
+  //   scale: "",
+  //   primary: false,
+  //   selected: true,
+  // },
 ]);
-
 
 const { close } = useWindow();
 const handleCancel = () => {

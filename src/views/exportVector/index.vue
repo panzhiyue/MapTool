@@ -77,62 +77,7 @@ const handleOk = () => {
     toWindowId: sharedObject["Main"],
     toWindowName: WindowName.MAIN,
   });
-  // let ext = path.extname(savePath.value).slice(1);
-  // getByWhere({ id: selectLayer.value }).then(
-  //   (result: ResponseResult<IMapLayerInfo[]>) => {
-  //     if (result.code == ResponseCode.SUCCESS) {
-  //       let info = JSON.parse(result.data[0].info);
-  //       readAsGeoJSON(info.table).then((result2: Object) => {
-  //         let features = new GeoJSON().readFeatures(result2);
-
-  //         switch (ext) {
-  //           case "shp": {
-  //             let g2s = new GeoJson2Shp(result2);
-  //             const shpPath = savePath.value;
-  //             const dirPath = path.dirname(shpPath);
-  //             const fileName = path.basename(shpPath, ".shp");
-
-  //             const cpgPath = path.join(dirPath, fileName + ".cpg");
-  //             const dbfPath = path.join(dirPath, fileName + ".dbf");
-  //             const prjPath = path.join(dirPath, fileName + ".prj");
-  //             const shxPath = path.join(dirPath, fileName + ".shx");
-
-  //             g2s.writePoint(
-  //               function (err, files) {
-  //                 console.log(files);
-  //                 fs.writeFileSync(shpPath, files.shp);
-  //                 fs.writeFileSync(shxPath, files.shx);
-  //                 fs.writeFileSync(dbfPath, files.dbf);
-  //                 fs.writeFileSync(
-  //                   prjPath,
-  //                   `GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",4326]]`
-  //                 );
-  //                 fs.writeFileSync(cpgPath, "UTF-8");
-  //               }.bind(this)
-  //             );
-  //             break;
-  //           }
-  //           case "geojson": {
-  //             fs.writeFile(savePath.value, JSON.stringify(result2), () => {
-  //             });
-  //             break;
-  //           }
-  //           case "topojson": {
-  //             fs.writeFile(
-  //               savePath.value,
-  //               JSON.stringify(new TopoJSON().writeFeatures(features)),
-  //               () => {}
-  //             );
-  //             break;
-  //           }
-  //           case "excel": {
-  //             break;
-  //           }
-  //         }
-  //       });
-  //     }
-  //   }
-  // );
+  
 };
 
 const handleCancel = () => {

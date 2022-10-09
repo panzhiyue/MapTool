@@ -31,10 +31,10 @@ const createTable = async () => {
         .createTable("MapInfo", (table: any) => {
           table.increments('id').notNullable();
           table.primary(['id']);
-          table.string("name").comment("地图名称").notNullable();
-          table.decimal("zoom").comment("地图层级").notNullable();
-          table.decimal("centerx").comment("中心点x").notNullable();
-          table.decimal("centery").comment("中心点y").notNullable();
+          table.text("name").comment("地图名称").notNullable();
+          table.double("zoom").comment("地图层级").notNullable();
+          table.double("centerx").comment("中心点x").notNullable();
+          table.double("centery").comment("中心点y").notNullable();
         })
         .then(() => {
           db("MapInfo")
@@ -53,11 +53,11 @@ const createTable = async () => {
     if (!exists) {
       db.schema
         .createTable("LayerInfo", (table: any) => {
-          table.string('id').notNullable().unique();
-          table.string('parentId').comment('父菜单id').notNullable();
+          table.text('id').notNullable().unique();
+          table.text('parentId').comment('父菜单id').notNullable();
           table.integer('mapId').comment('地图id').notNullable();
-          table.string('title').comment('菜单名称').notNullable();
-          table.string('type').comment('菜单类型').notNullable();
+          table.text('title').comment('菜单名称').notNullable();
+          table.text('type').comment('菜单类型').notNullable();
           table.boolean('canDelete').comment('是否允许删除').notNullable();
           table.boolean('expand').comment('是否默认展开').notNullable();
           table.boolean('canEdit').comment('是否允许编辑').notNullable();
@@ -461,9 +461,9 @@ const createTable = async () => {
         .createTable("MapLayerInfo", (table: any) => {
           table.increments('id').notNullable().unique();
           table.primary(['id']);
-          table.string('layerId').comment('图层id').notNullable();
+          table.text('layerId').comment('图层id').notNullable();
           table.integer('mapId').comment('地图id').notNullable();
-          table.string('title').comment('图层名称').notNullable();
+          table.text('title').comment('图层名称').notNullable();
           table.jsonb('info').comment('图层信息').notNullable();
           table.boolean('checked').comment('是否选中').notNullable();
         })

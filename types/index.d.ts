@@ -26,16 +26,16 @@ export interface ILayerInfo {
 }
 
 export interface IMapLayerInfo {
-    id?: Number,
+    id?: Number | String,
     layerId?: String,
-    mapId?: Number,
+    mapId?: Number | String,
     title?: String,
     info?: any,
     checked?: Boolean
 }
 
 export interface IMapInfo {
-    id?: Number,
+    id?: Number | String,
     name?: String,
     zoom?: Number,
     centerx?: Number,
@@ -79,7 +79,4 @@ export interface IExportAttributeTableOptions extends IElectronCommunicationOpti
     savePath: String,  //保存路径
     header: Boolean  //是否添加表头
 }
-
-
-
 

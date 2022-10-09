@@ -5,6 +5,8 @@ import SqliteColumnType from "@/enum/SqliteColumnType";
 import { getDB } from "@/utils/db/index"
 import ResponseResult from "@/utils/db/ResponseResult"
 import { WKT, GeoJSON } from "ol/format"
+import { Knex } from "knex"
+import { IColumnStructure } from "#/database";
 /**
  * 创建表
  * @param tableName 表名
@@ -23,24 +25,24 @@ export const create = async (tableName: String, tableStructure: ITableStructure[
                                 table.boolean(structure.name);
                                 break;
                             }
-                            case SqliteColumnType.VARCHAR: {
-                                table.string(structure.name)
+                            case SqliteColumnType.TEXT: {
+                                table.text(structure.name)
                                 break;
                             }
                             case SqliteColumnType.INTEGER: {
                                 table.integer(structure.name)
                                 break;
                             }
-                            case SqliteColumnType.DECIMAL: {
-                                table.decimal(structure.name)
+                            case SqliteColumnType.DOUBLE: {
+                                table.double(structure.name)
                                 break;
                             }
-                            case SqliteColumnType.JSON: {
-                                table.json(structure.name)
+                            case SqliteColumnType.FLOAT: {
+                                table.float(structure.name)
                                 break;
                             }
                             default: {
-                                table.string(structure.name)
+                                table.text(structure.name)
                                 break;
                             }
                         }
@@ -169,3 +171,33 @@ export const drop = async (tableName: String): Promise<ResponseResult<any>> => {
         })
     })
 }
+
+
+/**
+ * 获取表结构
+ * @param tableName 表名
+ * @returns 
+ */
+export const getTableStruct = async (tableName: String): Promise<ResponseResult<IColumnStructure[]>> => {
+    const db = await getDB();
+    return await db.raw(`PRAGMA table_info("${tableName}")`).then((result) => {
+
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result.map((item) => {
+                return {
+                    name: item.name,
+                    type: SqliteColumnType[item.type.toLowerCase()],
+                    notnull: item.notnull,
+                    primary: item.pk,
+                    default_value: item.dflt_value
+                }
+            })));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
+
+
