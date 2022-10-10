@@ -21,11 +21,9 @@ export function useMainWindow() {
     }
 
     const exportAttributeTable = (options: IExportAttributeTableOptions) => {
-        console.log(11);
         ipcRenderer.sendTo(sharedObject.Main, "exportAttributeTable", options);
     }
 
 
-
-    return { refreshLayerInfos, refreshMapLayerInfos, exportImage,exportVector, exportAttributeTable }
+    return { refreshLayerInfos, refreshMapLayerInfos, exportImage, exportVector, exportAttributeTable, alert }
 }

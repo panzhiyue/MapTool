@@ -152,19 +152,18 @@ const handleClick = () => {
 };
 
 const handleClickMenu = (type: ColumnMenuType) => {
-  console.log(menuData.value);
   switch (type) {
     case ColumnMenuType.FIELD_CALCULATOR: {
       console.log(menuData.value);
       ipcRenderer.send(
         "open-win",
         WindowName.FIELD_CALCULATOR,
-        `/fieldCalculator?tableName=${layerInfo.value.table}&name=${menuData.value.title}&type=${menuData.value.columnType}`,
+        `/fieldCalculator?tableName=${layerInfo.value.table}&fieldName=${menuData.value.title}&fieldType=${menuData.value.columnType}`,
         {
           width: 460,
           height: 560,
           frame: true,
-          resizable: false,
+          resizable: true,
           parent: WindowName.ATTRIBUTE_TABLE,
         }
       );

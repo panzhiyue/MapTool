@@ -1,21 +1,47 @@
 <template>
   <div class="step-footer">
-    <a-button v-if="preMostText" class="pre-most" @click="handlePreMost">{{
-      preMostText
-    }}</a-button>
-    <a-button v-if="preText" class="pre" @click="handlePre">{{
-      preText
-    }}</a-button>
-    <a-button v-if="nextText" class="next" @click="handleNext">{{
-      nextText
-    }}</a-button>
-    <a-button v-if="nextMostText" class="right-most" @click="handleNextMost">{{
-      nextMostText
-    }}</a-button>
-    <a-button v-if="okText" class="ok" @click="handleOk">{{ okText }}</a-button>
-    <a-button v-if="cancelText" class="cancel" @click="handleCancel">{{
-      cancelText
-    }}</a-button>
+    <a-button
+      v-if="preMostText"
+      class="pre-most"
+      @click="handlePreMost"
+      :disabled="preMostDisabled"
+      >{{ preMostText }}</a-button
+    >
+    <a-button
+      v-if="preText"
+      class="pre"
+      @click="handlePre"
+      :disabled="preDisabled"
+      >{{ preText }}</a-button
+    >
+    <a-button
+      v-if="nextText"
+      class="next"
+      @click="handleNext"
+      :disabled="nextMostDisabled"
+      >{{ nextText }}</a-button
+    >
+    <a-button
+      v-if="nextMostText"
+      class="right-most"
+      @click="handleNextMost"
+      :disabled="nextDisabled"
+      >{{ nextMostText }}</a-button
+    >
+    <a-button
+      v-if="okText"
+      class="ok"
+      @click="handleOk"
+      :disabled="okDisabled"
+      >{{ okText }}</a-button
+    >
+    <a-button
+      v-if="cancelText"
+      class="cancel"
+      @click="handleCancel"
+      :disabled="cancelDisabled"
+      >{{ cancelText }}</a-button
+    >
   </div>
 </template>
 <script lang="ts" setup>
@@ -43,6 +69,30 @@ const props = defineProps({
   okText: {
     type: String,
     default: () => "确定",
+  },
+  preMostDisabled: {
+    type: Boolean,
+    default: false,
+  },
+  preDisabled: {
+    type: Boolean,
+    default: false,
+  },
+  nextMostDisabled: {
+    type: Boolean,
+    default: false,
+  },
+  nextDisabled: {
+    type: Boolean,
+    default: false,
+  },
+  cancelDisabled: {
+    type: Boolean,
+    default: false,
+  },
+  okDisabled: {
+    type: Boolean,
+    default: false,
   },
 });
 

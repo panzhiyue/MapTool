@@ -105,5 +105,10 @@ const flexDirection = computed(() => {
       flex: 1;
     }
   }
+
+  .group-box-content {
+    height: 100%;
+    padding: 10px;
+  }
 }
 </style>

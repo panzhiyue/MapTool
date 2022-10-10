@@ -287,3 +287,25 @@ export const renameColumn = async (tableName: string, oldName: string, newName: 
         })
     })
 }
+
+/**
+ * 更新字段值
+ * @param tableName 表名 
+ * @param fieldName 字段名
+ * @param sql sql语句
+ * @returns 
+ */
+export const updateColumnBySql = async (tableName: string, fieldName: string, sql: string): Promise<ResponseResult<any>> => {
+    const db = await getDB();
+    return await db.raw(`update ${tableName} set ${fieldName} = ${sql}`).then((result) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
+
+
