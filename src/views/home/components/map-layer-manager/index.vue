@@ -109,6 +109,7 @@ const handleOpenAttributeTable = (id: Number) => {
       width: 700,
       height: 400,
       frame: true,
+      parent:WindowName.MAIN
     }
   );
 };

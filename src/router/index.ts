@@ -36,7 +36,21 @@ const routes = [
     name: "AttributeTable",
     component: () => import(/* webpackChunkName: "about" */ '../views/attributeTable/index.vue')
   },
-  
+  {
+    path: '/addColumn',
+    name: "AddColumn",
+    component: () => import(/* webpackChunkName: "about" */ '../views/addColumn/index.vue')
+  },
+  {
+    path: '/editColumn',
+    name: "EditColumn",
+    component: () => import(/* webpackChunkName: "about" */ '../views/editColumn/index.vue')
+  },
+  {
+    path: '/fieldCalculator',
+    name: "FieldCalculator",
+    component: () => import(/* webpackChunkName: "about" */ '../views/fieldCalculator/index.vue')
+  },
   // {
   //   path: '/home',
   //   name: 'home',

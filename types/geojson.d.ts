@@ -6,10 +6,10 @@ export interface IGeoJSON {
 export interface IFeature {
     type: "Feature",
     geometry: IGeometry,
-    properties: Object
+    properties: object
 }
 
 export interface IGeometry {
-    type: String,
-    coordinates: Array<any>
+    type: string,
+    coordinates: array<any>
 }

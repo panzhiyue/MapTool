@@ -1,4 +1,4 @@
-import { IExportImageOptions } from "#/index";
+import { IExportAttributeTableOptions, IExportImageOptions, IExportVectorOptions } from "#/index";
 import { ipcRenderer } from "electron"
 const remote = require("@electron/remote")
 let sharedObject = remote.getGlobal("sharedObject");

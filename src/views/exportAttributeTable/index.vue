@@ -54,9 +54,9 @@ const { exportAttributeTable } = useMainWindow();
 const { close } = useWindow();
 const handleOk = () => {
   exportAttributeTable({
-    fromWindowId: sharedObject["ExportAttributeTable"],
+    fromWindowId: sharedObject[WindowName.EXPORT_ATTRIBUTE_TABLE],
     fromWindowName: WindowName.EXPORT_ATTRIBUTE_TABLE,
-    toWindowId: sharedObject["Main"],
+    toWindowId: sharedObject[WindowName.MAIN],
     toWindowName: WindowName.MAIN,
     layerId: selectLayer.value,
     savePath: savePath.value,

@@ -3,7 +3,8 @@ import { release } from 'os'
 import { join } from 'path'
 import { windowListener, commonListener } from "../utils/listenCommonIpc"
 import electronDebug from 'electron-debug'
-electronDebug({ showDevTools: true })
+import { getWindowByTitle } from '../utils/window'
+electronDebug({ showDevTools: false })
 const remote = require("@electron/remote/main") //1 
 remote.initialize()//2
 let installExtension = require('electron-devtools-installer')
@@ -38,7 +39,7 @@ const indexHtml = join(process.env.DIST, 'index.html')
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main',
-    
+
     icon: join(process.env.PUBLIC, 'favicon.ico'),
     frame: false,
     webPreferences: {
@@ -61,7 +62,7 @@ async function createWindow() {
   } else {
     win.loadURL(url)
     // Open devTool if the app is not packaged
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
   }
 
   // Test actively push message to the Electron-Renderer
@@ -113,17 +114,22 @@ app.on('activate', () => {
 })
 
 // new window example arg: new windows url
-ipcMain.on('open-win', (event, windowName, arg, options, webPreferences) => {
-  const childWindow = new BrowserWindow({
-    ...options,
+ipcMain.on('open-win', (event, windowName, arg, opt_options, webPreferences) => {
+  let options = Object.assign({
     title: windowName,
+    // parent: options.parent ? getWindowByTitle(options.parent) : null,
     webPreferences: {
       ...webPreferences,
       // preload,
       nodeIntegration: true,
       contextIsolation: false,
     },
-  })
+  }, opt_options)
+
+  if (options.parent) {
+    options.parent = getWindowByTitle(options.parent)
+  }
+  const childWindow = new BrowserWindow(options)
   if (app.isPackaged) {
     childWindow.loadFile(indexHtml, { hash: arg })
   } else {

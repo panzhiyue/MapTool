@@ -72,9 +72,9 @@ const handleOk = () => {
     layerId: selectLayer.value,
     savePath: savePath.value,
     format: ext,
-    fromWindowId: sharedObject["ExportVector"],
+    fromWindowId: sharedObject[WindowName.EXPORT_VECTOR],
     fromWindowName: WindowName.EXPORT_VECTOR,
-    toWindowId: sharedObject["Main"],
+    toWindowId: sharedObject[WindowName.MAIN],
     toWindowName: WindowName.MAIN,
   });
   

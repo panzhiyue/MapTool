@@ -13,13 +13,13 @@ import { IColumnStructure } from "#/database";
  * @param tableStructure 表结构
  * @returns 
  */
-export const create = async (tableName: String, tableStructure: ITableStructure[]): Promise<IResponseResult<any>> => {
+export const create = async (tableName: String, tableStructure: IColumnStructure[]): Promise<IResponseResult<any>> => {
     const db = await getDB();
     return await db.schema.hasTable(tableName).then(async (exists: Boolean) => {
         if (!exists) {
             return await db.schema
                 .createTable(tableName, (table: any) => {
-                    tableStructure.forEach((structure: ITableStructure) => {
+                    tableStructure.forEach((structure: IColumnStructure) => {
                         switch (structure.type) {
                             case SqliteColumnType.BOOLEAN: {
                                 table.boolean(structure.name);
@@ -72,7 +72,6 @@ export const create = async (tableName: String, tableStructure: ITableStructure[
             })
         }
     });
-
 }
 
 /**
@@ -112,7 +111,6 @@ export const insert = async (tableName: String, data: Object[]): Promise<IRespon
     })
 }
 
-
 export const readAsGeoJSON = async (tableName: String): Promise<ResponseResult<any>> => {
     const db = await getDB();
     return await db.schema.hasTable(tableName).then(async (exists) => {
@@ -140,7 +138,6 @@ export const readAsGeoJSON = async (tableName: String): Promise<ResponseResult<a
         }
     })
 }
-
 
 export const getByWhere = async (tableName: String, params: Object): Promise<ResponseResult<any>> => {
     const db = await getDB();
@@ -172,7 +169,6 @@ export const drop = async (tableName: String): Promise<ResponseResult<any>> => {
     })
 }
 
-
 /**
  * 获取表结构
  * @param tableName 表名
@@ -181,12 +177,11 @@ export const drop = async (tableName: String): Promise<ResponseResult<any>> => {
 export const getTableStruct = async (tableName: String): Promise<ResponseResult<IColumnStructure[]>> => {
     const db = await getDB();
     return await db.raw(`PRAGMA table_info("${tableName}")`).then((result) => {
-
         return new Promise((resolve, reject) => {
             resolve(ResponseResult.buildSuccess(result.map((item) => {
                 return {
                     name: item.name,
-                    type: SqliteColumnType[item.type.toLowerCase()],
+                    type: SqliteColumnType[item.type.toUpperCase()],
                     notnull: item.notnull,
                     primary: item.pk,
                     default_value: item.dflt_value
@@ -200,4 +195,95 @@ export const getTableStruct = async (tableName: String): Promise<ResponseResult<
     })
 }
 
+/**
+ * 添加列
+ * @param tableName 表名
+ * @param columns 列定义
+ * @returns 
+ */
+export const addColumns = async (tableName: string, columns: IColumnStructure[]): Promise<ResponseResult<any>> => {
+    const db = await getDB();
+    return await db.schema.alterTable(tableName, (table) => {
+        columns.forEach((structure: IColumnStructure) => {
+            switch (structure.type) {
+                case SqliteColumnType.BOOLEAN: {
+                    table.boolean(structure.name);
+                    break;
+                }
+                case SqliteColumnType.TEXT: {
+                    table.text(structure.name)
+                    break;
+                }
+                case SqliteColumnType.INTEGER: {
+                    table.integer(structure.name)
+                    break;
+                }
+                case SqliteColumnType.DOUBLE: {
+                    table.double(structure.name)
+                    break;
+                }
+                case SqliteColumnType.FLOAT: {
+                    table.float(structure.name)
+                    break;
+                }
+                default: {
+                    table.text(structure.name)
+                    break;
+                }
+            }
+        })
+    }).then((result) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
 
+/**
+ * 删除列
+ * @param tableName 表名 
+ * @param columns 名
+ * @returns 
+ */
+export const deleteColumns = async (tableName: string, columns: string[]): Promise<ResponseResult<any>> => {
+    const db = await getDB();
+    return await db.schema.alterTable(tableName, (table) => {
+        columns.forEach((name) => {
+            table.dropColumn(name);
+        })
+    }).then((result) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
+
+/**
+ * 字段重命名
+ * @param tableName 表名
+ * @param oldName 老字段名称
+ * @param newName 新字段名称
+ * @returns 
+ */
+export const renameColumn = async (tableName: string, oldName: string, newName: string): Promise<ResponseResult<any>> => {
+    const db = await getDB();
+    return await db.schema.alterTable(tableName, (table) => {
+        table.renameColumn(oldName, newName);
+    }).then((result) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}

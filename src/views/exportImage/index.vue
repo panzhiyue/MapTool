@@ -45,21 +45,16 @@ const handleOk = () => {
     path: filePath.value,
     control: false,
     format:ext,
-    fromWindowId: sharedObject["ExportImage"],
+    fromWindowId: sharedObject[WindowName.EXPORT_IMAGE],
     fromWindowName: WindowName.EXPORT_IMAGE,
-    toWindowId: sharedObject["Main"],
+    toWindowId: sharedObject[WindowName.MAIN],
     toWindowName: WindowName.MAIN,
   });
-  // console.log(sharedObject);
-  // exportImage(path.value);
-  // getParams(sharedObject["ExportImage"]);
-  // console.log(homeStore.map);
+
 };
 
 onMounted(() => {
-  // ipcRenderer.on("getStore", (e,data) => {
-  //   console.log("getStore", data);
-  // });
+
 });
 
 const handleCancel = () => {

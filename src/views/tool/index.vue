@@ -17,6 +17,7 @@
 import type { TreeProps } from "ant-design-vue";
 import { defineComponent, ref } from "vue";
 import { ipcRenderer } from "electron";
+import WindowName from "@/enum/WindowName";
 
 const expandedKeys = ref<string[]>(["0-0", "0-1"]);
 const selectedKeys = ref<string[]>([]);
@@ -49,7 +50,7 @@ const treeData: TreeProps["treeData"] = [
         key: "0-1-0",
         isLeaf: true,
         options: {
-          name: "ExportImage",
+          name: WindowName.EXPORT_IMAGE,
           url: "exportImage",
         },
       },
@@ -58,7 +59,7 @@ const treeData: TreeProps["treeData"] = [
         key: "0-1-1",
         isLeaf: true,
         options: {
-          name: "ExportVector",
+          name: WindowName.EXPORT_VECTOR,
           url: "exportVector",
         },
       },
@@ -67,8 +68,8 @@ const treeData: TreeProps["treeData"] = [
         key: "0-1-2",
         isLeaf: true,
         options: {
-          name: "ExportAttributeTable",
-          url: "exportAttributeTable",
+          name: WindowName.EXPORT_ATTRIBUTE_TABLE,
+          url: "exportAttributeTable"
         },
       },
     ],
@@ -79,7 +80,7 @@ const handleDoubleClick = (options: any) => {
   ipcRenderer.send("open-win", options.name, options.url, {
     width: 700,
     height: 400,
-    frame: true,
+    frame: true
   });
 };
 </script>
