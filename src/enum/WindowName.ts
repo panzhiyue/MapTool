@@ -6,7 +6,8 @@ enum WindowName {
     ATTRIBUTE_TABLE = "属性表",
     ADD_COLUMNN = "添加字段",
     EDIT_COLUMNN = "编辑字段",
-    FIELD_CALCULATOR = "字段计算器"
+    FIELD_CALCULATOR = "字段计算器",
+    COMPUTATIONAL_GEOMETRY = "计算几何"
 }
 
 export default WindowName;

@@ -3,13 +3,15 @@
     <a-space class="pb-5">
       <a-button @click="handleAddColumn">添加字段</a-button>
     </a-space>
-    <div
-      class="table-warp w-full scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-100"
-    >
+    <div class="table-warp w-full">
       <a-table
         v-if="columnStructs"
         :columns="columns"
         :data-source="tableData"
+        :pagination="{
+          pageSize: 50,
+        }"
+        :scroll="{}"
         @resizeColumn="handleResizeColumn"
       >
         <template #headerCell="{ column }">
@@ -170,6 +172,18 @@ const handleClickMenu = (type: ColumnMenuType) => {
       break;
     }
     case ColumnMenuType.COMPUTATIONAL_GEOMETRY: {
+      ipcRenderer.send(
+        "open-win",
+        WindowName.COMPUTATIONAL_GEOMETRY,
+        `/computationalGeometry?tableName=${layerInfo.value.table}&fieldName=${menuData.value.title}&fieldType=${menuData.value.columnType}`,
+        {
+          width: 430,
+          height: 300,
+          frame: true,
+          resizable: true,
+          parent: WindowName.ATTRIBUTE_TABLE,
+        }
+      );
       break;
     }
     case ColumnMenuType.DELETE: {
@@ -240,5 +254,45 @@ ipcRenderer.on("refresh", () => {
 
 .table-warp {
   height: calc(100% - 50px);
+}
+
+/deep/ .ant-table-wrapper {
+  width: 100%;
+  height: calc(100% - 40px);
+
+  .ant-spin-nested-loading,
+  .ant-spin-container {
+    width: 100%;
+    height: 100%;
+  }
+  .ant-table {
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+
+    .ant-table-container {
+      width: 100%;
+      height: 100%;
+
+      .ant-table-content {
+        width: 100%;
+        height: 100%;
+
+        table {
+          width: 100% !important;
+          height: 100% !important;
+          overflow: scroll;
+
+          .ant-table-thead {
+            position: sticky;
+            top: -1px;
+            background-color: #7dc3ff;
+            table-layout: fixed;
+            z-index: 1000;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

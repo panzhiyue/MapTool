@@ -51,6 +51,11 @@ const routes = [
     name: "FieldCalculator",
     component: () => import(/* webpackChunkName: "about" */ '../views/fieldCalculator/index.vue')
   },
+  {
+    path: '/computationalGeometry',
+    name: "ComputationalGeometry",
+    component: () => import(/* webpackChunkName: "about" */ '../views/computationalGeometry/index.vue')
+  },
   // {
   //   path: '/home',
   //   name: 'home',

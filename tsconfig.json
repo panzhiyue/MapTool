@@ -54,8 +54,10 @@
     "types/**/*",
     "auto-imports.d.ts",
     "components.d.ts",
-    "./electron/*"
-, "src/directives/mouseDrag.js", "src/directives/mouseDrag.js"  ],
+    "./electron/*",
+    "src/directives/mouseDrag.js",
+    "src/directives/mouseDrag.js"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

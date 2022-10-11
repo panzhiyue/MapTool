@@ -309,3 +309,32 @@ export const updateColumnBySql = async (tableName: string, fieldName: string, sq
 }
 
 
+export const replaceData = async (tableName: string, data: any[]): Promise<ResponseResult<any>> => {
+    const db = await getDB();
+    return await db.transaction(async (trx: any) => {
+        let promises = [];
+
+        let promise = db(tableName).delete().transacting(trx);
+        promises.push(promise)
+
+        for (let i = 0; i < data.length; i++) {
+            let promise = db(tableName).insert(data[i]).transacting(trx)
+            promises.push(promise)
+        }
+        return await Promise.all(promises).then(async (result: any) => {
+            trx.commit();
+        }).catch(async (err: any) => {
+            trx.rollback();
+            throw err;
+        })
+    }).then(() => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess("成功"));
+        })
+    }).catch((err) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
+
