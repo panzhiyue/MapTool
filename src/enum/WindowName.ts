@@ -7,7 +7,9 @@ enum WindowName {
     ADD_COLUMNN = "添加字段",
     EDIT_COLUMNN = "编辑字段",
     FIELD_CALCULATOR = "字段计算器",
-    COMPUTATIONAL_GEOMETRY = "计算几何"
+    COMPUTATIONAL_GEOMETRY = "计算几何",
+    TOOLBOX = "工具箱",
+    XY = "转到XY",
 }
 
 export default WindowName;

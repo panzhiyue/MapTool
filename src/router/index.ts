@@ -12,9 +12,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/addLayer/index.vue')
   },
   {
-    path: '/tool',
-    name: "Tool",
-    component: () => import(/* webpackChunkName: "about" */ '../views/tool/index.vue')
+    path: '/toolbox',
+    name: "Toolbox",
+    component: () => import(/* webpackChunkName: "about" */ '../views/toolbox/index.vue')
   },
   {
     path: '/exportImage',
@@ -55,6 +55,11 @@ const routes = [
     path: '/computationalGeometry',
     name: "ComputationalGeometry",
     component: () => import(/* webpackChunkName: "about" */ '../views/computationalGeometry/index.vue')
+  },
+  {
+    path: '/xy',
+    name: "XY",
+    component: () => import(/* webpackChunkName: "about" */ '../views/xy/index.vue')
   },
   // {
   //   path: '/home',

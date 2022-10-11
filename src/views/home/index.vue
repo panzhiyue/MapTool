@@ -68,6 +68,7 @@ import * as TableApi from "@/api/table";
 import * as UtilsCommon from "@panzhiyue/utilscommon";
 import { notification } from "ant-design-vue";
 import { message } from "ant-design-vue";
+import { Point } from "ol/geom";
 
 let homeStore = useHomeStore();
 
@@ -235,6 +236,22 @@ onMounted(() => {
       });
     }
   );
+
+  ipcRenderer.on("panTo", (e, lng, lat) => {
+    // console.log(lng, lat);
+    // homeStore.map.getView().setCenter([lng, lat]);
+    homeStore.map.getView().fit(new Point([lng, lat]), {
+      maxZoom: homeStore.map.getView().getZoom(),
+      duration: 1000,
+    });
+  });
+
+  ipcRenderer.on("zoomTo", (e, lng, lat, zoom) => {
+    homeStore.map.getView().fit(new Point([lng, lat]), {
+      maxZoom: zoom,
+      duration: 1000,
+    });
+  });
 });
 </script>
 <style>

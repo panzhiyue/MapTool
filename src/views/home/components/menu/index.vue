@@ -25,7 +25,17 @@
       <template #overlay>
         <a-menu>
           <a-menu-item key="0">
-            <span @click="handleShowTool"> 工具</span>
+            <span @click="handleShowTool"> 工具箱</span>
+          </a-menu-item>
+        </a-menu>
+      </template>
+    </a-dropdown>
+    <a-dropdown>
+      <span>工具</span>
+      <template #overlay>
+        <a-menu>
+          <a-menu-item key="0">
+            <span @click="handleShowXY">转到XY</span>
           </a-menu-item>
         </a-menu>
       </template>
@@ -34,11 +44,21 @@
 </template>
 <script lang="ts" setup>
 import { ipcRenderer } from "electron";
+import WindowName from "@/enum/WindowName";
 const handleShowTool = () => {
-  ipcRenderer.send("open-win", "Tool", `tool`, {
+  ipcRenderer.send("open-win", WindowName.TOOLBOX, `toolbox`, {
     width: 400,
     height: 700,
     frame: true,
+  });
+};
+
+const handleShowXY = () => {
+  ipcRenderer.send("open-win", WindowName.XY, `xy`, {
+    width: 360,
+    height: 100,
+    frame: true,
+    parent:WindowName.MAIN
   });
 };
 </script>

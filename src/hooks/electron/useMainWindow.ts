@@ -24,6 +24,14 @@ export function useMainWindow() {
         ipcRenderer.sendTo(sharedObject.Main, "exportAttributeTable", options);
     }
 
+    const panTo = (lng: number, lat: number) => {
+        ipcRenderer.sendTo(sharedObject.Main, "panTo", lng, lat);
+    }
 
-    return { refreshLayerInfos, refreshMapLayerInfos, exportImage, exportVector, exportAttributeTable, alert }
+    const zoomTo = (lng: number, lat: number, zoom: number) => {
+        ipcRenderer.sendTo(sharedObject.Main, "zoomTo", lng, lat, zoom);
+    }
+
+
+    return { refreshLayerInfos, refreshMapLayerInfos, exportImage, exportVector, exportAttributeTable, panTo, zoomTo }
 }
