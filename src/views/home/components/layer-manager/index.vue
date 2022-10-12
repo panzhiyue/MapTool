@@ -5,6 +5,8 @@
       class="demo-tree-render"
       :trigger="['contextmenu']"
       ref="tree"
+      draggable
+      @drop="handleDrop"
     >
       <template
         #title="{ key: treeKey, id, title, type, canDelete, canEdit, data }"
@@ -71,6 +73,10 @@ import AddOrEditLayer from "./AddOrEditLayer/index.vue";
 import ResponseCode from "@/enum/ResponseCode";
 import { message } from "ant-design-vue";
 import * as MapLayerInfoApi from "@/api/mapLayerInfo";
+import { buildUUID } from "@/utils/uuid";
+import tree, { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree";
+import * as TableApi from "@/api/table";
+const remote = require("@electron/remote");
 
 let homeStore = useHomeStore();
 
@@ -150,13 +156,18 @@ const updateLayer = () => {};
  */
 const handleAddToMap = (data: ILayerInfo) => {
   addMapLayerInfo({
+    id: buildUUID(),
     layerId: data.id!,
     mapId: 1,
     title: data.title,
     info: data.info,
     checked: true,
   }).then((result) => {
-    homeStore.getMapLayerInfos(1);
+    if (result.code == ResponseCode.SUCCESS) {
+      homeStore.getMapLayerInfos(1);
+    } else {
+      remote.dialog.showErrorBox("添加到地图", result.msg);
+    }
   });
 };
 
@@ -195,102 +206,41 @@ onMounted(() => {
     homeStore.getMapLayerInfos(1).then(() => {});
   });
 });
-//     // handleContextMenuAddMenu(data) {
-//     //   this.$refs["addOrEditMenu"].show("add");
-//     // },
-//     // updateLayer() {
-//     //   layerStore.write(JSON.stringify(this.$refs["tree"].data));
-//     //   this.$refs["addOrEditLayer"].hide();
-//     // },
-//     // handleContextMenuAddLayer() {
-//     //   this.$refs["addOrEditLayer"].show("add");
-//     // },
 
-//     // handleContextMenuEdit() {
-//     //   this.$refs["addOrEditMenu"].show("edit");
-//     // },
+const handleDrop = (info: AntTreeNodeDropEvent) => {
+  const dragNodeData = info.dragNode.data; //被拖拽节点数据
+  const dropNodeData = info.node.data; //松开节点数据
 
-// // let mapLayerStore = null;
-// export default {
-//   methods: {
-//     getTreeDataItem(data) {
+  if (info.node.expanded) {
+    dragNodeData.parentId = dropNodeData.id;
+  } else {
+    dragNodeData.parentId = dropNodeData.parentId;
+  }
 
-//     },
-//     // renderContent(h, { root, node, data }) {
-//     //   return h(
-//     //     "span",
-//     //     {
-//     //       style: {
-//     //         display: "inline-block",
-//     //         width: "100%",
-//     //       },
-//     //       on: {
-//     //         contextmenu: (e) => {
-//     //           e.preventDefault();
-//     //           this.handleContextMenu({ root, node, data });
-//     //         },
-//     //       },
-//     //     },
-//     //     [
-//     //       h("span", [
-//     //         data.type == "layer"
-//     //           ? h("Icon", {
-//     //               props: {
-//     //                 type: "ios-paper-outline",
-//     //               },
-//     //               style: {
-//     //                 marginRight: "8px",
-//     //               },
-//     //             })
-//     //           : h("Icon", {
-//     //               props: {
-//     //                 type: "ios-folder-outline",
-//     //               },
-//     //               style: {
-//     //                 marginRight: "8px",
-//     //               },
-//     //             }),
-//     //         h("span", data.title),
-//     //       ]),
-//     //     ]
-//     //   );
-//     // },
-//     // handleContextMenu({ root, node, data }) {
-//     //   this.contextRoot = root;
-//     //   this.contextNode = node;
-//     //   this.contextData = data;
-//     // },
-//     // handleContextMenuEdit() {
-//     //   this.$refs["addOrEditMenu"].show("edit");
-//     // },
-//     // handleContextMenuDelete() {
-//     //   this.$Modal.confirm({
-//     //     title: "是否删除菜单",
-//     //     onOk: () => {
-//     //       const parentKey = this.contextNode.parent;
-//     //       const parent = this.contextRoot.find(
-//     //         (el) => el.nodeKey === parentKey
-//     //       ).node;
-//     //       const index = parent.children.indexOf(this.contextData);
-//     //       parent.children.splice(index, 1);
-//     //       this.updateLayer();
-//     //     },
-//     //   });
-//     // },
-//     // handleContextMenuAddToMap() {
-//     //   mapLayerStore.addLayer({ ...this.contextData, checked: true });
-//     // },
-//     // handleContextMenuAddMenu(data) {
-//     //   this.$refs["addOrEditMenu"].show("add");
-//     // },
-//     // updateLayer() {
-//     //   layerStore.write(JSON.stringify(this.$refs["tree"].data));
-//     //   this.$refs["addOrEditLayer"].hide();
-//     // },
-//     // handleContextMenuAddLayer() {
-//     //   this.$refs["addOrEditLayer"].show("add");
-//     // },
-//   },
-// };
+  const newLayerInfos = layerInfos.value.filter((item) => {
+    return item.id != dragNodeData.id;
+  });
+
+  let index = newLayerInfos
+    .map((item) => {
+      return item.id;
+    })
+    .indexOf(dropNodeData.id);
+  if (info.dropPosition == -1) {
+    newLayerInfos.splice(index, 0, dragNodeData);
+  } else {
+    newLayerInfos.splice(index + 1, 0, dragNodeData);
+  }
+
+  newLayerInfos.forEach((item) => {
+    delete item["m_id"];
+  });
+
+  TableApi.replaceData("LayerInfo", newLayerInfos).then(async (result) => {
+    if (result.code == ResponseCode.SUCCESS) {
+      await homeStore.getLayerInfos(1);
+    }
+  });
+};
 </script>
 <style></style>

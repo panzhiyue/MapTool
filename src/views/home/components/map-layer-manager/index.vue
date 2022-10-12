@@ -9,6 +9,7 @@
       draggable
       @check="handleCheck"
       :checkedKeys="checkedKeys"
+      @drop="handleDrop"
     >
       <template #title="{ key: treeKey, title, data }">
         <a-dropdown :trigger="['contextmenu']">
@@ -39,12 +40,18 @@
 import { useHomeStore } from "@/store/home";
 import { updateChecked, deleteById } from "@/api/mapLayerInfo";
 import { ComputedRef, Ref } from "vue";
-import { DataNode } from "ant-design-vue/es/tree";
+import tree, {
+  AntTreeNodeDragEnterEvent,
+  AntTreeNodeDropEvent,
+  DataNode,
+} from "ant-design-vue/es/tree";
 import { IMapLayerInfo, Nullable, Undefinerable } from "types";
 import { Key } from "ant-design-vue/es/vc-tree/interface";
 import { CheckInfo } from "ant-design-vue/es/vc-tree/props";
 import { ipcRenderer } from "electron";
 import WindowName from "@/enum/WindowName";
+import * as TableApi from "@/api/table";
+import ResponseCode from "@/enum/ResponseCode";
 
 let homeStore = useHomeStore();
 
@@ -109,12 +116,40 @@ const handleOpenAttributeTable = (id: Number) => {
       width: 700,
       height: 400,
       frame: true,
-      parent:WindowName.MAIN
+      parent: WindowName.MAIN,
     }
   );
 };
 
-const handleTest = (a) => {};
+const handleDrop = (info: AntTreeNodeDropEvent) => {
+  const dragNodeData = info.dragNode.data; //被拖拽节点数据
+  const dropNodeData = info.node.data; //松开节点数据
+
+  const newMapLayerInfos = mapLayerInfos.value.filter((item) => {
+    return item.id != dragNodeData.id;
+  });
+
+  let index = newMapLayerInfos
+    .map((item) => {
+      return item.id;
+    })
+    .indexOf(dropNodeData.id);
+  if (info.dropPosition == -1) {
+    newMapLayerInfos.splice(index, 0, dragNodeData);
+  } else {
+    newMapLayerInfos.splice(index + 1, 0, dragNodeData);
+  }
+
+  newMapLayerInfos.forEach((item) => {
+    delete item["m_id"];
+  });
+
+  TableApi.replaceData("MapLayerInfo", newMapLayerInfos).then(async (result) => {
+    if (result.code == ResponseCode.SUCCESS) {
+      await homeStore.getMapLayerInfos(1);
+    }
+  });
+};
 </script>
 
 <style lang="less" scoped>

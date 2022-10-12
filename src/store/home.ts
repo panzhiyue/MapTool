@@ -38,10 +38,11 @@ export const useHomeStore = defineStore({
     setMapInfo(data: IMapInfo) {
       this.mapInfo = data;
     },
-    async getMapInfo(mapId: Number): Promise<IMapInfo> {
+    async getMapInfo(mapId: string|number): Promise<IMapInfo> {
       return new Promise((inject, reject) => {
         getMapInfoById(mapId).then((result) => {
           this.mapInfo = result.data;
+          console.log( result);
           inject(this.mapInfo);
         }).catch((err) => {
           reject(err);
@@ -51,7 +52,7 @@ export const useHomeStore = defineStore({
     setLayerInfos(data: ILayerInfo[]) {
       this.layerInfos = data;
     },
-    async getLayerInfos(mapId: Number): Promise<ILayerInfo[]> {
+    async getLayerInfos(mapId: string|number): Promise<ILayerInfo[]> {
       return new Promise((inject, reject) => {
         getLayerInfoList(mapId).then((result) => {
           this.layerInfos = result.data;
@@ -65,7 +66,7 @@ export const useHomeStore = defineStore({
     setMapLayerInfos(data: IMapLayerInfo[]) {
       this.mapLayerInfos = data;
     },
-    async getMapLayerInfos(mapId: Number): Promise<IMapLayerInfo[]> {
+    async getMapLayerInfos(mapId: string|number): Promise<IMapLayerInfo[]> {
       return new Promise((inject, reject) => {
         getMapLayerInfoList(mapId).then((result) => {
           this.mapLayerInfos = result.data;
@@ -76,7 +77,7 @@ export const useHomeStore = defineStore({
       })
     },
 
-    async initData(mapId: Number) {
+    async initData(mapId: string|number) {
       await this.getMapInfo(mapId);
       await this.getLayerInfos(mapId);
       await this.getMapLayerInfos(mapId);

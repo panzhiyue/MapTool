@@ -29,7 +29,8 @@ const createTable = async () => {
     if (!exists) {
       db.schema
         .createTable("MapInfo", (table: any) => {
-          table.increments('id').notNullable();
+          table.increments("m_id").notNullable();
+          table.text('id').notNullable().unique();
           table.primary(['id']);
           table.text("name").comment("地图名称").notNullable();
           table.double("zoom").comment("地图层级").notNullable();
@@ -39,6 +40,7 @@ const createTable = async () => {
         .then(() => {
           db("MapInfo")
             .insert({
+              id:"1",
               name: "Test",
               zoom: 10,
               centerx: 120,
@@ -53,6 +55,7 @@ const createTable = async () => {
     if (!exists) {
       db.schema
         .createTable("LayerInfo", (table: any) => {
+          table.increments("m_id").notNullable();
           table.text('id').notNullable().unique();
           table.text('parentId').comment('父菜单id').notNullable();
           table.integer('mapId').comment('地图id').notNullable();
@@ -459,8 +462,8 @@ const createTable = async () => {
     if (!exists) {
       db.schema
         .createTable("MapLayerInfo", (table: any) => {
-          table.increments('id').notNullable().unique();
-          table.primary(['id']);
+          table.increments("m_id").notNullable();
+          table.text('id').notNullable().unique();
           table.text('layerId').comment('图层id').notNullable();
           table.integer('mapId').comment('地图id').notNullable();
           table.text('title').comment('图层名称').notNullable();
@@ -470,6 +473,7 @@ const createTable = async () => {
         .then(() => {
           db("MapLayerInfo")
             .insert([{
+              id:"1",
               layerId: '1-1-4',
               mapId: 1,
               title: '影像地图',
@@ -482,6 +486,7 @@ const createTable = async () => {
               })
             },
             {
+              id:"2",
               layerId: '1-1-5',
               mapId: 1,
               title: '影像注记',

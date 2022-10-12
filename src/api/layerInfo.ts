@@ -9,7 +9,7 @@ const _tableName = 'LayerInfo';
  * @param mapId 地图id
  * @returns 
  */
-export const getList = async (mapId: Number): Promise<IResponseResult<ILayerInfo[]>> => {
+export const getList = async (mapId: string|number): Promise<IResponseResult<ILayerInfo[]>> => {
     const db = await getDB();
     return await db(_tableName).select().whereIn('mapId', [0, mapId]).then((result: any) => {
         result.forEach((item: any) => {

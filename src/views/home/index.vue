@@ -82,7 +82,7 @@ const collapsed = ref(false);
 const openKeys = ref(["sub1"]);
 
 onMounted(() => {
-  homeStore.initData(1);
+  homeStore.initData("1");
 
   ipcRenderer.on("refresh-mapLayerInfo", () => {
     homeStore.getMapLayerInfos(1).then(() => {});

@@ -22,7 +22,7 @@ export const getList = async () => {
  * 获取指定id数据
  * @param id 指定Id
  */
-export const getById = async (id: Number): Promise<IResponseResult<IMapInfo>> => {
+export const getById = async (id: string|number): Promise<IResponseResult<IMapInfo>> => {
   const db = await getDB();
   return await db('MapInfo').select().where({ id: id }).first().then((result: any) => {
     return new Promise((resolve, reject) => {

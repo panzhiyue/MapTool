@@ -10,11 +10,12 @@
       :center="[mapInfo.centerx, mapInfo.centery]"
       :options="viewOptions"
     ></vue2ol-view>
-    <div v-for="layer in mapLayer" :key="layer.id.toString()">
+    <div v-for="(layer,index) in mapLayer" :key="layer.id.toString()">
       <vue2ol-layer-tile
         v-if="layer.info.type === 'TDT'"
         :visible="layer.checked"
         :options="{ sysId: layer.id }"
+        :zIndex="index"
       >
         <vue2ol-source-tdt
           :layer="layer.info.layer"
@@ -26,6 +27,7 @@
         v-else-if="layer.info.type === 'BaiDu'"
         :visible="layer.checked"
         :options="{ sysId: layer.id }"
+        :zIndex="index"
       >
         <vue2ol-source-baidu
           :layer="layer.info.layer"
@@ -37,6 +39,7 @@
         v-else-if="layer.info.type === 'GaoDe'"
         :visible="layer.checked"
         :options="{ sysId: layer.id }"
+        :zIndex="index"
       >
         <vue2ol-source-gaode
           :layer="layer.info.layer"
@@ -48,6 +51,7 @@
         v-else-if="layer.info.type === 'Geoq'"
         :visible="layer.checked"
         :options="{ sysId: layer.id }"
+        :zIndex="index"
       >
         <vue2ol-source-geoq
           :layer="layer.info.layer"
@@ -60,11 +64,13 @@
         :visible="layer.checked"
         :options="{ sysId: layer.id }"
         :tableName="layer.info.table"
+        :zIndex="index"
       >
       </vector-layer>
       <vue2ol-layer-tile
         v-else-if="layer.info.type === 'wmts'"
         :visible="layer.checked"
+        :zIndex="index"
       >
         <vue2ol-source-xyz
           :url="layer.info.url"
@@ -76,6 +82,7 @@
       <vue2ol-layer-image
         v-else-if="layer.info.type === 'ImageArcGISRest'"
         :visible="layer.checked"
+        :zIndex="index"
       >
         <vue2ol-source-imagearcgisrest
           :url="layer.info.url"

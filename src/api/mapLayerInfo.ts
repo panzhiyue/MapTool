@@ -5,7 +5,7 @@ import * as TableApi from "./table"
 
 const _tableName = 'MapLayerInfo';
 
-export const getList = async (mapId: Number): Promise<IResponseResult<IMapLayerInfo[]>> => {
+export const getList = async (mapId: string|number): Promise<IResponseResult<IMapLayerInfo[]>> => {
     const db = await getDB();
     return await db(_tableName).select().whereIn('mapId', [0, mapId]).then((result: any) => {
         result.forEach((item: any) => {

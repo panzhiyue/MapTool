@@ -19,6 +19,7 @@ export const create = async (tableName: String, tableStructure: IColumnStructure
         if (!exists) {
             return await db.schema
                 .createTable(tableName, (table: any) => {
+                    table.increments('m_id');
                     tableStructure.forEach((structure: IColumnStructure) => {
                         switch (structure.type) {
                             case SqliteColumnType.BOOLEAN: {
