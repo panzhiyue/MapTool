@@ -61,6 +61,21 @@ const routes = [
     name: "XY",
     component: () => import(/* webpackChunkName: "about" */ '../views/xy/index.vue')
   },
+  {
+    path: '/measure',
+    name: "Measure",
+    component: () => import(/* webpackChunkName: "about" */ '../views/measure/index.vue')
+  },
+  {
+    path: '/plot',
+    name: "Plot",
+    component: () => import(/* webpackChunkName: "about" */ '../views/plot/index.vue')
+  },
+  {
+    path: '/coordinateConversion',
+    name: "CoordinateConversion",
+    component: () => import(/* webpackChunkName: "about" */ '../views/coordinateConversion/index.vue')
+  },
   // {
   //   path: '/home',
   //   name: 'home',

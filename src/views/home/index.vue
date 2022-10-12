@@ -53,6 +53,8 @@ import {
   IExportAttributeTableOptions,
   IExportImageOptions,
   IExportVectorOptions,
+  IMeasureOptions,
+  IPlotOptions,
 } from "#/index";
 import domtoimage from "dom-to-image";
 import path from "path";
@@ -69,6 +71,8 @@ import * as UtilsCommon from "@panzhiyue/utilscommon";
 import { notification } from "ant-design-vue";
 import { message } from "ant-design-vue";
 import { Point } from "ol/geom";
+import MeasureType from "@/enum/MeasureType";
+import { getArea, getLength } from "@/utils/gis";
 
 let homeStore = useHomeStore();
 
@@ -117,7 +121,6 @@ onMounted(() => {
   ipcRenderer.on(
     "exportVector",
     async (event, options: IExportVectorOptions) => {
-      console.log(options);
       let hide = message.loading({
         content: "正在导出矢量！",
         duration: 0,
@@ -206,7 +209,7 @@ onMounted(() => {
         duration: 0,
       });
       const result: ResponseResult<IMapLayerInfo[]> = await getByWhere({
-        id: options.layerId as Number,
+        id: options.layerId as number,
       });
       let info = JSON.parse(result.data[0].info);
       const result2: ResponseResult<any> = await TableApi.getByWhere(
@@ -238,8 +241,6 @@ onMounted(() => {
   );
 
   ipcRenderer.on("panTo", (e, lng, lat) => {
-    // console.log(lng, lat);
-    // homeStore.map.getView().setCenter([lng, lat]);
     homeStore.map.getView().fit(new Point([lng, lat]), {
       maxZoom: homeStore.map.getView().getZoom(),
       duration: 1000,
@@ -251,6 +252,35 @@ onMounted(() => {
       maxZoom: zoom,
       duration: 1000,
     });
+  });
+
+  ipcRenderer.on("measure", (e, options: IMeasureOptions) => {
+    homeStore.setMeasureType(options.type);
+    homeStore.setMeasureCallback((geometry) => {
+      let result = [];
+      if (options.type == MeasureType.LINESTRING) {
+        result.push({
+          label: "长度",
+          value: getLength(geometry) + "米",
+        });
+      } else if (options.type == MeasureType.POLYGON) {
+        result.push({
+          label: "周长",
+          value: getLength(geometry) + "米",
+        });
+
+        result.push({
+          label: "面积",
+          value: getArea(geometry) + "平方米",
+        });
+      }
+
+      ipcRenderer.sendTo(options.fromWindowId, "measure-result", result);
+    });
+  });
+
+  ipcRenderer.on("plot", (e, options: IPlotOptions) => {
+    homeStore.setPlotType(options.type);
   });
 });
 </script>

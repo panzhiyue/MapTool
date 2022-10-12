@@ -1,3 +1,4 @@
+import MeasureType from "@/enum/MeasureType";
 import ResponseCode from "@/enum/ResponseCode.ts";
 declare module '@gis-js/vue2ol'
 declare module '@gis-js/vue2ol-extend'
@@ -46,9 +47,9 @@ export interface IMapInfo {
  * electron通讯参数
  */
 interface IElectronCommunicationOptions {
-    fromWindowId: string | number,
+    fromWindowId: number,
     fromWindowName: string | number,
-    toWindowId: string | number,
+    toWindowId: number,
     toWindowName: string | number,
 }
 
@@ -80,3 +81,16 @@ export interface IExportAttributeTableOptions extends IElectronCommunicationOpti
     header: boolean  //是否添加表头
 }
 
+/**
+ * 量算
+ */
+export interface IMeasureOptions extends IElectronCommunicationOptions {
+    type: MeasureType
+}
+
+/**
+ * 绘标
+ */
+ export interface IPlotOptions extends IElectronCommunicationOptions {
+    type: string
+}

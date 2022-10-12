@@ -82,8 +82,38 @@
           :projection="'EPSG:4326'"
         ></vue2ol-source-imagearcgisrest>
       </vue2ol-layer-image>
+
+      <grid-layer v-if="showGrid"></grid-layer>
     </div>
     <status-bar></status-bar>
+    <div v-if="measureType">
+      <vue2ol-layer-vector :zIndex="901">
+        <vue2ol-source-vector>
+          <vue2ol-interaction-draw
+            :type="measureType"
+            :active="true"
+            @drawend="handleMeasureDrawEnd"
+          ></vue2ol-interaction-draw>
+        </vue2ol-source-vector>
+      </vue2ol-layer-vector>
+    </div>
+    <div v-if="plotType">
+      <vue2ol-layer-vector :zIndex="901">
+        <vue2ol-source-vector>
+          <vue2ol-interaction-plotdraw
+            :type="plotType"
+            :active="true"
+          ></vue2ol-interaction-plotdraw>
+        </vue2ol-source-vector>
+      </vue2ol-layer-vector>
+    </div>
+    <vue2ol-interaction-dragpan :active="true"></vue2ol-interaction-dragpan>
+    <vue2ol-interaction-doubleclickzoom
+      :active="!measureType"
+    ></vue2ol-interaction-doubleclickzoom>
+    <vue2ol-interaction-mousewheelzoom
+      :active="true"
+    ></vue2ol-interaction-mousewheelzoom>
   </vue2ol-map>
 </template>
 <script setup lang="ts">
@@ -95,12 +125,15 @@ import { MapEvent } from "ol";
 import { ComputedRef, Ref } from "vue";
 import VectorLayer from "./components/vector-layer.vue";
 import StatusBar from "@/components/status-bar/index";
+import GridLayer from "./components/grid-layer.vue"
+import { ipcRenderer } from "electron";
 
 let homeStore = useHomeStore();
 const format = ref(new GeoJSON());
 
 const mapOptions = reactive({
   controls: [],
+  interactions: [],
 });
 
 const viewOptions = reactive({
@@ -130,8 +163,8 @@ const handleMapReady = (mapObject: any) => {
 };
 
 const handleMapMoveEnd = (e: MapEvent) => {
-  let center: Number[] = e.target.getView().getCenter();
-  let zoom: Number = e.target.getView().getZoom();
+  let center: number[] = e.target.getView().getCenter();
+  let zoom: number = e.target.getView().getZoom();
 
   let info: IMapInfo = {
     ...mapInfo.value,
@@ -150,6 +183,25 @@ const onSourceInit = (source) => {
     tile.getImage().crossOrigin = "*";
   });
 };
+
+const measureType = computed(() => {
+  return homeStore.measureType;
+});
+
+const handleMeasureDrawEnd = (event) => {
+  event.target.source_.clear();
+  if (homeStore.measureCallback) {
+    homeStore.measureCallback(event.feature.getGeometry());
+  }
+};
+
+const plotType = computed(() => {
+  return homeStore.plotType;
+});
+
+const showGrid = computed(() => {
+  return homeStore.showGrid;
+});
 </script>
 <style lang="less" scoped>
 .vue2ol-map {

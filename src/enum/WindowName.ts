@@ -10,6 +10,9 @@ enum WindowName {
     COMPUTATIONAL_GEOMETRY = "计算几何",
     TOOLBOX = "工具箱",
     XY = "转到XY",
+    MEASURE = "量算",
+    PLOT = "绘标",
+    COORDINATE_CONVERSION="坐标换算"
 }
 
 export default WindowName;

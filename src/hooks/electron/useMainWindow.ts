@@ -1,4 +1,5 @@
-import { IExportAttributeTableOptions, IExportImageOptions, IExportVectorOptions } from "#/index";
+import { IExportAttributeTableOptions, IExportImageOptions, IExportVectorOptions, IMeasureOptions, IPlotOptions } from "#/index";
+import MeasureType from "@/enum/MeasureType";
 import { ipcRenderer } from "electron"
 const remote = require("@electron/remote")
 let sharedObject = remote.getGlobal("sharedObject");
@@ -32,6 +33,13 @@ export function useMainWindow() {
         ipcRenderer.sendTo(sharedObject.Main, "zoomTo", lng, lat, zoom);
     }
 
+    const measure = (options: IMeasureOptions) => {
+        ipcRenderer.sendTo(sharedObject.Main, "measure", options)
+    }
 
-    return { refreshLayerInfos, refreshMapLayerInfos, exportImage, exportVector, exportAttributeTable, panTo, zoomTo }
+    const plot = (options: IPlotOptions) => {
+        ipcRenderer.sendTo(sharedObject.Main, "plot", options)
+    }
+
+    return { refreshLayerInfos, refreshMapLayerInfos, exportImage, exportVector, exportAttributeTable, panTo, zoomTo, measure, plot }
 }

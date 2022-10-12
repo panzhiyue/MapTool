@@ -6,12 +6,17 @@ import olMap from "ol/Map"
 import Collection from "ol/Collection"
 import BaseLayer from "ol/layer/Base"
 import { ILayerInfo, IMapInfo, IMapLayerInfo, Nullable, Undefinerable } from "types";
+import MeasureType from "@/enum/MeasureType";
 
 interface IState {
   map: Nullable<olMap>,
   mapInfo: Nullable<IMapInfo>,
   layerInfos: ILayerInfo[],
-  mapLayerInfos: IMapLayerInfo[]
+  mapLayerInfos: IMapLayerInfo[],
+  measureType: MeasureType,
+  measureCallback: Function,
+  plotType: string,
+  showGrid: boolean,
 }
 
 export const useHomeStore = defineStore({
@@ -21,6 +26,10 @@ export const useHomeStore = defineStore({
     mapInfo: null,
     layerInfos: [],
     mapLayerInfos: [],
+    measureType: null,
+    measureCallback: null,
+    plotType: null,
+    showGrid: false
   }),
   actions: {
     setMap(data: Nullable<olMap>) {
@@ -66,7 +75,7 @@ export const useHomeStore = defineStore({
         });
       })
     },
-    
+
     async initData(mapId: Number) {
       await this.getMapInfo(mapId);
       await this.getLayerInfos(mapId);
@@ -85,5 +94,17 @@ export const useHomeStore = defineStore({
       });
       return lyr;
     },
+    setMeasureType(data) {
+      this.measureType = data;
+    },
+    setMeasureCallback(data) {
+      this.measureCallback = data;
+    },
+    setPlotType(data) {
+      this.plotType = data;
+    },
+    setShowGrid(data) {
+      this.showGrid = data;
+    }
   },
 });
