@@ -91,6 +91,41 @@ export interface IMeasureOptions extends IElectronCommunicationOptions {
 /**
  * 绘标
  */
- export interface IPlotOptions extends IElectronCommunicationOptions {
+export interface IPlotOptions extends IElectronCommunicationOptions {
     type: string
+}
+
+/**
+ * 样式
+ */
+export type IStyle = IPointStyle | ILineStringStyle | IPolygonStyle;
+
+/**
+ * 点样式
+ */
+export interface IPointStyle {
+    type: "point",
+    fillColor: string,
+    size: number,
+    lineWidth: number,
+    lineColor: string;
+}
+
+/**
+ * 线样式
+ */
+export interface ILineStringStyle {
+    type: "linestring",
+    width: number,
+    color: string;
+}
+
+/**
+ * 面样式
+ */
+export interface IPolygonStyle {
+    type: "polygon",
+    fillColor: string,
+    lineWidth: number,
+    lineColor: string;
 }

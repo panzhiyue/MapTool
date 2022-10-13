@@ -40,7 +40,7 @@ const createTable = async () => {
         .then(() => {
           db("MapInfo")
             .insert({
-              id:"1",
+              id: "1",
               name: "Test",
               zoom: 10,
               centerx: 120,
@@ -473,7 +473,7 @@ const createTable = async () => {
         .then(() => {
           db("MapLayerInfo")
             .insert([{
-              id:"1",
+              id: "1",
               layerId: '1-1-4',
               mapId: 1,
               title: '影像地图',
@@ -486,7 +486,7 @@ const createTable = async () => {
               })
             },
             {
-              id:"2",
+              id: "2",
               layerId: '1-1-5',
               mapId: 1,
               title: '影像注记',

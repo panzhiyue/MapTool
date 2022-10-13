@@ -10,7 +10,7 @@
       :center="[mapInfo.centerx, mapInfo.centery]"
       :options="viewOptions"
     ></vue2ol-view>
-    <div v-for="(layer,index) in mapLayer" :key="layer.id.toString()">
+    <div v-for="(layer, index) in mapLayer" :key="layer.id.toString()">
       <vue2ol-layer-tile
         v-if="layer.info.type === 'TDT'"
         :visible="layer.checked"
@@ -65,6 +65,7 @@
         :options="{ sysId: layer.id }"
         :tableName="layer.info.table"
         :zIndex="index"
+        :style-obj="getStyle(layer.info)"
       >
       </vector-layer>
       <vue2ol-layer-tile
@@ -132,8 +133,9 @@ import { MapEvent } from "ol";
 import { ComputedRef, Ref } from "vue";
 import VectorLayer from "./components/vector-layer.vue";
 import StatusBar from "@/components/status-bar/index";
-import GridLayer from "./components/grid-layer.vue"
+import GridLayer from "./components/grid-layer.vue";
 import { ipcRenderer } from "electron";
+import { getOLStyle } from "@/utils/style";
 
 let homeStore = useHomeStore();
 const format = ref(new GeoJSON());
@@ -209,6 +211,13 @@ const plotType = computed(() => {
 const showGrid = computed(() => {
   return homeStore.showGrid;
 });
+
+const getStyle = (info) => {
+  let styles= info.styles.map((item) => {
+    return getOLStyle(item);
+  });
+  return styles;
+};
 </script>
 <style lang="less" scoped>
 .vue2ol-map {

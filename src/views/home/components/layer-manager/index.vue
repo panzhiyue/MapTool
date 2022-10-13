@@ -76,6 +76,7 @@ import * as MapLayerInfoApi from "@/api/mapLayerInfo";
 import { buildUUID } from "@/utils/uuid";
 import tree, { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree";
 import * as TableApi from "@/api/table";
+import { getDefaultStyle } from "@/utils/style";
 const remote = require("@electron/remote");
 
 let homeStore = useHomeStore();
@@ -102,6 +103,9 @@ const treeData = computed(() => {
       key: "0",
       type: "root",
       children,
+      data: {
+        id: "0",
+      },
     },
   ];
   return data;
@@ -155,6 +159,8 @@ const updateLayer = () => {};
  * 添加到地图
  */
 const handleAddToMap = (data: ILayerInfo) => {
+  data.info["styles"] = [getDefaultStyle(data.info["geometryType"])];
+  console.log(data.info);
   addMapLayerInfo({
     id: buildUUID(),
     layerId: data.id!,
@@ -189,9 +195,7 @@ const handleDelete = async (data: any) => {
         } else {
           deleteById(id).then(async (result) => {
             if (data.data.info?.table) {
-              await dropTable(data.data.info.table).then((r) => {
-                console.log("deleteTable", r);
-              });
+              await dropTable(data.data.info.table).then((r) => {});
             }
             homeStore.getLayerInfos(1).then(() => {});
           });

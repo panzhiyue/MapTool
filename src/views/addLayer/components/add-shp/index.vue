@@ -62,6 +62,8 @@ import { useWindow } from "@/hooks/electron/useWindow";
 import dayjs from "dayjs";
 import { WKT } from "ol/format";
 import { Geometry } from "ol/geom";
+import { getVectorType } from "@/utils/gis";
+import { getDefaultStyle } from "@/utils/style";
 
 const route = useRoute();
 
@@ -94,7 +96,7 @@ const tableName = ref("vector_" + dayjs().unix().toString());
 let tableData: any = reactive([]);
 
 const attributes = ref(null);
-
+const vectorType = ref("");
 
 watch(path, () => {
   const shpPath = path.value;
@@ -121,16 +123,16 @@ watch(path, () => {
     });
     eShapeFile.on("loaded", () => {
       const features = eShapeFile.getFeatures();
+      vectorType.value = getVectorType(features[0].getGeometry());
       let wktFormat = new WKT();
       const data = getTableData(
         features.map((item) => {
           let obj = {};
           for (let field in item.getProperties()) {
-            if (field=="geometry") {
-              
+            if (field == "geometry") {
               obj["geom_wkt"] = wktFormat.writeGeometry(item.getGeometry());
             } else {
-              obj[field.trim()] =item.get(field);
+              obj[field.trim()] = item.get(field);
             }
           }
           // obj["geom_wkt"]=wktFormat.readGeometry(item.getGeometry())
@@ -202,7 +204,7 @@ const handleOk = () => {
         if (result.code == ResponseCode.SUCCESS) {
           insertLayerInfo({
             id: buildUUID(),
-            parentId: route.query.parentId as String,
+            parentId: route.query.parentId as string,
             mapId: 1,
             title: layerName.value,
             type: "layer",
@@ -212,6 +214,8 @@ const handleOk = () => {
             info: {
               type: "vector",
               table: tableName.value,
+              geometryType: vectorType.value,
+              style: [getDefaultStyle(vectorType.value)],
             },
           }).then((result) => {
             if (result.code == ResponseCode.SUCCESS) {

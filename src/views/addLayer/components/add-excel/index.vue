@@ -22,33 +22,58 @@
       <a-space>
         格式:
         <a-select v-model:value="format" class="w-200px">
-          <a-select-option v-for="item in formatList" :value="item">{{
-            item
-          }}</a-select-option>
+          <a-select-option
+            v-for="(item, index) in formatList"
+            :value="item"
+            :key="`format${index}`"
+            >{{ item }}</a-select-option
+          >
         </a-select>
         <div v-if="format == '经纬度'">
           经度字段
           <a-select v-model:value="lngField" class="w-120px">
-            <a-select-option v-for="item in header" :value="item">{{
-              item
-            }}</a-select-option>
+            <a-select-option
+              v-for="(item, index) in header"
+              :value="item"
+              :key="`lng${index}`"
+              >{{ item }}</a-select-option
+            >
           </a-select>
           纬度字段
           <a-select v-model:value="latField" class="w-120px">
-            <a-select-option v-for="item in header" :value="item">{{
-              item
-            }}</a-select-option>
+            <a-select-option
+              v-for="(item, index) in header"
+              :value="item"
+              :key="`lat${index}`"
+              >{{ item }}</a-select-option
+            >
           </a-select>
         </div>
         <div v-if="format != '经纬度'">
           几何字段
           <a-select v-model:value="geometryField" class="w-120px">
-            <a-select-option v-for="item in header" :value="item">{{
-              item
-            }}</a-select-option>
+            <a-select-option
+              v-for="(item, index) in header"
+              :value="item"
+              :key="`geom${index}`"
+              >{{ item }}</a-select-option
+            >
           </a-select>
         </div>
       </a-space>
+    </a-row>
+    <a-row>
+      <a-space
+        >几何类型：
+        <a-select v-model:value="geometryType" class="w-120px">
+          <a-select-option
+            v-for="(item, index) in geometryTypeList"
+            :value="item"
+            :key="`geometryType${index}`"
+            >{{ item }}</a-select-option
+          >
+        </a-select></a-space
+      >
     </a-row>
     <a-row>
       <table-structure-compare
@@ -83,22 +108,19 @@ import SqliteColumnType from "@/enum/SqliteColumnType";
 import { ReactiveEffect } from "vue";
 import { buildUUID } from "@/utils/uuid";
 import { useVModel } from "@vueuse/core";
-import ResponseResult from "@/utils/db/ResponseResult";
-import ResponseCode from "@/enum/ResponseCode";
-import { create as createTable, insert as insertTable } from "@/api/table";
-import { add as insertLayerInfo } from "@/api/layerInfo";
 import { useRoute } from "vue-router";
 import { useHomeStore } from "@/store/home";
 import { useMainWindow } from "@/hooks/electron/useMainWindow";
 import { useWindow } from "@/hooks/electron/useWindow";
 import dayjs from "dayjs";
 import { WKT } from "ol/format";
-import { Geometry } from "ol/geom";
 import fs from "fs";
 import { excel2json } from "@/utils/excel";
 import { Point } from "ol/geom";
 import Feature from "ol/Feature";
 import { WKT as FormatWKT } from "ol/format";
+import { getVectorType } from "@/utils/gis";
+import { importVector } from "@/utils";
 
 const route = useRoute();
 
@@ -128,12 +150,33 @@ const layerName = ref("");
 const tableName = ref("vector_" + dayjs().unix().toString());
 let tableData: any = reactive([]);
 const attributes = ref(null);
+const geometryType = ref("");
+const geometryTypeList = ref();
 
 const header = ref([]);
 
 const excelData = ref(null);
 const features = ref(null);
+
+watch(features, () => {
+  console.log(features);
+  if (!features.value && features.value.length > 0) {
+    geometryTypeList.value = [];
+    geometryType.value = "";
+  } else {
+    geometryTypeList.value = features.value.map((feature) => {
+      return getVectorType(feature.getGeometry());
+      // return {
+      //   label: getVectorType(feature.getGeometry()),
+      //   value: getVectorType(feature.getGeometry()),
+      // };
+    });
+    geometryTypeList.value = Array.from(new Set(geometryTypeList.value));
+    geometryType.value = getVectorType(features.value[0].getGeometry());
+  }
+});
 watch([excelData, format, lngField, latField, geometryField], () => {
+  console.log(format.value,geometryField.value);
   if (
     excelData.value &&
     format.value == "经纬度" &&
@@ -153,7 +196,7 @@ watch([excelData, format, lngField, latField, geometryField], () => {
           geometry,
         });
         feature.setProperties(item);
-        
+
         fs.push(feature);
       } catch {
         console.log("error:" + i, item.geometry);
@@ -161,7 +204,7 @@ watch([excelData, format, lngField, latField, geometryField], () => {
     }
     features.value = fs;
   } else if (
-    !excelData.value &&
+    excelData.value &&
     format.value != "经纬度" &&
     geometryField.value
   ) {
@@ -199,35 +242,6 @@ watch(path, () => {
         excelData.value = data.data;
       }
     });
-    // let features = new GeoJSON().readFeatures(result.toString());
-    // let wktFormat = new WKT();
-    // const data = getTableData(
-    //   features.map((item) => {
-    //     let obj = {};
-    //     for (let field in item.getProperties()) {
-    //       if (field == "geometry") {
-    //         obj["geom_wkt"] = wktFormat.writeGeometry(item.getGeometry());
-    //       } else {
-    //         obj[field.trim()] = item.get(field);
-    //       }
-    //     }
-    //     return obj;
-    //   })
-    // );
-    // data.fields.forEach((item) => {
-    //   tableData.push({
-    //     key: buildUUID(),
-    //     originName: item.name,
-    //     destName: item.name,
-    //     type: item.type,
-    //     length: item.length,
-    //     scale: item.scale,
-    //     primary: item.primary,
-    //     selected: true,
-    //   });
-    // });
-
-    // attributes.value = data.attributes;
   });
 });
 
@@ -244,7 +258,6 @@ watch(features, () => {
             obj[field.trim()] = item.get(field);
           }
         }
-        // obj["geom_wkt"]=wktFormat.readGeometry(item.getGeometry())
         return obj;
       })
     );
@@ -276,67 +289,15 @@ const handlePreMost = () => {
   currentStep.value = 0;
 };
 
-const { refreshLayerInfos, refreshMapLayerInfos } = useMainWindow();
-const { close } = useWindow();
 const handleOk = () => {
-  createTable(
+  importVector(
+    route.query.parentId as string,
+    geometryType.value,
     tableName.value,
-    tableData
-      .filter((item) => {
-        return item.selected;
-      })
-      .map((item) => {
-        return {
-          ...item,
-          name: item.destName,
-        };
-      })
-  ).then((result: ResponseResult<any>) => {
-    if (result.code == ResponseCode.SUCCESS) {
-      insertTable(
-        tableName.value,
-        attributes.value.map((item1) => {
-          let obj = {};
-          tableData
-            .filter((item) => {
-              return item.selected;
-            })
-            .forEach((item2) => {
-              obj[item2.destName] = item1[item2.originName];
-            });
-          return obj;
-        })
-      ).then((result) => {
-        if (result.code == ResponseCode.SUCCESS) {
-          insertLayerInfo({
-            id: buildUUID(),
-            parentId: route.query.parentId as String,
-            mapId: 1,
-            title: layerName.value,
-            type: "layer",
-            canDelete: true,
-            canEdit: true,
-            expand: true,
-            info: {
-              type: "vector",
-              table: tableName.value,
-            },
-          }).then((result) => {
-            if (result.code == ResponseCode.SUCCESS) {
-              refreshLayerInfos();
-              close();
-            } else {
-              message.error(result.msg as string, 1);
-            }
-          });
-        } else {
-          message.error(result.msg as string, 1);
-        }
-      });
-    } else {
-      message.error(result.msg as string, 1);
-    }
-  });
+    tableData,
+    attributes.value,
+    layerName.value
+  );
 };
 </script>
 <style lang="less" scoped>
