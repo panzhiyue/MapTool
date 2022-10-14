@@ -19,6 +19,7 @@
       >
         <vue2ol-source-tdt
           :layer="layer.info.layer"
+          :options="{ maxZoom:layer.info.maxZoom,minZoom:layer.info.minZoom, }"
           @init="onSourceInit"
         ></vue2ol-source-tdt>
       </vue2ol-layer-tile>
@@ -31,7 +32,9 @@
       >
         <vue2ol-source-baidu
           :layer="layer.info.layer"
+          :options="{ maxZoom:layer.info.maxZoom,minZoom:layer.info.minZoom, }"
           @init="onSourceInit"
+          
         ></vue2ol-source-baidu>
       </vue2ol-layer-tile>
 
@@ -43,6 +46,7 @@
       >
         <vue2ol-source-gaode
           :layer="layer.info.layer"
+          :options="{ maxZoom:layer.info.maxZoom,minZoom:layer.info.minZoom, }"
           @init="onSourceInit"
         ></vue2ol-source-gaode>
       </vue2ol-layer-tile>
@@ -55,6 +59,7 @@
       >
         <vue2ol-source-geoq
           :layer="layer.info.layer"
+          :options="{ maxZoom:layer.info.maxZoom,minZoom:layer.info.minZoom, }"
           @init="onSourceInit"
         ></vue2ol-source-geoq>
       </vue2ol-layer-tile>
@@ -213,7 +218,7 @@ const showGrid = computed(() => {
 });
 
 const getStyle = (info) => {
-  let styles= info.styles.map((item) => {
+  let styles = info.styles.map((item) => {
     return getOLStyle(item);
   });
   return styles;

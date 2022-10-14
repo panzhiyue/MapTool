@@ -93,34 +93,16 @@
   ></step-footer>
 </template>
 <script lang="ts" setup>
-import { dirname, basename, extname, join } from "path";
-import { getFile } from "@/utils/file";
-import { EShapeFile } from "@gis-js/utilsol";
-import * as olProj from "ol/proj";
-import { message } from "ant-design-vue";
-import GeoJSON from "ol/format/GeoJSON";
-import { getStructure, getTableData } from "@/utils/json";
-import { IFeature, IGeoJSON } from "#/geojson";
-import TableStructureCompare, {
-  ITableStructureCompare,
-} from "@/components/table-structure-compare";
-import SqliteColumnType from "@/enum/SqliteColumnType";
-import { ReactiveEffect } from "vue";
-import { buildUUID } from "@/utils/uuid";
 import { useVModel } from "@vueuse/core";
 import { useRoute } from "vue-router";
-import { useHomeStore } from "@/store/home";
-import { useMainWindow } from "@/hooks/electron/useMainWindow";
-import { useWindow } from "@/hooks/electron/useWindow";
 import dayjs from "dayjs";
-import { WKT } from "ol/format";
 import fs from "fs";
 import { excel2json } from "@/utils/excel";
 import { Point } from "ol/geom";
 import Feature from "ol/Feature";
 import { WKT as FormatWKT } from "ol/format";
-import { getVectorType } from "@/utils/gis";
 import { importVector } from "@/utils";
+import { useAddLayer } from "../../useAddLayer";
 
 const route = useRoute();
 
@@ -132,7 +114,6 @@ const props = defineProps({
 
 const emits = defineEmits(["update:current"]);
 const currentStep = useVModel(props, "current", emits);
-const homeStore = useHomeStore();
 const formatList = ref(["经纬度", "wkt", "geojson"]);
 const format = ref("经纬度");
 const lngField = ref("");
@@ -148,35 +129,16 @@ const filters = ref([
 ]);
 const layerName = ref("");
 const tableName = ref("vector_" + dayjs().unix().toString());
-let tableData: any = reactive([]);
-const attributes = ref(null);
-const geometryType = ref("");
-const geometryTypeList = ref();
 
 const header = ref([]);
 
 const excelData = ref(null);
-const features = ref(null);
 
-watch(features, () => {
-  console.log(features);
-  if (!features.value && features.value.length > 0) {
-    geometryTypeList.value = [];
-    geometryType.value = "";
-  } else {
-    geometryTypeList.value = features.value.map((feature) => {
-      return getVectorType(feature.getGeometry());
-      // return {
-      //   label: getVectorType(feature.getGeometry()),
-      //   value: getVectorType(feature.getGeometry()),
-      // };
-    });
-    geometryTypeList.value = Array.from(new Set(geometryTypeList.value));
-    geometryType.value = getVectorType(features.value[0].getGeometry());
-  }
-});
+const { features, geometryType, geometryTypeList, tableData, attributes } =
+  useAddLayer();
+
+
 watch([excelData, format, lngField, latField, geometryField], () => {
-  console.log(format.value,geometryField.value);
   if (
     excelData.value &&
     format.value == "经纬度" &&
@@ -243,42 +205,6 @@ watch(path, () => {
       }
     });
   });
-});
-
-watch(features, () => {
-  if (features.value) {
-    let wktFormat = new WKT();
-    const data = getTableData(
-      features.value.map((item) => {
-        let obj = {};
-        for (let field in item.getProperties()) {
-          if (field == "geometry") {
-            obj["geom_wkt"] = wktFormat.writeGeometry(item.getGeometry());
-          } else {
-            obj[field.trim()] = item.get(field);
-          }
-        }
-        return obj;
-      })
-    );
-    data.fields.forEach((item) => {
-      tableData.push({
-        key: buildUUID(),
-        originName: item.name,
-        destName: item.name,
-        type: item.type,
-        length: item.length,
-        scale: item.scale,
-        primary: item.primary,
-        selected: true,
-      });
-    });
-
-    attributes.value = data.attributes;
-  } else {
-    tableData.value = [];
-    attributes.value = null;
-  }
 });
 
 const handlePre = () => {

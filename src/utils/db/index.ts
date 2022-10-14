@@ -256,7 +256,7 @@ const createTable = async () => {
                 info: JSON.stringify({
                   type: "BaiDu",
                   layer: "normal_map",
-                  maxZoom: 18,
+                  maxZoom: 19,
                   minZoom: 1
                 })
               },
@@ -272,7 +272,7 @@ const createTable = async () => {
                 info: JSON.stringify({
                   type: "BaiDu",
                   layer: "satellite_map",
-                  maxZoom: 18,
+                  maxZoom: 19,
                   minZoom: 1
                 })
               },
@@ -288,7 +288,7 @@ const createTable = async () => {
                 info: JSON.stringify({
                   type: "BaiDu",
                   layer: "satellite_annotion",
-                  maxZoom: 18,
+                  maxZoom: 19,
                   minZoom: 1
                 })
               },
@@ -372,7 +372,7 @@ const createTable = async () => {
                 info: JSON.stringify({
                   type: "Geoq",
                   layer: "normal_map",
-                  maxZoom: 18,
+                  maxZoom: 16,
                   minZoom: 1
                 })
               },
@@ -388,7 +388,7 @@ const createTable = async () => {
                 info: JSON.stringify({
                   type: "Geoq",
                   layer: "normal_purplishblue",
-                  maxZoom: 18,
+                  maxZoom: 16,
                   minZoom: 1
                 })
               },
@@ -405,7 +405,7 @@ const createTable = async () => {
                 info: JSON.stringify({
                   type: "Geoq",
                   layer: "normal_gray",
-                  maxZoom: 18,
+                  maxZoom: 16,
                   minZoom: 1
                 })
               },
@@ -421,7 +421,7 @@ const createTable = async () => {
                 info: JSON.stringify({
                   type: "Geoq",
                   layer: "normal_warm",
-                  maxZoom: 18,
+                  maxZoom: 16,
                   minZoom: 1
                 })
               },
@@ -437,7 +437,7 @@ const createTable = async () => {
                 info: JSON.stringify({
                   type: "Geoq",
                   layer: "theme_hydro",
-                  maxZoom: 18,
+                  maxZoom: 16,
                   minZoom: 1
                 })
               },

@@ -18,9 +18,6 @@
   ></step-footer>
 </template>
 <script lang="ts" setup>
-import TableStructure, {
-  ITableStructure,
-} from "@/components/table-structure/index";
 import { useWindow } from "@/hooks/electron/useWindow";
 import { useVModel } from "@vueuse/core";
 import { create as createTable } from "@/api/table";
@@ -29,9 +26,7 @@ import { add as addLayerInfo } from "@/api/layerInfo";
 import { useRoute } from "vue-router";
 import { useHomeStore } from "@/store/home";
 import { message } from "ant-design-vue";
-import ResponseResult from "@/utils/db/ResponseResult";
 import ResponseCode from "@/enum/ResponseCode";
-import { ReactiveEffect } from "vue";
 import { buildUUID } from "@/utils/uuid";
 import { useMainWindow } from "@/hooks/electron/useMainWindow";
 
@@ -68,15 +63,6 @@ const tableData = reactive([
     primary: false,
     selected: true,
   },
-  // {
-  //   key: 3,
-  //   name: "info",
-  //   type: SqliteColumnType.JSON,
-  //   length: "",
-  //   scale: "",
-  //   primary: false,
-  //   selected: true,
-  // },
 ]);
 
 const { close } = useWindow();
@@ -91,13 +77,13 @@ const handlePre = () => {
 const handlePreMost = () => {
   currentStep.value = 0;
 };
-const { refreshLayerInfos, refreshMapLayerInfos } = useMainWindow();
+const { refreshLayerInfos } = useMainWindow();
 const handleOk = () => {
   createTable(tableName.value, tableData)
     .then((result) => {
       addLayerInfo({
         id: buildUUID(),
-        parentId: route.query.parentId as String,
+        parentId: route.query.parentId as string,
         mapId: 1,
         title: layerName.value,
         type: "layer",

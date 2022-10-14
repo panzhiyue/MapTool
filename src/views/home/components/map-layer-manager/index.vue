@@ -7,13 +7,23 @@
       ref="tree"
       :trigger="['contextmenu']"
       draggable
+      show-icon
       @check="handleCheck"
       :checkedKeys="checkedKeys"
       @drop="handleDrop"
     >
+      <template #icon="{ key: treeKey, title, data }">
+        <style-icon
+          v-if="data.data.info.type == 'vector'"
+          :info="data.data.info"
+          style="margin-top: 4px"
+        ></style-icon>
+        <!-- <SmileOutlined></SmileOutlined> -->
+      </template>
       <template #title="{ key: treeKey, title, data }">
         <a-dropdown :trigger="['contextmenu']">
           <span>{{ title }}</span>
+
           <template #overlay v-if="data.data.info.type == 'vector'">
             <a-menu>
               <a-menu-item @click="handleZoomTo(treeKey)"
@@ -52,6 +62,13 @@ import { ipcRenderer } from "electron";
 import WindowName from "@/enum/WindowName";
 import * as TableApi from "@/api/table";
 import ResponseCode from "@/enum/ResponseCode";
+import StyleIcon from "@/components/style-icon";
+import {
+  DownOutlined,
+  SmileOutlined,
+  FrownOutlined,
+  FrownFilled,
+} from "@ant-design/icons-vue";
 
 let homeStore = useHomeStore();
 
@@ -144,11 +161,13 @@ const handleDrop = (info: AntTreeNodeDropEvent) => {
     delete item["m_id"];
   });
 
-  TableApi.replaceData("MapLayerInfo", newMapLayerInfos).then(async (result) => {
-    if (result.code == ResponseCode.SUCCESS) {
-      await homeStore.getMapLayerInfos(1);
+  TableApi.replaceData("MapLayerInfo", newMapLayerInfos).then(
+    async (result) => {
+      if (result.code == ResponseCode.SUCCESS) {
+        await homeStore.getMapLayerInfos(1);
+      }
     }
-  });
+  );
 };
 </script>
 

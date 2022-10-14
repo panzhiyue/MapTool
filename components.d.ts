@@ -64,6 +64,7 @@ declare module '@vue/runtime-core' {
     Src: typeof import('./src/components/area-unit-select/src/index.vue')['default']
     StatusBar: typeof import('./src/components/status-bar/src/status-bar.vue')['default']
     StepFooter: typeof import('./src/components/step-footer/index.vue')['default']
+    StyleIcon: typeof import('./src/components/style-icon/src/style-icon.vue')['default']
     TableStructure: typeof import('./src/components/table-structure/src/table-structure.vue')['default']
     TableStructureCompare: typeof import('./src/components/table-structure-compare/src/table-structure-compare.vue')['default']
     WindowControls: typeof import('./src/components/window-controls/index.vue')['default']
