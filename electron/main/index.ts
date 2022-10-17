@@ -123,6 +123,7 @@ ipcMain.on('open-win', (event, windowName, arg, opt_options, webPreferences) => 
       // preload,
       nodeIntegration: true,
       contextIsolation: false,
+
     },
   }, opt_options)
 

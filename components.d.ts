@@ -47,6 +47,7 @@ declare module '@vue/runtime-core' {
     ATable: typeof import('ant-design-vue/es')['Table']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     ATree: typeof import('ant-design-vue/es')['Tree']
+    ColorPicker: typeof import('./src/components/color-picker/src/color-picker.vue')['default']
     copy: typeof import('./src/components/sqlite-column-type copy/index.vue')['default']
     EnumSelect: typeof import('./src/components/enum-select/src/enum-select.vue')['default']
     GroupBox: typeof import('./src/components/group-box/src/group-box.vue')['default']

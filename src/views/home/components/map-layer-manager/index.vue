@@ -17,8 +17,8 @@
           v-if="data.data.info.type == 'vector'"
           :info="data.data.info"
           style="margin-top: 4px"
+          @dblclick="(e) => handleShowStyleSelector(data.data)"
         ></style-icon>
-        <!-- <SmileOutlined></SmileOutlined> -->
       </template>
       <template #title="{ key: treeKey, title, data }">
         <a-dropdown :trigger="['contextmenu']">
@@ -168,6 +168,15 @@ const handleDrop = (info: AntTreeNodeDropEvent) => {
       }
     }
   );
+};
+
+const handleShowStyleSelector = (data) => {
+  ipcRenderer.send("open-win", WindowName.STYLE, "style?id=" + data.id, {
+    width: 540,
+    height: 540,
+    frame: true,
+    parent: WindowName.MAIN,
+  });
 };
 </script>
 

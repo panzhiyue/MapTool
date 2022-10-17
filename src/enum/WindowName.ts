@@ -12,7 +12,8 @@ enum WindowName {
     XY = "转到XY",
     MEASURE = "量算",
     PLOT = "绘标",
-    COORDINATE_CONVERSION="坐标换算"
+    COORDINATE_CONVERSION = "坐标换算",
+    STYLE = "符号选择器"
 }
 
 export default WindowName;

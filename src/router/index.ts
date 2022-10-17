@@ -76,6 +76,11 @@ const routes = [
     name: "CoordinateConversion",
     component: () => import(/* webpackChunkName: "about" */ '../views/coordinateConversion/index.vue')
   },
+  {
+    path: '/style',
+    name: "Style",
+    component: () => import(/* webpackChunkName: "about" */ '../views/style/index.vue')
+  },
   // {
   //   path: '/home',
   //   name: 'home',
