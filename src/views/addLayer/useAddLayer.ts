@@ -22,7 +22,6 @@ export const useAddLayer = () => {
             });
             geometryTypeList.value = Array.from(new Set(geometryTypeList.value));
             geometryType.value = geometryTypeList.value[0];
-
             let wktFormat = new WKT();
             const data = getTableData(
                 features.value.map((item) => {

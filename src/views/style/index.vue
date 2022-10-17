@@ -79,6 +79,7 @@ const handleOk = () => {
 	// console.log(layerInfo.value);
 	TableApi.updateByWhere('MapLayerInfo', data, { id: data.id }).then((result) => {
 		refreshMapLayerInfos();
+		close();
 	});
 };
 </script>
