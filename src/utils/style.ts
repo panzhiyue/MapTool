@@ -78,8 +78,8 @@ export const getOLStyle = (styleOptions: IStyle) => {
         case StyleType.LINESTRING: {
             return new Style({
                 stroke: new Stroke({
-                    width: styleOptions.width,
-                    color: styleOptions.color
+                    width: styleOptions.lineWidth,
+                    color: styleOptions.lineColor
                 })
             })
         }

@@ -116,8 +116,8 @@ export interface IPointStyle {
  */
 export interface ILineStringStyle {
     type: "linestring",
-    width: number,
-    color: string;
+    lineWidth: number,
+    lineColor: string;
 }
 
 /**

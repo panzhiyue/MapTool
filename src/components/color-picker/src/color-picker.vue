@@ -1,6 +1,6 @@
 <template>
-	<div class="color-picker">
-		<div class="w-5 h-5" :style="{ 'background-color': colorObj.hex8 }" @click="handleClick"></div>
+	<div class="color-selector">
+		<div class="w-5 h-5" :style="{ 'background-color': value }" @click="handleClick"></div>
 		<div class="picker-box" v-show="visible" style="position: absolute; left: -100px; top: 30px">
 			<Sketch
 				v-model="colors"
@@ -21,8 +21,14 @@
 </template>
 <script lang="ts" setup>
 const props = defineProps({
-	value: String,
+	value: {
+		type: String,
+		default: '',
+	},
 });
+
+const emits = defineEmits(['update:value']);
+const color = useVModel(props, 'value', emits);
 
 const colors = ref(props.value);
 const colorObj = reactive({
@@ -43,13 +49,13 @@ const handleClick = () => {
 const handleCancel = () => {
 	visible.value = false;
 };
-const handleSure = () => {};
-watch(colors, () => {
-	console.log(colors.value);
-});
+const handleSure = () => {
+	color.value = colorObj.hex8;
+	visible.value = false;
+};
 </script>
 <style lang="less" scoped>
-.color-picker {
+.color-selector {
 	display: inline-block;
 	position: relative;
 	z-index: 1000;

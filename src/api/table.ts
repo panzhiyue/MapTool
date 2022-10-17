@@ -339,3 +339,16 @@ export const replaceData = async (tableName: string, data: any[]): Promise<Respo
     })
 }
 
+export const updateByWhere = async (tableName: string, data: any, where): Promise<ResponseResult<any>> => {
+    const db = await getDB();
+    return await db(tableName).where(where).update(data).then((result: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
+

@@ -8,15 +8,34 @@
 				<div class="style-box">
 					<style-icon :info="layerInfo.info"></style-icon>
 				</div>
-				<a-space>填充色：<color-picker></color-picker></a-space>
-				<a-space>边框色：<a-button>3333</a-button></a-space>
+				<a-space v-if="styleInfo.type == StyleType.POINT || styleInfo.type == StyleType.POLYGON"
+					>填充色：<color-picker
+						v-model:value="styleInfo.fillColor"
+						style="z-index: 200"></color-picker
+				></a-space>
+				<br />
+				<a-space
+					>边框色：<color-picker
+						v-model:value="styleInfo.lineColor"
+						style="z-index: 199"></color-picker
+				></a-space>
 				<a-space
 					>边框宽度：<a-input-number v-model:value="styleInfo.lineWidth"></a-input-number
 				></a-space>
-				<a-space>大小：<a-input-number v-model:value="styleInfo.size"></a-input-number></a-space>
+				<a-space v-if="styleInfo.type == StyleType.POINT"
+					>大小：<a-input-number v-model:value="styleInfo.size"></a-input-number
+				></a-space>
 			</group-box>
 		</div>
 	</div>
+	<step-footer
+		pre-most-text=""
+		pre-text=""
+		next-text=""
+		next-most-text=""
+		@on-cancel="handleCancel"
+		@on-ok="handleOk">
+	</step-footer>
 </template>
 <script lang="ts" setup>
 import ListBox from '@/components/list-box';
@@ -24,23 +43,44 @@ import { useRoute } from 'vue-router';
 import { getByWhere } from '@/api/mapLayerInfo';
 import StyleIcon from '@/components/style-icon';
 import ColorPicker from '@/components/color-picker';
+import { useWindow } from '@/hooks/electron/useWindow';
+import * as TableApi from '@/api/table';
+import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import StyleType from '@/enum/StyleType';
 
 const route = useRoute();
 const id = route.query.id as string;
 
 const layerInfo = ref(null);
-const colors = ref('#ff0000');
+// const color = ref('#ff0000');
 
-const styleInfo = computed(() => {
-	return layerInfo.value.info.styles[0];
-});
+// const styleInfo = computed(() => {
+// 	return layerInfo.value.info.styles[0];
+// });
 
-// const layerInfo = (await getByWhere({ id: id })).data[0];
+let styleInfo = ref(null);
+
 onMounted(async () => {
 	layerInfo.value = (await getByWhere({ id: id })).data[0];
 	layerInfo.value.info = JSON.parse(layerInfo.value.info);
-	console.log(layerInfo.value.info);
+	styleInfo.value = layerInfo.value.info.styles[0];
 });
+const { close } = useWindow();
+const { refreshMapLayerInfos } = useMainWindow();
+const handleCancel = () => {
+	close();
+};
+
+const handleOk = () => {
+	const data = Object.assign({}, layerInfo.value);
+
+	data.info.styles[0] = styleInfo.value;
+	data.info = JSON.stringify(data.info);
+	// console.log(layerInfo.value);
+	TableApi.updateByWhere('MapLayerInfo', data, { id: data.id }).then((result) => {
+		refreshMapLayerInfos();
+	});
+};
 </script>
 <style lang="less" scoped>
 @import '@/styles/index.less';
@@ -48,7 +88,7 @@ onMounted(async () => {
 	background-color: @bgColor;
 	.left {
 		width: 280px;
-		height: 100%;
+		height: calc(100% - 40px);
 		float: left;
 
 		.list-box {
@@ -58,7 +98,7 @@ onMounted(async () => {
 	}
 	.right {
 		width: 200px;
-		height: 100%;
+		height: calc(100% - 40px);
 		float: left;
 		margin-left: 10px;
 
