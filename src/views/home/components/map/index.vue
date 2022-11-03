@@ -186,7 +186,6 @@ const handleMapMoveEnd = (e: MapEvent) => {
 		centery: center[1],
 		zoom,
 	};
-	updateById(info).then((result) => {});
 
 	homeStore.setMapInfo(info);
 };

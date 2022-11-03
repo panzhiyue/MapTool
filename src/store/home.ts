@@ -7,6 +7,7 @@ import Collection from "ol/Collection"
 import BaseLayer from "ol/layer/Base"
 import { ILayerInfo, IMapInfo, IMapLayerInfo, Nullable, Undefinerable } from "types";
 import MeasureType from "@/enum/MeasureType";
+import { updateById } from "@/api/mapInfo"
 
 interface IState {
   map: Nullable<olMap>,
@@ -37,6 +38,7 @@ export const useHomeStore = defineStore({
     },
     setMapInfo(data: IMapInfo) {
       this.mapInfo = data;
+      updateById(this.mapInfo).then((result) => { });
     },
     async getMapInfo(mapId: string | number): Promise<IMapInfo> {
       return new Promise((inject, reject) => {
