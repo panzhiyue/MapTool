@@ -80,7 +80,7 @@
 					:projection="'EPSG:4326'"></vue2ol-source-imagearcgisrest>
 			</vue2ol-layer-image>
 
-			<grid-layer v-if="showGrid"></grid-layer>
+			<grid-layer v-if="showGrid" :zIndex="9999"></grid-layer>
 		</div>
 		<status-bar></status-bar>
 		<div v-if="measureType">
