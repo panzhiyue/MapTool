@@ -72,9 +72,9 @@
   ],
   "dependencies": {
     "@electron/remote": "^2.0.8",
-    "@gis-js/utilsol": "^1.0.0-beta.3",
-    "@gis-js/vue2ol": "^1.0.0-alpha.37",
-    "@gis-js/vue2ol-extend": "^1.0.0-alpha.39",
+    "@gis-js/utilsol": "^1.0.0-beta.4",
+    "@gis-js/vue2ol": "^1.0.0-alpha.40",
+    "@gis-js/vue2ol-extend": "^1.0.0-alpha.43",
     "@panzhiyue/utilscommon": "^1.1.1",
     "@turf/turf": "^6.5.0",
     "ant-design-vue": "^3.2.12",

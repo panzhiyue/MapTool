@@ -38,11 +38,11 @@ export const useHomeStore = defineStore({
     setMapInfo(data: IMapInfo) {
       this.mapInfo = data;
     },
-    async getMapInfo(mapId: string|number): Promise<IMapInfo> {
+    async getMapInfo(mapId: string | number): Promise<IMapInfo> {
       return new Promise((inject, reject) => {
         getMapInfoById(mapId).then((result) => {
           this.mapInfo = result.data;
-          console.log( result);
+          console.log(result);
           inject(this.mapInfo);
         }).catch((err) => {
           reject(err);
@@ -52,7 +52,7 @@ export const useHomeStore = defineStore({
     setLayerInfos(data: ILayerInfo[]) {
       this.layerInfos = data;
     },
-    async getLayerInfos(mapId: string|number): Promise<ILayerInfo[]> {
+    async getLayerInfos(mapId: string | number): Promise<ILayerInfo[]> {
       return new Promise((inject, reject) => {
         getLayerInfoList(mapId).then((result) => {
           this.layerInfos = result.data;
@@ -66,7 +66,7 @@ export const useHomeStore = defineStore({
     setMapLayerInfos(data: IMapLayerInfo[]) {
       this.mapLayerInfos = data;
     },
-    async getMapLayerInfos(mapId: string|number): Promise<IMapLayerInfo[]> {
+    async getMapLayerInfos(mapId: string | number): Promise<IMapLayerInfo[]> {
       return new Promise((inject, reject) => {
         getMapLayerInfoList(mapId).then((result) => {
           this.mapLayerInfos = result.data;
@@ -77,7 +77,7 @@ export const useHomeStore = defineStore({
       })
     },
 
-    async initData(mapId: string|number) {
+    async initData(mapId: string | number) {
       await this.getMapInfo(mapId);
       await this.getLayerInfos(mapId);
       await this.getMapLayerInfos(mapId);
@@ -104,8 +104,74 @@ export const useHomeStore = defineStore({
     setPlotType(data) {
       this.plotType = data;
     },
-    setShowGrid(data) {
+    setShowGrid(data: boolean) {
       this.showGrid = data;
+    },
+    //放大
+    zoomIn(z: number = 1) {
+      this.setMapInfo({
+        ...this.mapInfo,
+        zoom: this.mapInfo.zoom + z
+      });
+    },
+    //缩小
+    zoomOut(z: number = 1) {
+      this.setMapInfo({
+        ...this.mapInfo,
+        zoom: this.mapInfo.zoom - z
+      });
+    },
+    /**
+     * 设置平移
+     * @param pan
+     */
+    setPan(pan: boolean) {
+      this.setMapInfo({
+        ...this.mapInfo,
+        pan: pan,
+        select: false,
+        dragZoomIn: false,
+        dragZoomOut: false,
+      });
+    },
+    /**
+     * 设置选择
+     * @param select
+     */
+    setSelect(select: boolean) {
+      this.setMapInfo({
+        ...this.mapInfo,
+        select: select,
+        pan: false,
+        dragZoomIn: false,
+        dragZoomOut: false,
+      });
+    },
+    /**
+     * 设置选框放大
+     * @param dragZoomIn 
+     */
+    setDragZoomIn(dragZoomIn: boolean) {
+      this.setMapInfo({
+        ...this.mapInfo,
+        select: false,
+        pan: false,
+        dragZoomIn: dragZoomIn,
+        dragZoomOut: false,
+      });
+    },
+    /**
+     * 设置选框缩小
+     * @param dragZoomOut 
+     */
+    setDragZoomOut(dragZoomOut: boolean) {
+      this.setMapInfo({
+        ...this.mapInfo,
+        select: false,
+        pan: false,
+        dragZoomIn: false,
+        dragZoomOut: dragZoomOut,
+      });
     }
   },
 });

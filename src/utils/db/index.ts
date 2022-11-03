@@ -36,6 +36,12 @@ const createTable = async () => {
           table.double("zoom").comment("地图层级").notNullable();
           table.double("centerx").comment("中心点x").notNullable();
           table.double("centery").comment("中心点y").notNullable();
+          table.boolean("pan").comment("漫游").notNullable();
+          table.boolean("select").comment("选择").notNullable();
+          table.boolean("doubleclickzoom").comment("双击缩放").notNullable();
+          table.boolean("mousewheelzoom").comment("滚轮缩放").notNullable();
+          table.boolean("dragZoomIn").comment("选框放大").notNullable();
+          table.boolean("dragZoomOut").comment("选框缩小").notNullable();
         })
         .then(() => {
           db("MapInfo")
@@ -45,6 +51,12 @@ const createTable = async () => {
               zoom: 10,
               centerx: 120,
               centery: 28,
+              pan: true,
+              select: false,
+              doubleclickzoom: true,
+              mousewheelzoom: true,
+              dragZoomIn: false,
+              dragZoomOut: false
             })
             .then((result: any) => { });
         });

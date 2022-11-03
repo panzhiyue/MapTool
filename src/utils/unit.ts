@@ -92,7 +92,7 @@ export const conversionLengthUnit = (area: number, originUnit: AreaUnit, destUni
  * @param unit 指定单位
  * @returns
  */
-export const getUnitLength = (length: number, unit: AreaUnit): number => {
+export const getUnitLength = (length: number, unit: LengthUnit): number => {
     switch (unit) {
         case LengthUnit.M: {
             return length;

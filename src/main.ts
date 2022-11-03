@@ -7,6 +7,7 @@ import 'virtual:windi.css'
 import Vue2ol from '@gis-js/vue2ol'
 import Vue2olExtend from '@gis-js/vue2ol-extend'
 import '@/styles/index.less'
+import "ol/ol.css"
 
 // import ElementPlus from "@/utils/element-plus.ts"
 // import 'element-plus/dist/index.css'

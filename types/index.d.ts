@@ -40,7 +40,13 @@ export interface IMapInfo {
     name?: string,
     zoom?: number,
     centerx?: number,
-    centery?: number
+    centery?: number,
+    pan: boolean, //平移交互
+    select: boolean, //选择
+    doubleclickzoom: boolean, //双击缩放
+    mousewheelzoom: boolean, //滚轮缩放
+    dragZoomIn: boolean,  //选框放大
+    dragZoomOut: boolean, //选框缩小
 }
 
 /**
