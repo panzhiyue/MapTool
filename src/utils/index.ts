@@ -5,7 +5,9 @@ import { add as insertLayerInfo } from "@/api/layerInfo";
 import { buildUUID } from "./uuid";
 import { useMainWindow } from "@/hooks/electron/useMainWindow"
 import { message } from "ant-design-vue";
-import { getDefaultStyle } from "@/utils/style";
+import { useWindow } from "@/hooks/electron/useWindow";
+
+const { close } = useWindow();
 
 export const importVector = (parentId: string, geometryType, tableName: string, tableData: any, attributes: any, layerName: string) => {
     const { refreshLayerInfos } = useMainWindow();
@@ -50,6 +52,7 @@ export const importVector = (parentId: string, geometryType, tableName: string, 
                         info: {
                             type: "vector",
                             table: tableName,
+                            projection: "EPSG:4326",
                             geometryType: geometryType,
                         },
                     }).then((result) => {

@@ -7,7 +7,9 @@ import TileDebugSource from 'ol/source/TileDebug';
 import XYZSource from 'ol/source/XYZ';
 import { findParentMap } from '@gis-js/vue2ol';
 import { getCurrentInstance } from 'vue';
+import { useHomeStore } from '@/store/home';
 
+const homeStore = useHomeStore();
 const instance: any = getCurrentInstance();
 
 const props = defineProps({
@@ -18,12 +20,12 @@ const props = defineProps({
 });
 
 var xyzSource = new XYZSource({
-	projection: 'EPSG:4326', //地图投影坐标系
+	projection: homeStore.mapInfo.projection, //地图投影坐标系
 });
 
 const layer = new TileLayer({
 	source: new TileDebugSource({
-		projection: 'EPSG:4326', //地图投影坐标系
+		projection: homeStore.mapInfo.projection, //地图投影坐标系
 		tileGrid: xyzSource.getTileGrid(), //获取瓦片图层数据对象（osmSource）的网格信息
 	}),
 });

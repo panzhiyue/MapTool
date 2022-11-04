@@ -42,6 +42,7 @@ const createTable = async () => {
           table.boolean("mousewheelzoom").comment("滚轮缩放").notNullable();
           table.boolean("dragZoomIn").comment("选框放大").notNullable();
           table.boolean("dragZoomOut").comment("选框缩小").notNullable();
+          table.boolean("projection").comment("坐标系").notNullable();
         })
         .then(() => {
           db("MapInfo")
@@ -56,7 +57,8 @@ const createTable = async () => {
               doubleclickzoom: true,
               mousewheelzoom: true,
               dragZoomIn: false,
-              dragZoomOut: false
+              dragZoomOut: false,
+              projection: "EPSG:4326"
             })
             .then((result: any) => { });
         });

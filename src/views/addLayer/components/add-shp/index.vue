@@ -57,8 +57,10 @@ import { useWindow } from '@/hooks/electron/useWindow';
 import dayjs from 'dayjs';
 import { importVector } from '@/utils';
 import { useAddLayer } from '../../useAddLayer';
+import { useHomeStore } from '@/store/home';
 
 const route = useRoute();
+const homeStore = useHomeStore();
 
 const props = defineProps({
 	current: {

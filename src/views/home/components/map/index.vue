@@ -1,9 +1,5 @@
 <template>
-	<vue2ol-map
-		v-if="mapInfo"
-		:options="mapOptions"
-		@ready="handleMapReady"
-		@moveend="handleMapMoveEnd">
+	<vue2ol-map :options="mapOptions" @ready="handleMapReady" @moveend="handleMapMoveEnd">
 		<vue2ol-view
 			:zoom="mapInfo.zoom"
 			:center="[mapInfo.centerx, mapInfo.centery]"
@@ -59,7 +55,9 @@
 				:options="{ sysId: layer.id }"
 				:tableName="layer.info.table"
 				:zIndex="index"
-				:style-obj="getStyle(layer.info)">
+				:style-obj="getStyle(layer.info)"
+				:dataProjection="layer.info.projection ? layer.info.projection : 'EPSG:4326'"
+				:featureProjection="mapInfo.projection">
 			</vector-layer>
 			<vue2ol-layer-tile
 				v-else-if="layer.info.type === 'wmts'"
@@ -141,20 +139,18 @@ import StatusBar from '@/components/status-bar/index';
 import GridLayer from './components/grid-layer.vue';
 import { ipcRenderer } from 'electron';
 import { getOLStyle } from '@/utils/style';
+import * as proj from 'ol/proj';
 
 let homeStore = useHomeStore();
 const format = ref(new GeoJSON());
-
 const mapOptions = reactive({
 	controls: [],
 	interactions: [],
 });
 
 const viewOptions = reactive({
-	projection: 'EPSG:4326',
+	projection: proj.get(homeStore.mapInfo.projection),
 });
-
-// const format = new GeoJSON();
 
 const mapLayer: ComputedRef<IMapLayerInfo[]> = computed(() => {
 	return homeStore.mapLayerInfos.map((item: IMapLayerInfo) => {

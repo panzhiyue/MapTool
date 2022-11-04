@@ -1,5 +1,6 @@
 import MeasureType from "@/enum/MeasureType";
 import ResponseCode from "@/enum/ResponseCode.ts";
+declare module '@gis-js/utilsol'
 declare module '@gis-js/vue2ol'
 declare module '@gis-js/vue2ol-extend'
 declare module '@panzhiyue/utilscommon'
@@ -47,6 +48,7 @@ export interface IMapInfo {
     mousewheelzoom: boolean, //滚轮缩放
     dragZoomIn: boolean,  //选框放大
     dragZoomOut: boolean, //选框缩小
+    projection: string, //坐标系
 }
 
 /**
