@@ -49,6 +49,7 @@ import {
 	IExportVectorOptions,
 	IMeasureOptions,
 	IPlotOptions,
+	ICreateDistanceTableOptions,
 } from '#/index';
 import domtoimage from 'dom-to-image';
 import path from 'path';
@@ -67,6 +68,7 @@ import { message } from 'ant-design-vue';
 import { Point } from 'ol/geom';
 import MeasureType from '@/enum/MeasureType';
 import { getArea, getLength } from '@/utils/gis';
+import * as turf from '@turf/turf';
 
 let homeStore = useHomeStore();
 
@@ -266,6 +268,72 @@ onMounted(() => {
 
 	ipcRenderer.on('plot', (e, options: IPlotOptions) => {
 		homeStore.setPlotType(options.type);
+	});
+
+	ipcRenderer.on('createDistanceTable', async (e, options: ICreateDistanceTableOptions) => {
+		let hide = message.loading({
+			content: '正在生成距离表！',
+			duration: 0,
+		});
+
+		const mapLayerInfo1 = await getByWhere({ id: options.layerId1 });
+		const info1 = JSON.parse(mapLayerInfo1.data[0].info);
+		const layerResult1 = await readAsGeoJSON(info1.table);
+		let features1 = new GeoJSON().readFeatures(layerResult1);
+
+		const mapLayerInfo2 = await getByWhere({ id: options.layerId2 });
+		const info2 = JSON.parse(mapLayerInfo2.data[0].info);
+		const layerResult2 = await readAsGeoJSON(info2.table);
+		let features2 = new GeoJSON().readFeatures(layerResult2);
+
+		let result = [];
+		for (let i = 0; i < features1.length; i++) {
+			let tempResult = [];
+			for (let j = 0; j < features2.length; j++) {
+				let feature1 = features1[i];
+				let feature2 = features2[j];
+				// console.log(i, j, feature1, feature2);
+				let turfObj1 = new GeoJSON().writeFeature(feature1);
+				let turfObj2 = new GeoJSON().writeFeature(feature2);
+
+				let distance = turf.distance(JSON.parse(turfObj1), JSON.parse(turfObj2), {
+					units: 'meters',
+				});
+				if (distance <= 1000) {
+					tempResult.push({
+						in_bh: feature1.get('bh'),
+						out_bh: feature2.get('bh'),
+						distance: distance,
+					});
+				}
+				tempResult = tempResult.sort((item1, item2) => {
+					return item1.distance - item2.distance;
+				});
+			}
+			result = result.concat(tempResult);
+		}
+		result = result.filter((item) => {
+			return item.in_bh != item.out_bh;
+		});
+
+		let excel = UtilsCommon.excel.json2Excel([
+			{
+				data: result,
+				name: 'sheet1',
+				header: true,
+			},
+		]);
+		const excelData = await excel.xlsx.writeBuffer();
+		const blob = new Blob([excelData], { type: EXCEL_TYPE });
+		var buffer = await blob.arrayBuffer();
+		fs.writeFileSync(options.savePath as string, new DataView(buffer));
+		e.sender.send(`${options.fromWindowName}-close`);
+		hide();
+		notification.success({
+			message: `生成距离表！`,
+			duration: 5,
+		});
+		console.log(result);
 	});
 });
 </script>

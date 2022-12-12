@@ -104,9 +104,21 @@ export interface IPlotOptions extends IElectronCommunicationOptions {
 }
 
 /**
+ * 创建距离表
+ */
+export interface ICreateDistanceTableOptions extends IElectronCommunicationOptions {
+    layerId1: string,
+    layerId2: string,
+    savePath: string
+}
+
+/**
  * 样式
  */
 export type IStyle = IPointStyle | ILineStringStyle | IPolygonStyle;
+
+
+
 
 /**
  * 点样式

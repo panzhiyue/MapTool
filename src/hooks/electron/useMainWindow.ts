@@ -1,4 +1,4 @@
-import { IExportAttributeTableOptions, IExportImageOptions, IExportVectorOptions, IMeasureOptions, IPlotOptions } from "#/index";
+import { IExportAttributeTableOptions, IExportImageOptions, IExportVectorOptions, IMeasureOptions, IPlotOptions, ICreateDistanceTableOptions } from "#/index";
 import MeasureType from "@/enum/MeasureType";
 import { ipcRenderer } from "electron"
 const remote = require("@electron/remote")
@@ -41,5 +41,9 @@ export function useMainWindow() {
         ipcRenderer.sendTo(sharedObject.Main, "plot", options)
     }
 
-    return { refreshLayerInfos, refreshMapLayerInfos, exportImage, exportVector, exportAttributeTable, panTo, zoomTo, measure, plot }
+    const createDistanceTable = (options: ICreateDistanceTableOptions) => {
+        ipcRenderer.sendTo(sharedObject.Main, "createDistanceTable", options)
+    }
+
+    return { refreshLayerInfos, refreshMapLayerInfos, exportImage, exportVector, exportAttributeTable, panTo, zoomTo, measure, plot, createDistanceTable }
 }

@@ -13,7 +13,8 @@ enum WindowName {
     MEASURE = "量算",
     PLOT = "绘标",
     COORDINATE_CONVERSION = "坐标换算",
-    STYLE = "符号选择器"
+    STYLE = "符号选择器",
+    CREATE_DISTANCE_TABLE = "生成距离表"
 }
 
 export default WindowName;

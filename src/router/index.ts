@@ -81,6 +81,12 @@ const routes = [
     name: "Style",
     component: () => import(/* webpackChunkName: "about" */ '../views/style/index.vue')
   },
+  {
+    path: '/createDistanceTable',
+    name: "CreateDistanceTable",
+    component: () => import(/* webpackChunkName: "about" */ '../views/createDistanceTable/index.vue')
+  },
+
   // {
   //   path: '/home',
   //   name: 'home',
