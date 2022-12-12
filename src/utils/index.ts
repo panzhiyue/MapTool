@@ -25,6 +25,7 @@ export const importVector = (parentId: string, geometryType, tableName: string, 
             })
     ).then((result: ResponseResult<any>) => {
         if (result.code == ResponseCode.SUCCESS) {
+
             TableApi.insert(
                 tableName,
                 attributes.map((item1) => {

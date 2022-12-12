@@ -1,5 +1,6 @@
 <template>
 	<vue2ol-map :options="mapOptions" @ready="handleMapReady" @moveend="handleMapMoveEnd">
+		<vue2ol-renderer-canvasclip :polygon="clipPolygon"></vue2ol-renderer-canvasclip>
 		<vue2ol-view
 			:zoom="mapInfo.zoom"
 			:center="[mapInfo.centerx, mapInfo.centery]"
@@ -125,6 +126,7 @@
 			v-if="mapInfo.mousewheelzoom"
 			:active="true"></vue2ol-interaction-mousewheelzoom>
 		<vue2ol-interaction-select v-if="mapInfo.select" :active="true"></vue2ol-interaction-select>
+		<!-- <vector-editor></vector-editor> -->
 	</vue2ol-map>
 </template>
 <script setup lang="ts">
@@ -140,12 +142,16 @@ import GridLayer from './components/grid-layer.vue';
 import { ipcRenderer } from 'electron';
 import { getOLStyle } from '@/utils/style';
 import * as proj from 'ol/proj';
+import VectorEditor from '@/components/vector-editor';
+import EditType from '@/enum/EditType';
+import EditState from '@/components/vector-editor/src/EditState';
 
 let homeStore = useHomeStore();
 const format = ref(new GeoJSON());
 const mapOptions = reactive({
 	controls: [],
 	interactions: [],
+	clipPolygon: null,
 });
 
 const viewOptions = reactive({

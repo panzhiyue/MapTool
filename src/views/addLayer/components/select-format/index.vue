@@ -61,6 +61,10 @@ const layerTypes = ref([
 		value: 'geometry-text',
 	},
 	{
+		label: '矢量数据(api-result)',
+		value: 'api-result',
+	},
+	{
 		label: 'wms',
 		value: 'wms',
 	},

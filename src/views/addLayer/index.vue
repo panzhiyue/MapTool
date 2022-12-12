@@ -13,6 +13,8 @@
 		</add-topojson>
 		<add-geometry-text v-if="current == 1 && format == 'geometry-text'" v-model:current="current">
 		</add-geometry-text>
+		<add-api-result v-if="current == 1 && format == 'api-result'" v-model:current="current">
+		</add-api-result>
 		<add-image-arcgis-rest
 			v-if="current == 1 && format == 'ImageArcGISRest'"
 			v-model:current="current">
@@ -34,6 +36,7 @@ import AddTopojson from './components/add-topojson/index.vue';
 import AddImageArcgisRest from './components/add-image-arcgis-rest/index.vue';
 import AddExcel from './components/add-excel/index.vue';
 import AddGeometryText from './components/add-geometry-text/index.vue';
+import AddApiResult from './components/add-api-result/index.vue';
 const remote = require('@electron/remote');
 const homeStore = useHomeStore();
 

@@ -49,6 +49,7 @@ declare module '@vue/runtime-core' {
     ATree: typeof import('ant-design-vue/es')['Tree']
     ColorPicker: typeof import('./src/components/color-picker/src/color-picker.vue')['default']
     copy: typeof import('./src/components/sqlite-column-type copy/index.vue')['default']
+    Editor: typeof import('./src/components/vector-editor/src/editor.vue')['default']
     EnumSelect: typeof import('./src/components/enum-select/src/enum-select.vue')['default']
     GroupBox: typeof import('./src/components/group-box/src/group-box.vue')['default']
     Header: typeof import('./src/components/header/index.vue')['default']
@@ -68,6 +69,8 @@ declare module '@vue/runtime-core' {
     StyleIcon: typeof import('./src/components/style-icon/src/style-icon.vue')['default']
     TableStructure: typeof import('./src/components/table-structure/src/table-structure.vue')['default']
     TableStructureCompare: typeof import('./src/components/table-structure-compare/src/table-structure-compare.vue')['default']
+    VectorEdit: typeof import('./src/components/vector-edit/src/vector-edit.vue')['default']
+    VectorEditor: typeof import('./src/components/vector-editor/src/vector-editor.vue')['default']
     WindowControls: typeof import('./src/components/window-controls/index.vue')['default']
   }
 }

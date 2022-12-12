@@ -1,0 +1,388 @@
+<template>
+	<div class="Editor">
+		<ul>
+			<li
+				v-for="(item, index) in itemInfos"
+				@click="
+					() => {
+						itemClick(item);
+					}
+				">
+				<div v-if="item.isLine" class="line"></div>
+				<div
+					v-else
+					class="selItem"
+					:class="{
+						cannotSel: item.cannotSel,
+						hide: item.state == EditState.HIDE,
+						active: item.state == EditState.SELECTED,
+						enSel: item.state == EditState.ENABLE,
+						unSel: item.state == EditState.DISABLE,
+					}">
+					<span></span
+					><span class="name">{{
+						item.state == EditState.SELECTED
+							? item.selectedTitle
+							: item.state == EditState.ENABLE
+							? item.enableTitle
+							: item.disableTitle
+					}}</span>
+				</div>
+			</li>
+		</ul>
+	</div>
+</template>
+<script lang="ts" setup>
+import EditType from '@/enum/EditType';
+import { PropType } from 'vue';
+import EditState from './EditState';
+const props = defineProps({
+	itemInfos: {
+		type: Array as PropType<any>,
+	},
+});
+
+const isEdit = ref(false);
+const active = ref('');
+const emits = defineEmits(['active']);
+
+const itemClick = (itemInfo) => {
+	if (!itemInfo) {
+		console.log('没有找到编辑项！');
+		return;
+	}
+
+	for (let i = 0; i < props.itemInfos.length; i++) {
+		if (props.itemInfos[i].state == EditState.SELECTED) {
+			props.itemInfos[i].state = EditState.ENABLE;
+		}
+	}
+
+	if (itemInfo.state == EditState.ENABLE) {
+		itemInfo.state = EditState.SELECTED;
+	} else if (itemInfo.state == EditState.SELECTED) {
+		itemInfo.state = EditState.ENABLE;
+	}
+	emits('active', itemInfo);
+};
+</script>
+<style lang="less" scoped>
+.Editor {
+	width: 130px;
+	border-radius: 5px;
+	background-color: rgba(255, 255, 255, 0.75);
+	position: absolute;
+	top: 66px;
+	left: 376px;
+	padding: 20px 0 5px 0px;
+	font-size: 16px;
+	z-index: 900;
+	background-image: url('../../images/moving_region.png');
+	background-position: center top;
+	background-repeat: no-repeat;
+	border: 1px solid #ccc;
+	box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.Editor ul {
+	width: 130px;
+	border-top: 1px solid #d9d9d9;
+}
+
+.Editor .selItem {
+	display: block;
+	height: 40px;
+	line-height: 40px;
+	cursor: pointer;
+	padding: 0px 10px;
+}
+
+.Editor .hide {
+	display: none;
+}
+
+.Editor .unSel .circle {
+	width: 16px;
+	height: 16px; /* background-color: rgb(192,192,192);*/
+	display: inline-block; /*border-radius: 10px;*/
+	margin-left: 10px;
+	vertical-align: -3px;
+}
+
+.Editor .unSel .name {
+	font-size: 14px;
+	color: rgb(132, 132, 132);
+	margin-left: 10px;
+}
+
+.Editor .enSel .circle {
+	width: 16px;
+	height: 16px; /*background-color: rgb(41,124,226);*/
+	display: inline-block; /*border-radius: 10px;*/
+	margin-left: 10px;
+	vertical-align: -3px;
+}
+
+.Editor .enSel .name {
+	font-size: 14px;
+	color: rgb(41, 124, 226);
+	margin-left: 10px;
+}
+
+.Editor .cannotSel .circle {
+	width: 16px;
+	height: 16px; /* background-color: rgb(192,192,192);*/
+	display: inline-block; /*border-radius: 10px;*/
+	margin-left: 10px;
+	vertical-align: -3px;
+}
+
+.Editor .cannotSel .name {
+	font-size: 14px;
+	color: rgb(132, 132, 132);
+	margin-left: 10px;
+}
+
+.Editor .line {
+	border-bottom: 1px solid rgb(240, 240, 240);
+	height: 0px;
+	width: 100%;
+}
+
+.Editor .active {
+}
+
+.Editor .active .circle {
+	width: 16px;
+	height: 16px;
+	display: inline-block; /*border-radius: 10px;*/
+	margin-left: 10px;
+	vertical-align: -3px; /* background-color: rgb(218,165,32);*/
+}
+
+.Editor .active .name {
+	font-size: 14px;
+	margin-left: 5px;
+	color: rgb(218, 165, 32);
+}
+
+.Editor .unSel .startedit {
+	background-image: url(../../assets/images/Editor/ksbj_disabled.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .startedit {
+	background-image: url(../../assets/images/Editor/ksbj_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .startedit {
+	background-image: url(../../assets/images/Editor/ksbj.png);
+	background-size: cover;
+}
+
+.Editor .active .startedit {
+	background-image: url(../../assets/images/Editor/ksbj_active.png);
+	background-size: cover;
+}
+
+.Editor .unSel .copyply {
+	background-image: url(../../assets/images/Editor/xz_disabled.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .copyply {
+	background-image: url(../../assets/images/Editor/xz_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .copyply {
+	background-image: url(../../assets/images/Editor/xz.png);
+	background-size: cover;
+}
+
+.Editor .active .copyply {
+	background-image: url(../../assets/images/Editor/xz_active.png);
+	background-size: cover;
+}
+
+.Editor .unSel .createply {
+	background-image: url(../../assets/images/Editor/create_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .createply {
+	background-image: url(../../assets/images/Editor/create.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .createply {
+	background-image: url(../../assets/images/Editor/create_disabled.png);
+	background-size: cover;
+}
+
+.Editor .active .createply {
+	background-image: url(../../assets/images/Editor/create_active.png);
+	background-size: cover;
+}
+
+.Editor .unSel .cutply {
+	background-image: url(../../assets/images/Editor/qg_disabled.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .cutply {
+	background-image: url(../../assets/images/Editor/qg_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .cutply {
+	background-image: url(../../assets/images/Editor/qg.png);
+	background-size: cover;
+}
+
+.Editor .active .cutply {
+	background-image: url(../../assets/images/Editor/qg_active.png);
+	background-size: cover;
+}
+
+.Editor .unSel .editply {
+	background-image: url(../../assets/images/Editor/bj_disabled.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .editply {
+	background-image: url(../../assets/images/Editor/bj_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .editply {
+	background-image: url(../../assets/images/Editor/bj.png);
+	background-size: cover;
+}
+
+.Editor .active .editply {
+	background-image: url(../../assets/images/Editor/bj_active.png);
+	background-size: cover;
+}
+
+.Editor .unSel .attrply {
+	background-image: url(../../assets/images/Editor/录入_disabled.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .attrply {
+	background-image: url(../../assets/images/Editor/录入_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .attrply {
+	background-image: url(../../assets/images/Editor/录入.png);
+	background-size: cover;
+}
+
+.Editor .active .attrply {
+	background-image: url(../../assets/images/Editor/录入_active.png);
+	background-size: cover;
+}
+
+.Editor .unSel .attrsply {
+	background-image: url(../../assets/images/Editor/属性_disabled.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .attrsply {
+	background-image: url(../../assets/images/Editor/属性_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .attrsply {
+	background-image: url(../../assets/images/Editor/属性.png);
+	background-size: cover;
+}
+
+.Editor .active .attrsply {
+	background-image: url(../../assets/images/Editor/属性_active.png);
+	background-size: cover;
+}
+
+.Editor .unSel .unionply {
+	background-image: url(../../assets/images/Editor/合并_disabled.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .unionply {
+	background-image: url(../../assets/images/Editor/合并_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .unionply {
+	background-image: url(../../assets/images/Editor/合并.png);
+	background-size: cover;
+}
+
+.Editor .active .unionply {
+	background-image: url(../../assets/images/Editor/合并_active.png);
+	background-size: cover;
+}
+
+.Editor .unSel .deleteply {
+	background-image: url(../../assets/images/Editor/删除_disabled.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .deleteply {
+	background-image: url(../../assets/images/Editor/删除_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .deleteply {
+	background-image: url(../../assets/images/Editor/删除.png);
+	background-size: cover;
+}
+
+.Editor .active .deleteply {
+	background-image: url(../../assets/images/Editor/删除_active.png);
+	background-size: cover;
+}
+
+.Editor .unSel .qxply {
+	background-image: url(../../assets/images/Editor/取消_disabled.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .qxply {
+	background-image: url(../../assets/images/Editor/取消_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .qxply {
+	background-image: url(../../assets/images/Editor/取消.png);
+	background-size: cover;
+}
+
+.Editor .active .qxply {
+	background-image: url(../../assets/images/Editor/取消_active.png);
+	background-size: cover;
+}
+
+.Editor .unSel .saveedit {
+	background-image: url(../../assets/images/Editor/bc_disabled.png);
+	background-size: cover;
+}
+
+.Editor .cannotSel .saveedit {
+	background-image: url(../../assets/images/Editor/bc_disabled.png);
+	background-size: cover;
+}
+
+.Editor .enSel .saveedit {
+	background-image: url(../../assets/images/Editor/bc.png);
+	background-size: cover;
+}
+
+.Editor .active .saveedit {
+	background-image: url(../../assets/images/Editor/bc_active.png);
+	background-size: cover;
+}
+</style>
