@@ -50,6 +50,7 @@ import { buildUUID } from '@/utils/uuid';
 import tree, { AntTreeNodeDropEvent } from 'ant-design-vue/lib/tree';
 import * as TableApi from '@/api/table';
 import { getDefaultStyle } from '@/utils/style';
+import WindowName from '@/enum/WindowName';
 const remote = require('@electron/remote');
 
 let homeStore = useHomeStore();
@@ -116,6 +117,7 @@ const handleContextMenuAddLayer = (data: any) => {
 		width: 700,
 		height: 500,
 		frame: false,
+		parent: WindowName.MAIN,
 	});
 };
 

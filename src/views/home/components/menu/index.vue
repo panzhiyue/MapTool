@@ -71,6 +71,7 @@ const handleShowTool = () => {
 		width: 400,
 		height: 700,
 		frame: true,
+		parent: WindowName.MAIN,
 	});
 };
 

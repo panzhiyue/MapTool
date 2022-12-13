@@ -178,6 +178,7 @@ export const drop = async (tableName: String): Promise<ResponseResult<any>> => {
 export const getTableStruct = async (tableName: String): Promise<ResponseResult<IColumnStructure[]>> => {
     const db = await getDB();
     return await db.raw(`PRAGMA table_info("${tableName}")`).then((result) => {
+        console.log(result);
         return new Promise((resolve, reject) => {
             resolve(ResponseResult.buildSuccess(result.map((item) => {
                 return {

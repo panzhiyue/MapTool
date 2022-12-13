@@ -7,7 +7,6 @@
 import { GeoJSON } from 'ol/format';
 import { readAsGeoJSON } from '@/api/table';
 import { Ref } from 'vue';
-import { Console } from 'console';
 const props = defineProps({
 	tableName: {
 		type: String,
