@@ -98,7 +98,6 @@ import { useVModel } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import dayjs from 'dayjs';
 import fs from 'fs';
-import { excel2json } from '@/utils/excel';
 import { Point } from 'ol/geom';
 import Feature from 'ol/Feature';
 import { WKT as FormatWKT } from 'ol/format';
@@ -198,14 +197,6 @@ watch(path, () => {
 		});
 		header.value = fields;
 		data.value = json;
-		console.log(header.value, data.value);
-		// excel2json(result).then((res) => {
-		// 	if (res.length > 0) {
-		// 		let data = res[0];
-		// 		header.value = data.header;
-		// 		excelData.value = data.data;
-		// 	}
-		// });
 	});
 });
 

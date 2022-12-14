@@ -1,5 +1,5 @@
 {
-  "name": "electron-vue-vite",
+  "name": "MapTool",
   "version": "1.0.0",
   "main": "dist/electron/main/index.js",
   "description": "地图数据处理工具",
@@ -81,6 +81,7 @@
     "better-sqlite3": "^7.1.5",
     "dom-to-image": "^2.6.0",
     "electron-devtools-installer": "^3.2.0",
+    "electron-unhandled": "^4.0.1",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
     "knex": "^2.3.0",

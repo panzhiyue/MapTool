@@ -6,7 +6,7 @@ import { app, ipcMain } from "electron";
  * @param {String} name 窗口名称
  */
 export function windowListener(window, name) {
- 
+
     //窗口最小化
     ipcMain.removeAllListeners(`${name}-minimize`);
     ipcMain.addListener(`${name}-minimize`, (event, arg) => {

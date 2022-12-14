@@ -36,8 +36,8 @@
 import { defineComponent, ref } from 'vue';
 import Map from './components/map/index.vue';
 import MapLayerManager from './components/map-layer-manager/index.vue';
-import LayerManager from './components/layer-manager/index';
-import SysHeader from './components/header/index';
+import LayerManager from './components/layer-manager/index.vue';
+import SysHeader from './components/header/index.vue';
 import { useHomeStore } from '@/store/home';
 import { ipcRenderer } from 'electron';
 import ToolBar from './components/tool-bar/index.vue';
@@ -55,7 +55,6 @@ import path from 'path';
 import { getByWhere } from '@/api/mapLayerInfo';
 import ResponseResult from '@/utils/db/ResponseResult';
 import { IMapLayerInfo } from '#/index';
-import ResponseCode from '@/enum/ResponseCode';
 import { readAsGeoJSON } from '@/api/table';
 import { GeoJSON, TopoJSON } from 'ol/format';
 import fs from 'fs';
@@ -70,6 +69,17 @@ import { getArea, getLength } from '@/utils/gis';
 import * as turf from '@turf/turf';
 import LengthUnits from '@/enum/LengthUnits';
 import { Blob } from 'buffer';
+// const unhandled = require('electron-unhandled');
+
+// unhandled({
+// 	logger: () => {
+// 		console.error('222111');
+// 	},
+// 	showDialog: true,
+// 	reportButton: (error) => {
+// 		console.log('Report Button Initialized');
+// 	},
+// });
 
 let homeStore = useHomeStore();
 
@@ -94,7 +104,7 @@ onMounted(() => {
 			content: '正在导出图片！',
 			duration: 0,
 		});
-		let dom = homeStore.map.getTarget() as HTMLElement;
+		let dom = homeStore.map.getTarget();
 		if (options.control == false) {
 			dom = dom.getElementsByClassName('ol-layers')[0];
 		}
@@ -121,7 +131,7 @@ onMounted(() => {
 			duration: 0,
 		});
 
-		const result = await getByWhere({ id: options.layerId as Number });
+		const result = await getByWhere({ id: options.layerId as number });
 		const info = JSON.parse(result.data[0].info);
 		const result2 = await readAsGeoJSON(info.table);
 		let features = new GeoJSON().readFeatures(result2);
@@ -272,6 +282,7 @@ onMounted(() => {
 	});
 
 	ipcRenderer.on('createDistanceTable', async (e, options: ICreateDistanceTableOptions) => {
+		e.sender.send(`${options.fromWindowName}-hide`);
 		let hide = message.loading({
 			content: '正在生成距离表！',
 			duration: 0,
@@ -336,7 +347,6 @@ onMounted(() => {
 		const blob = new Blob([excelData], { type: EXCEL_TYPE });
 		var buffer = await blob.arrayBuffer();
 		fs.writeFileSync(options.savePath as string, new DataView(buffer));
-		console.log(`${options.fromWindowName}-close`);
 		e.sender.send(`${options.fromWindowName}-close`);
 		hide();
 		notification.success({

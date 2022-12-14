@@ -15,8 +15,20 @@ import Directive from './directives/index'
 import { VueColor } from 'vue-color-next'
 import '../node_modules/vue-color-next/dist/index.css'
 
+import unhandled from "@/utils/unhandled.ts"
+unhandled({
+  logger: (error) => {
+    console.error(error)
+  },
+  showDialog: true,
+  reportButton: (error) => {
+    console.log("Report Button Initialized");
+  }
+});
 
-
+// unhandled.logError(Error, {
+//   title: 'Title of the Box'
+// })
 
 
 const store = createPinia()
