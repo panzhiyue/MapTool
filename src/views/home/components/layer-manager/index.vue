@@ -113,10 +113,10 @@ const handleContextMenuAddMenu = (data) => {
 };
 
 const handleContextMenuAddLayer = (data: any) => {
-	ipcRenderer.send('open-win', 'AddLayer', `addLayer?parentId=${data.id}`, {
+	ipcRenderer.send('open-win', WindowName.ADD_LAYER, `addLayer?parentId=${data.id}`, {
 		width: 700,
 		height: 500,
-		frame: false,
+		// frame: false,
 		parent: WindowName.MAIN,
 	});
 };

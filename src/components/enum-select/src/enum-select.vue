@@ -58,3 +58,8 @@ const filterOption = (input: string, option: any) => {
 	return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 </script>
+<style lang="less" scoped>
+.ant-select {
+	width: 100px;
+}
+</style>

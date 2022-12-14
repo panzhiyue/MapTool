@@ -115,12 +115,12 @@ const handleOk = () => {
 </script>
 <style lang="less" scoped>
 .step-footer {
-	position: absolute;
+	// position: absolute;
 	width: 100%;
 	height: 40px;
 	line-height: 40px;
 	background-color: rgba(240, 240, 240, 1);
-	bottom: 0px;
+	// bottom: 0px;
 	display: flex;
 	justify-content: flex-end;
 	z-index: 1000;

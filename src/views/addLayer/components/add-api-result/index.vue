@@ -1,83 +1,97 @@
 <template>
-	<div
-		class="content p-5 w-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
-		<a-row type="flex">
-			<a-col flex="70px">图层名称:</a-col>
-			<a-col flex="auto"><a-input v-model:value="layerName"></a-input></a-col>
-		</a-row>
-		<a-row>
-			<input-select-path
-				class="w-full"
-				pathType="File"
-				v-model:value="path"
-				:filters="filters"></input-select-path>
-		</a-row>
-		<a-row type="flex">
-			<a-col flex="70px">表名:</a-col>
-			<a-col flex="auto"><a-input v-model:value="tableName"></a-input></a-col>
-		</a-row>
-		<a-row>
-			<a-space>
-				格式:
-				<a-select v-model:value="format" class="w-200px">
-					<a-select-option
-						v-for="(item, index) in formatList"
-						:value="item"
-						:key="`format${index}`"
-						>{{ item }}</a-select-option
+	<tool-container>
+		<template #content>
+			<div class="w-full h-full p-5">
+				<a-row type="flex">
+					<a-col flex="70px">图层名称:</a-col>
+					<a-col flex="auto"><a-input v-model:value="layerName"></a-input></a-col>
+				</a-row>
+				<a-row>
+					<input-select-path
+						class="w-full"
+						pathType="File"
+						v-model:value="path"
+						:filters="filters"></input-select-path>
+				</a-row>
+				<a-row type="flex">
+					<a-col flex="70px">表名:</a-col>
+					<a-col flex="auto"><a-input v-model:value="tableName"></a-input></a-col>
+				</a-row>
+				<a-row>
+					<a-space>
+						格式:
+						<a-select v-model:value="format" class="w-200px">
+							<a-select-option
+								v-for="(item, index) in formatList"
+								:value="item"
+								:key="`format${index}`"
+								>{{ item }}</a-select-option
+							>
+						</a-select>
+						<div v-if="format == '经纬度'">
+							经度字段
+							<a-select v-model:value="lngField" class="w-120px">
+								<a-select-option
+									v-for="(item, index) in header"
+									:value="item"
+									:key="`lng${index}`"
+									>{{ item }}</a-select-option
+								>
+							</a-select>
+							纬度字段
+							<a-select v-model:value="latField" class="w-120px">
+								<a-select-option
+									v-for="(item, index) in header"
+									:value="item"
+									:key="`lat${index}`"
+									>{{ item }}</a-select-option
+								>
+							</a-select>
+						</div>
+						<div v-if="format != '经纬度'">
+							几何字段
+							<a-select v-model:value="geometryField" class="w-120px">
+								<a-select-option
+									v-for="(item, index) in header"
+									:value="item"
+									:key="`geom${index}`"
+									>{{ item }}</a-select-option
+								>
+							</a-select>
+						</div>
+					</a-space>
+				</a-row>
+				<a-row>
+					<a-space
+						>几何类型：
+						<a-select v-model:value="geometryType" class="w-120px">
+							<a-select-option
+								v-for="(item, index) in geometryTypeList"
+								:value="item"
+								:key="`geometryType${index}`"
+								>{{ item }}</a-select-option
+							>
+						</a-select></a-space
 					>
-				</a-select>
-				<div v-if="format == '经纬度'">
-					经度字段
-					<a-select v-model:value="lngField" class="w-120px">
-						<a-select-option v-for="(item, index) in header" :value="item" :key="`lng${index}`">{{
-							item
-						}}</a-select-option>
-					</a-select>
-					纬度字段
-					<a-select v-model:value="latField" class="w-120px">
-						<a-select-option v-for="(item, index) in header" :value="item" :key="`lat${index}`">{{
-							item
-						}}</a-select-option>
-					</a-select>
-				</div>
-				<div v-if="format != '经纬度'">
-					几何字段
-					<a-select v-model:value="geometryField" class="w-120px">
-						<a-select-option v-for="(item, index) in header" :value="item" :key="`geom${index}`">{{
-							item
-						}}</a-select-option>
-					</a-select>
-				</div>
-			</a-space>
-		</a-row>
-		<a-row>
-			<a-space
-				>几何类型：
-				<a-select v-model:value="geometryType" class="w-120px">
-					<a-select-option
-						v-for="(item, index) in geometryTypeList"
-						:value="item"
-						:key="`geometryType${index}`"
-						>{{ item }}</a-select-option
-					>
-				</a-select></a-space
-			>
-		</a-row>
-		<a-row>
-			<table-structure-compare
-				class="tableStructureCompare w-full mt-20px scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
-				v-model:value="tableData"></table-structure-compare>
-		</a-row>
-	</div>
-	<step-footer
-		:next-most-text="null"
-		:cancel-text="null"
-		:next-text="null"
-		ok-text="开始"
-		@on-ok="handleOk"
-		@on-pre="handlePre"
-		@on-pre-most="handlePreMost"></step-footer>
+				</a-row>
+				<a-row>
+					<table-structure-compare
+						class="tableStructureCompare w-full mt-20px scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+						v-model:value="tableData"></table-structure-compare>
+				</a-row>
+			</div>
+		</template>
+		<template #footer>
+			<step-footer
+				:next-most-text="null"
+				:cancel-text="null"
+				:next-text="null"
+				ok-text="开始"
+				@on-ok="handleOk"
+				@on-pre="handlePre"
+				@on-pre-most="handlePreMost"></step-footer>
+		</template>
+	</tool-container>
 </template>
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core';
@@ -90,6 +104,7 @@ import Feature from 'ol/Feature';
 import { WKT as FormatWKT } from 'ol/format';
 import { importVector } from '@/utils';
 import { useAddLayer } from '../../useAddLayer';
+import ToolContainer from '@/components/tool-container';
 
 const route = useRoute();
 

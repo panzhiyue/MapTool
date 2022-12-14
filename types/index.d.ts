@@ -1,5 +1,7 @@
 import MeasureType from "@/enum/MeasureType";
 import ResponseCode from "@/enum/ResponseCode.ts";
+import { IColumnStructure } from "./database";
+import { TableStructureCompare } from "@/components/table-structure-compare"
 declare module '@gis-js/utilsol'
 declare module '@gis-js/vue2ol'
 declare module '@gis-js/vue2ol-extend'
@@ -109,7 +111,12 @@ export interface IPlotOptions extends IElectronCommunicationOptions {
 export interface ICreateDistanceTableOptions extends IElectronCommunicationOptions {
     layerId1: string,
     layerId2: string,
-    savePath: string
+    savePath: string,
+    layerFields1: string,
+    layerFields2: string,
+    radius: number,
+    radiusUnit: LengthUnits,
+    maxCount: number,
 }
 
 /**

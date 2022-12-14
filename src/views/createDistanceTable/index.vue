@@ -1,42 +1,58 @@
 <template>
-	<div
-		class="w-full h-full p-5 pb-10 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
-		<a-form :label-col="{ style: { width: '80px' } }" layout="horizontal">
-			<a-form-item label="输入图层:">
-				<map-layer-select v-model:value="mapLayerId1" key="map-layer-select1"></map-layer-select>
-				<table-structure-compare
-					v-if="tableCompare1"
-					class="tableStructureCompare w-full mt-20px scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
-					v-model:value="tableCompare1"
-					:columns="columns"
-					style="max-height: 200px"></table-structure-compare>
-			</a-form-item>
-			<a-form-item label="近邻图层:">
-				<map-layer-select v-model:value="mapLayerId2" key="map-layer-select2"></map-layer-select>
-				<table-structure-compare
-					v-if="tableCompare2"
-					class="tableStructureCompare w-full mt-20px scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
-					v-model:value="tableCompare2"
-					:columns="columns"
-					style="max-height: 200px"></table-structure-compare>
-			</a-form-item>
-			<a-form-item label="输出路径:">
-				<input-save-path v-model:value="savePath" title="" :filters="filters"></input-save-path>
-			</a-form-item>
-			<a-form-item label="搜索半径:">
-				<a-input-number></a-input-number>
-			</a-form-item>
-		</a-form>
-	</div>
-	<step-footer
-		:next-most-text="null"
-		:next-text="null"
-		:pre-most-text="null"
-		:pre-text="null"
-		ok-text="确定"
-		cancel-text="取消"
-		@on-ok="handleOk"
-		@on-cancel="handleCancel"></step-footer>
+	<tool-container>
+		<template #content>
+			<div class="w-full h-full p-5">
+				<a-form :label-col="{ style: { width: '80px' } }" layout="horizontal">
+					<a-form-item label="输入图层:">
+						<map-layer-select
+							v-model:value="mapLayerId1"
+							key="map-layer-select1"></map-layer-select>
+						<scroll-box>
+							<table-structure-compare
+								v-if="tableCompare1"
+								class="w-full h-full mt-20px"
+								v-model:value="tableCompare1"
+								:columns="columns"
+								style="max-height: 200px"></table-structure-compare>
+						</scroll-box>
+					</a-form-item>
+					<a-form-item label="近邻图层:">
+						<map-layer-select
+							v-model:value="mapLayerId2"
+							key="map-layer-select2"></map-layer-select>
+						<scroll-box>
+							<table-structure-compare
+								v-if="tableCompare2"
+								class="w-full mt-20px"
+								v-model:value="tableCompare2"
+								:columns="columns"
+								style="max-height: 200px"></table-structure-compare>
+						</scroll-box>
+					</a-form-item>
+					<a-form-item label="输出路径:">
+						<input-save-path v-model:value="savePath" title="" :filters="filters"></input-save-path>
+					</a-form-item>
+					<a-form-item label="搜索半径:">
+						<input-length v-model:value="lengthValue" v-model:unit="lengthUnit"></input-length>
+					</a-form-item>
+					<a-form-item label="最大数量:">
+						<input-number v-model:value="countValue"></input-number>
+					</a-form-item>
+				</a-form>
+			</div>
+		</template>
+		<template #footer>
+			<step-footer
+				:next-most-text="null"
+				:next-text="null"
+				:pre-most-text="null"
+				:pre-text="null"
+				ok-text="确定"
+				cancel-text="取消"
+				@on-ok="handleOk"
+				@on-cancel="handleCancel"></step-footer>
+		</template>
+	</tool-container>
 </template>
 <script lang="ts" setup>
 import { ref, watch, computed, Ref } from 'vue';
@@ -53,6 +69,10 @@ import { IColumnStructure } from '#/database';
 import InputSavePath from '@/components/input-save-path';
 import { Nullable } from '#/';
 import { buildUUID } from '@/utils/uuid';
+import LengthUnits from '@/enum/LengthUnits';
+import InputNumber from '@/components/input-number';
+import ToolContainer from '@/components/tool-container';
+import ScrollBox from '@/components/scroll-box';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
@@ -125,6 +145,10 @@ watch(tableStructure2, () => {
 		};
 	});
 });
+
+const lengthValue = ref(0);
+const lengthUnit = ref(LengthUnits.米);
+const countValue = ref(1);
 const { close } = useWindow();
 const { createDistanceTable } = useMainWindow();
 const handleOk = () => {
@@ -132,8 +156,21 @@ const handleOk = () => {
 		layerId1: mapLayerId1.value,
 		layerId2: mapLayerId2.value,
 		savePath: savePath.value,
-		fromWindowId: sharedObject[WindowName.EXPORT_VECTOR],
-		fromWindowName: WindowName.EXPORT_VECTOR,
+		layerFields1: JSON.stringify(
+			tableCompare1.value.filter((item) => {
+				return item.selected == true;
+			}),
+		),
+		layerFields2: JSON.stringify(
+			tableCompare2.value.filter((item) => {
+				return item.selected == true;
+			}),
+		),
+		radius: lengthValue.value,
+		radiusUnit: lengthUnit.value,
+		maxCount: countValue.value,
+		fromWindowId: sharedObject[WindowName.CREATE_DISTANCE_TABLE],
+		fromWindowName: WindowName.CREATE_DISTANCE_TABLE,
 		toWindowId: sharedObject[WindowName.MAIN],
 		toWindowName: WindowName.MAIN,
 	});

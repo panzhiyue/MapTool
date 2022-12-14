@@ -33,7 +33,6 @@
 	</a-layout>
 </template>
 <script setup lang="ts">
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue';
 import { defineComponent, ref } from 'vue';
 import Map from './components/map/index.vue';
 import MapLayerManager from './components/map-layer-manager/index.vue';
@@ -69,6 +68,8 @@ import { Point } from 'ol/geom';
 import MeasureType from '@/enum/MeasureType';
 import { getArea, getLength } from '@/utils/gis';
 import * as turf from '@turf/turf';
+import LengthUnits from '@/enum/LengthUnits';
+import { Blob } from 'buffer';
 
 let homeStore = useHomeStore();
 
@@ -288,7 +289,7 @@ onMounted(() => {
 
 		let result = [];
 		for (let i = 0; i < features1.length; i++) {
-			let tempResult = [];
+			let tempResults = [];
 			for (let j = 0; j < features2.length; j++) {
 				let feature1 = features1[i];
 				let feature2 = features2[j];
@@ -297,24 +298,32 @@ onMounted(() => {
 				let turfObj2 = new GeoJSON().writeFeature(feature2);
 
 				let distance = turf.distance(JSON.parse(turfObj1), JSON.parse(turfObj2), {
-					units: 'meters',
+					units: LengthUnits.米,
 				});
-				if (distance <= 1000) {
-					tempResult.push({
-						in_bh: feature1.get('bh'),
-						out_bh: feature2.get('bh'),
-						distance: distance,
+				if (distance <= turf.convertLength(options.radius, options.radiusUnit, LengthUnits.米)) {
+					let tempResult = {};
+					JSON.parse(options.layerFields1).forEach((item) => {
+						tempResult[item.destName] = feature1.get(item.originName);
 					});
+
+					JSON.parse(options.layerFields2).forEach((item) => {
+						tempResult[item.destName] = feature2.get(item.originName);
+					});
+					tempResult['calc_distance'] = distance;
+					tempResults.push(tempResult);
 				}
-				tempResult = tempResult.sort((item1, item2) => {
-					return item1.distance - item2.distance;
-				});
 			}
-			result = result.concat(tempResult);
+
+			tempResults = tempResults.sort((item1, item2) => {
+				return item1.calc_distance - item2.calc_distance;
+			});
+			// console.log(tempResults);
+			tempResults = tempResults.slice(0, options.maxCount);
+			result = result.concat(tempResults);
 		}
-		result = result.filter((item) => {
-			return item.in_bh != item.out_bh;
-		});
+		// result = result.filter((item) => {
+		// 	return item.in_bh != item.out_bh;
+		// });
 
 		let excel = UtilsCommon.excel.json2Excel([
 			{
@@ -327,13 +336,13 @@ onMounted(() => {
 		const blob = new Blob([excelData], { type: EXCEL_TYPE });
 		var buffer = await blob.arrayBuffer();
 		fs.writeFileSync(options.savePath as string, new DataView(buffer));
+		console.log(`${options.fromWindowName}-close`);
 		e.sender.send(`${options.fromWindowName}-close`);
 		hide();
 		notification.success({
 			message: `生成距离表！`,
 			duration: 5,
 		});
-		console.log(result);
 	});
 });
 </script>

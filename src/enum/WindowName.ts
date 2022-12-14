@@ -14,7 +14,8 @@ enum WindowName {
     PLOT = "绘标",
     COORDINATE_CONVERSION = "坐标换算",
     STYLE = "符号选择器",
-    CREATE_DISTANCE_TABLE = "生成距离表"
+    CREATE_DISTANCE_TABLE = "生成距离表",
+    ADD_LAYER = "添加图层"
 }
 
 export default WindowName;

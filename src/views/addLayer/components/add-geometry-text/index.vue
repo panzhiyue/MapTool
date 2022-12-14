@@ -1,34 +1,42 @@
 <template>
-	<div class="p-5 w-full h-full">
-		<div class="tips">表结构？</div>
-		<a-row type="flex">
-			<a-col flex="70px">图层名称:</a-col>
-			<a-col flex="auto"><a-input v-model:value="layerName"></a-input></a-col>
-		</a-row>
-		<a-row type="flex">
-			<a-col flex="70px">表名:</a-col>
-			<a-col flex="auto"><a-input v-model:value="tableName"></a-input></a-col>
-		</a-row>
-		<a-row type="flex">
-			<a-col flex="70px">文本:</a-col>
-			<a-col flex="auto"
-				><a-textarea
-					v-model:value="geometryText"
-					:placeholder="formatOptions.placeholder"></a-textarea
-			></a-col>
-		</a-row>
-		<a-row type="flex">
-			<a-col flex="70px">格式:</a-col>
-			<a-col flex="auto"><a-select v-model:value="format" :options="formatList"></a-select></a-col>
-		</a-row>
-	</div>
-	<step-footer
-		:next-most-text="null"
-		:cancel-text="null"
-		:next-text="null"
-		@on-ok="handleOk"
-		@on-pre="handlePre"
-		@on-pre-most="handlePreMost"></step-footer>
+	<tool-container>
+		<template #content>
+			<div class="w-full h-full p-5">
+				<div class="tips">表结构？</div>
+				<a-row type="flex">
+					<a-col flex="70px">图层名称:</a-col>
+					<a-col flex="auto"><a-input v-model:value="layerName"></a-input></a-col>
+				</a-row>
+				<a-row type="flex">
+					<a-col flex="70px">表名:</a-col>
+					<a-col flex="auto"><a-input v-model:value="tableName"></a-input></a-col>
+				</a-row>
+				<a-row type="flex">
+					<a-col flex="70px">文本:</a-col>
+					<a-col flex="auto"
+						><a-textarea
+							v-model:value="geometryText"
+							:placeholder="formatOptions.placeholder"></a-textarea
+					></a-col>
+				</a-row>
+				<a-row type="flex">
+					<a-col flex="70px">格式:</a-col>
+					<a-col flex="auto"
+						><a-select v-model:value="format" :options="formatList"></a-select
+					></a-col>
+				</a-row>
+			</div>
+		</template>
+		<template #footer>
+			<step-footer
+				:next-most-text="null"
+				:cancel-text="null"
+				:next-text="null"
+				@on-ok="handleOk"
+				@on-pre="handlePre"
+				@on-pre-most="handlePreMost"></step-footer>
+		</template>
+	</tool-container>
 </template>
 <script lang="ts" setup>
 import { useWindow } from '@/hooks/electron/useWindow';

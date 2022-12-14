@@ -1,18 +1,24 @@
 <template>
-	<div class="unit-box flex pl-5 pr-5">
-		<span>单位：</span>
-		<enum-select
-			v-model:value="unitSelected"
-			:enum="LengthUnits"
-			:mode="'name-value'"></enum-select>
-	</div>
-	<step-footer
-		pre-most-text=""
-		pre-text=""
-		next-text=""
-		next-most-text=""
-		@on-ok="handleOk"
-		@on-cancel="handleCancel"></step-footer>
+	<tool-container>
+		<template #content>
+			<div class="w-full h-full p-5">
+				<span>单位：</span>
+				<enum-select
+					v-model:value="unitSelected"
+					:enum="LengthUnits"
+					:mode="'name-value'"></enum-select>
+			</div>
+		</template>
+		<template #footer>
+			<step-footer
+				pre-most-text=""
+				pre-text=""
+				next-text=""
+				next-most-text=""
+				@on-ok="handleOk"
+				@on-cancel="handleCancel"></step-footer>
+		</template>
+	</tool-container>
 </template>
 <script lang="ts" setup>
 import { useWindow } from '@/hooks/electron/useWindow';
@@ -36,7 +42,7 @@ const formatWKT = new WKT();
 const tableName = ref(route.query.tableName as string);
 const fieldName = ref(route.query.fieldName as string);
 
-const unitSelected = ref();
+const unitSelected = ref(LengthUnits.米);
 
 const { close } = useWindow();
 const handleOk = async () => {

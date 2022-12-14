@@ -1,29 +1,36 @@
 <template>
-	<div class="p-5">
-		<div class="tips">这个向导允许你指定如何添加图层。你要选择哪种图层格式？</div>
-		<div>图层类型:</div>
-		<a-radio-group v-model:value="layerType">
-			<a-radio
-				v-for="(item, index) in layerTypes"
-				:value="item.value"
-				:key="index"
-				:style="radioStyle">
-				{{ item.label }}
-			</a-radio>
-		</a-radio-group>
-	</div>
-	<step-footer
-		:pre-most-text="null"
-		:pre-text="null"
-		:next-most-text="null"
-		:ok-text="null"
-		@on-cancel="handleCancel"
-		@on-next="handleNext"></step-footer>
+	<tool-container>
+		<template #content>
+			<div class="w-full h-full p-5">
+				<div class="tips">这个向导允许你指定如何添加图层。你要选择哪种图层格式？</div>
+				<div>图层类型:</div>
+				<a-radio-group v-model:value="layerType">
+					<a-radio
+						v-for="(item, index) in layerTypes"
+						:value="item.value"
+						:key="index"
+						:style="radioStyle">
+						{{ item.label }}
+					</a-radio>
+				</a-radio-group>
+			</div>
+		</template>
+		<template #footer>
+			<step-footer
+				:pre-most-text="null"
+				:pre-text="null"
+				:next-most-text="null"
+				:ok-text="null"
+				@on-cancel="handleCancel"
+				@on-next="handleNext"></step-footer>
+		</template>
+	</tool-container>
 </template>
 
 <script setup lang="ts">
 import { useWindow } from '@/hooks/electron/useWindow';
 import { useVModel } from '@vueuse/core';
+import ToolContainer from '@/components/tool-container';
 
 const props = defineProps({
 	current: {
