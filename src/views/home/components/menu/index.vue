@@ -52,19 +52,24 @@
 				</a-menu>
 			</template>
 		</a-dropdown>
+		<a-dropdown>
+			<span>帮助</span>
+			<template #overlay>
+				<a-menu>
+					<a-menu-item key="0">
+						<span @click="showAboutWindow">关于MapTool</span>
+					</a-menu-item>
+				</a-menu>
+			</template>
+		</a-dropdown>
 	</div>
 </template>
 <script lang="ts" setup>
 import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
 import { useHomeStore } from '@/store/home';
-import {
-	MenuFoldOutlined,
-	MenuUnfoldOutlined,
-	PieChartOutlined,
-	MailOutlined,
-} from '@ant-design/icons-vue';
-
+import * as ElectronUtil from '@/utils/electron';
+console.log(ElectronUtil);
 const homeStore = useHomeStore();
 const handleShowTool = () => {
 	ipcRenderer.send('open-win', WindowName.TOOLBOX, `toolbox`, {
@@ -112,6 +117,14 @@ const handleShowCoordinateConversion = () => {
 		height: 250,
 		frame: true,
 		parent: WindowName.MAIN,
+	});
+};
+
+const showAboutWindow = () => {
+	ElectronUtil.showAboutWindow({
+		title: '关于MapTool',
+		copyright: 'Copyright © Sindre Sorhus',
+		text: 'Some more info.',
 	});
 };
 </script>

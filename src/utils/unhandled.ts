@@ -1,7 +1,8 @@
 'use strict';
+import cleanStack from 'clean-stack';
+import ensureError from 'ensure-error';
 const remote = require("@electron/remote"); //1 
-const cleanStack = require('clean-stack');
-const ensureError = require('ensure-error');
+
 
 const app = remote.app;
 const dialog = remote.dialog;

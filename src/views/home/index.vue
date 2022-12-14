@@ -69,17 +69,6 @@ import { getArea, getLength } from '@/utils/gis';
 import * as turf from '@turf/turf';
 import LengthUnits from '@/enum/LengthUnits';
 import { Blob } from 'buffer';
-// const unhandled = require('electron-unhandled');
-
-// unhandled({
-// 	logger: () => {
-// 		console.error('222111');
-// 	},
-// 	showDialog: true,
-// 	reportButton: (error) => {
-// 		console.log('Report Button Initialized');
-// 	},
-// });
 
 let homeStore = useHomeStore();
 

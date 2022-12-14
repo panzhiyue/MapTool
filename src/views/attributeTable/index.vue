@@ -62,22 +62,7 @@ import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
 import ColumnMenuType from '@/enum/ColumnMenuType';
 import ResponseCode from '@/enum/ResponseCode';
-// const unhandled = require('electron-unhandled');
 
-// unhandled();
-// const unhandled = require('electron-unhandled');
-
-// unhandled({
-// 	logger: () => {
-// 		console.error('222111');
-// 	},
-// 	showDialog: true,
-// 	reportButton: (error) => {
-// 		console.log('Report Button Initialized');
-// 	},
-// });
-
-// console.log(unhandled);
 const route = useRoute();
 
 const layerId = route.query.layerId as string;

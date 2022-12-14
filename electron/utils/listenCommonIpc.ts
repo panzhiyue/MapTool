@@ -48,6 +48,20 @@ export function windowListener(window, name) {
         window.setFullScreen(true)
         event.sender.send(`${name}-fullscreen`);
     })
+
+    // //窗口隐藏
+    // ipcMain.removeAllListeners(`${name}-hide`);
+    // ipcMain.addListener(`${name}-hide`, (event, arg) => {
+    //     window.hide()
+    //     event.sender.send(`${name}-hide`);
+    // })
+
+    // //窗口显示
+    // ipcMain.removeAllListeners(`${name}-show`);
+    // ipcMain.addListener(`${name}-show`, (event, arg) => {
+    //     window.show()
+    //     event.sender.send(`${name}-show`);
+    // })
 }
 
 export function commonListener() {

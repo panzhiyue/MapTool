@@ -5,37 +5,6 @@ import { windowListener, commonListener } from "../utils/listenCommonIpc"
 import electronDebug from 'electron-debug'
 import { getWindowByTitle } from '../utils/window'
 
-// const unhandled = require('electron-unhandled');
-
-// unhandled({
-//   logger: () => {
-//     console.error('222111');
-//   },
-//   showDialog: true,
-//   reportButton: (error) => {
-//     console.log('Report Button Initialized');
-//   },
-// });
-
-// unhandled.logError(Error, {
-//   title: 'Title of the Box'
-// })
-// const unhandled = require('electron-unhandled');
-
-// unhandled({
-//   logger: () => {
-//     console.error('222111');
-//   },
-//   showDialog: true,
-//   reportButton: (error) => {
-//     console.log('Report Button Initialized');
-//   },
-// });
-
-// unhandled.logError(Error, {
-//   title: 'Title of the Box'
-// })
-
 electronDebug({ showDevTools: false })
 const remote = require("@electron/remote/main") //1 
 remote.initialize()//2
