@@ -15,7 +15,9 @@ enum WindowName {
     COORDINATE_CONVERSION = "坐标换算",
     STYLE = "符号选择器",
     CREATE_DISTANCE_TABLE = "生成距离表",
-    ADD_LAYER = "添加图层"
+    ADD_LAYER = "添加图层",
+    GEOMETRY_CONVERSION = "几何格式转换",
+    GEOMETRY_CONVERSION_BATCH = "几何格式转换(批量)"
 }
 
 export default WindowName;

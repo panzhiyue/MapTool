@@ -3,7 +3,7 @@
 		<scroll-box class="tool-container-content">
 			<slot name="content"></slot>
 		</scroll-box>
-		<div class="tool-container-footer">
+		<div v-if="$slots['footer']" class="tool-container-footer">
 			<slot name="footer"></slot>
 		</div>
 	</div>

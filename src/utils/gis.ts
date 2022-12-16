@@ -1,7 +1,8 @@
 import { Geometry, Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon } from "ol/geom"
-import { GeoJSON } from "ol/format"
+import { GeoJSON, TopoJSON, WKT, EsriJSON } from "ol/format"
 import * as turf from "@turf/turf"
 import VectorType from "@/enum/VectorLayerType"
+import GisFormat from "@/enum/GisFormatType";
 
 const formatGeoJSON = new GeoJSON();
 
@@ -51,5 +52,26 @@ export const getVectorType = (geometry: Geometry) => {
         return VectorType.POLYGON;
     } else {
         return null;
+    }
+}
+
+export const gisFormat = {
+    "geojson": new GeoJSON(),
+    "topojson": new TopoJSON(),
+    "wkt": new WKT(),
+    "esrijson": new EsriJSON()
+}
+
+
+export const convertGisFormat = (text: string, originFormatType: GisFormat, destFormatType: GisFormat, gisType) => {
+    let originFormat = gisFormat[originFormatType];
+    let destFormat = gisFormat[destFormatType];
+    console.log(originFormat, destFormat);
+    if (gisType == "geometry") {
+        return destFormat.writeGeometry(originFormat.readGeometry(text))
+    } else if (gisType == "feature") {
+        return destFormat.writeFeature(originFormat.readFeature(text))
+    } else if (gisType == "features") {
+        return destFormat.writeFeatures(originFormat.readFeatures(text))
     }
 }

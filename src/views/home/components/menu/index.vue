@@ -49,6 +49,12 @@
 					<a-menu-item key="0">
 						<span @click="handleShowCoordinateConversion">坐标换算</span>
 					</a-menu-item>
+					<a-menu-item key="0">
+						<span @click="handleShowGeometryConversion">几何格式转换</span>
+					</a-menu-item>
+					<a-menu-item key="0">
+						<span @click="handleShowGeometryConversionBatch">几何格式转换(批量)</span>
+					</a-menu-item>
 				</a-menu>
 			</template>
 		</a-dropdown>
@@ -115,6 +121,24 @@ const handleShowCoordinateConversion = () => {
 	ipcRenderer.send('open-win', WindowName.COORDINATE_CONVERSION, `coordinateConversion`, {
 		width: 500,
 		height: 250,
+		frame: true,
+		parent: WindowName.MAIN,
+	});
+};
+
+const handleShowGeometryConversion = () => {
+	ipcRenderer.send('open-win', WindowName.GEOMETRY_CONVERSION, `geometryConversion`, {
+		width: 600,
+		height: 400,
+		frame: true,
+		parent: WindowName.MAIN,
+	});
+};
+
+const handleShowGeometryConversionBatch = () => {
+	ipcRenderer.send('open-win', WindowName.GEOMETRY_CONVERSION_BATCH, `geometryConversionBatch`, {
+		width: 600,
+		height: 400,
 		frame: true,
 		parent: WindowName.MAIN,
 	});

@@ -86,6 +86,16 @@ const routes = [
     name: "CreateDistanceTable",
     component: () => import(/* webpackChunkName: "about" */ '../views/createDistanceTable/index.vue')
   },
+  {
+    path: '/geometryConversion',
+    name: "GeometryConversion",
+    component: () => import(/* webpackChunkName: "about" */ '../views/geometryConversion/index.vue')
+  },
+  {
+    path: '/geometryConversionBatch',
+    name: "GeometryConversionBatch",
+    component: () => import(/* webpackChunkName: "about" */ '../views/geometryConversionBatch/index.vue')
+  },
 
   // {
   //   path: '/home',
