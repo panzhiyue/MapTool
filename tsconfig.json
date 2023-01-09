@@ -20,7 +20,8 @@
     "skipLibCheck": true,
     "declaration": true,
     "types": [
-      "vite/client"
+      "vite/client",
+      "unplugin-vue-define-options/macros-global"
     ],
     "typeRoots": [
       "./node_modules/@types/",

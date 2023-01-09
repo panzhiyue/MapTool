@@ -124,7 +124,7 @@ const path = ref('');
 const filters = ref([
 	{
 		name: 'excel',
-		extensions: ['xlsx'],
+		extensions: ['xlsx', 'xls'],
 		buttonLabel: '确认',
 	},
 ]);
