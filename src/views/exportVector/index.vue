@@ -10,7 +10,9 @@
 						<input-save-path v-model:value="savePath" title="" :filters="filters"></input-save-path>
 					</a-form-item>
 					<a-form-item label="坐标系:">
-						<select-coordinate-system v-model:value="coordinateSystem"></select-coordinate-system>
+						<select-coordinate-system
+							title=""
+							v-model:value="coordinateSystem"></select-coordinate-system>
 					</a-form-item>
 				</a-form>
 			</div>
@@ -36,9 +38,13 @@ import { useWindow } from '@/hooks/electron/useWindow';
 import { useMainWindow } from '@/hooks/electron/useMainWindow';
 import WindowName from '@/enum/WindowName';
 import ToolContainer from '@/components/tool-container';
+import { useHomeStore } from '@/store/home';
+import { IMapInfo } from '#/';
+import SpatialReference from '@/utils/SpatialReference';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
+const homeStore = useHomeStore();
 const selectLayer = ref();
 
 const savePath = ref('');
@@ -69,6 +75,7 @@ const handleOk = () => {
 		layerId: selectLayer.value,
 		savePath: savePath.value,
 		format: ext,
+		destSpatialReference: coordinateSystem.value,
 		fromWindowId: sharedObject[WindowName.EXPORT_VECTOR],
 		fromWindowName: WindowName.EXPORT_VECTOR,
 		toWindowId: sharedObject[WindowName.MAIN],
@@ -80,6 +87,10 @@ const handleCancel = () => {
 	close();
 };
 
-const coordinateSystem = ref('');
+const coordinateSystem = ref(null);
+
+homeStore.getMapInfo('1').then((mapInfo: IMapInfo) => {
+	coordinateSystem.value = mapInfo.srs;
+});
 </script>
 <style lang="less" scoped></style>

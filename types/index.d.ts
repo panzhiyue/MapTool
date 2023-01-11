@@ -81,7 +81,8 @@ export interface IExportImageOptions extends IElectronCommunicationOptions {
 export interface IExportVectorOptions extends IElectronCommunicationOptions {
     layerId: string | number,  //导出图层Id
     savePath: string,  //保存路径
-    format: string
+    format: string,
+    destSpatialReference: any
 }
 
 

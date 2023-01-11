@@ -69,6 +69,7 @@ import { getArea, getLength } from '@/utils/gis';
 import * as turf from '@turf/turf';
 import LengthUnits from '@/enum/LengthUnits';
 import { Blob } from 'buffer';
+import SpatialReference from '@/utils/SpatialReference';
 
 let homeStore = useHomeStore();
 
@@ -123,26 +124,18 @@ onMounted(() => {
 		const result = await getByWhere({ id: options.layerId as number });
 		const info = JSON.parse(result.data[0].info);
 		const result2 = await readAsGeoJSON(info.table);
-		// result2.features.forEach((feature) => {
-		// 	if (feature.geometry.type == 'MultiLineString') {
-		// 		feature.geometry.type = 'MultiPolygon';
-		// 		let coordinates = feature.geometry.coordinates;
-		// 		coordinates.forEach((coordinates1) => {
-		// 			coordinates1.push(coordinates1[0]);
-		// 		});
-		// 		feature.geometry.coordinates = [coordinates];
-		// 	}
-		// });
-		let features = new GeoJSON().readFeatures(result2);
-		// features.forEach((feature, index) => {
-		// 	if (feature.getGeometry().getType() == 'LineString') {
-		// 		feature.setGeometry()
-		// 	} else if (feature.getGeometry().getType() == 'MultiLineString') {
-		// 	}
-		// });
+		let features = new GeoJSON({
+			dataProjection: new SpatialReference(
+				`GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",4326]]`,
+			).getProjection(),
+			featureProjection: new SpatialReference(options.destSpatialReference).getProjection(),
+		}).readFeatures(result2);
+
+		let resultGeojson = new GeoJSON().writeFeatures(features);
+
 		switch (options.format) {
 			case 'shp': {
-				let g2s = new GeoJson2Shp(result2);
+				let g2s = new GeoJson2Shp(JSON.parse(resultGeojson));
 				const shpPath: string = options.savePath as string;
 				const dirPath = path.dirname(shpPath);
 				const fileName = path.basename(shpPath, '.shp');
@@ -156,10 +149,7 @@ onMounted(() => {
 					fs.writeFileSync(shpPath, files.shp);
 					fs.writeFileSync(shxPath, files.shx);
 					fs.writeFileSync(dbfPath, files.dbf);
-					fs.writeFileSync(
-						prjPath,
-						`GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",4326]]`,
-					);
+					fs.writeFileSync(prjPath, options.destSpatialReference);
 					fs.writeFileSync(cpgPath, 'UTF-8');
 				});
 
@@ -167,10 +157,7 @@ onMounted(() => {
 					fs.writeFileSync(shpPath, files.shp);
 					fs.writeFileSync(shxPath, files.shx);
 					fs.writeFileSync(dbfPath, files.dbf);
-					fs.writeFileSync(
-						prjPath,
-						`GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",4326]]`,
-					);
+					fs.writeFileSync(prjPath, options.destSpatialReference);
 					fs.writeFileSync(cpgPath, 'UTF-8');
 				});
 
@@ -178,16 +165,13 @@ onMounted(() => {
 					fs.writeFileSync(shpPath, files.shp);
 					fs.writeFileSync(shxPath, files.shx);
 					fs.writeFileSync(dbfPath, files.dbf);
-					fs.writeFileSync(
-						prjPath,
-						`GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",4326]]`,
-					);
+					fs.writeFileSync(prjPath, options.destSpatialReference);
 					fs.writeFileSync(cpgPath, 'UTF-8');
 				});
 				break;
 			}
 			case 'geojson': {
-				fs.writeFileSync(options.savePath as string, JSON.stringify(result2));
+				fs.writeFileSync(options.savePath as string, resultGeojson);
 				break;
 			}
 			case 'topojson': {
