@@ -1,7 +1,7 @@
 <template>
 	<div class="status-bar">
 		<a-space
-			>坐标系:<span>{{ homeStore.mapInfo.projection }}</span
+			>坐标系:<span>{{ new SpatialReference(homeStore.mapInfo.srs).getName() }}</span
 			>分辨率:<span>{{ resolution }}</span
 			>层级<span>{{ zoom }}</span> X:<span>{{ x }}</span> Y:<span>{{ y }}</span></a-space
 		>
@@ -11,6 +11,7 @@
 import { findParentMap } from '@gis-js/vue2ol';
 import { getCurrentInstance } from 'vue';
 import { useHomeStore } from '@/store/home';
+import SpatialReference from '@/utils/SpatialReference';
 
 const homeStore = useHomeStore();
 

@@ -53,7 +53,7 @@ export interface IMapInfo {
     mousewheelzoom: boolean, //滚轮缩放
     dragZoomIn: boolean,  //选框放大
     dragZoomOut: boolean, //选框缩小
-    projection: string, //坐标系
+    srs: string, //坐标系
 }
 
 /**

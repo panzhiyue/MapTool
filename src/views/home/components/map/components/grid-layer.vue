@@ -8,6 +8,7 @@ import XYZSource from 'ol/source/XYZ';
 import { findParentMap } from '@gis-js/vue2ol';
 import { getCurrentInstance } from 'vue';
 import { useHomeStore } from '@/store/home';
+import SpatialReference from '@/utils/SpatialReference';
 
 const homeStore = useHomeStore();
 const instance: any = getCurrentInstance();
@@ -20,12 +21,12 @@ const props = defineProps({
 });
 
 var xyzSource = new XYZSource({
-	projection: homeStore.mapInfo.projection, //地图投影坐标系
+	projection: new SpatialReference(homeStore.mapInfo.srs).getProjection(), //地图投影坐标系
 });
 
 const layer = new TileLayer({
 	source: new TileDebugSource({
-		projection: homeStore.mapInfo.projection, //地图投影坐标系
+		projection: new SpatialReference(homeStore.mapInfo.srs).getProjection(), //地图投影坐标系
 		tileGrid: xyzSource.getTileGrid(), //获取瓦片图层数据对象（osmSource）的网格信息
 	}),
 });

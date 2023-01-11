@@ -25,6 +25,8 @@ import * as proj from 'ol/proj';
 import fs from 'fs';
 import dayjs from 'dayjs';
 import path from 'path';
+
+import SpatialReference from '@/utils/SpatialReference';
 export default {
 	data() {
 		return {
@@ -38,7 +40,7 @@ export default {
 			//加载shapefile文件
 			this.getFile(true, (files) => {
 				var eShapeFile = new utilsol.EShapeFile({
-					projection: proj.get(homeStore.mapInfo.projection),
+					projection: new SpatialReference(homeStore.mapInfo.src).getProjection(),
 				});
 				eShapeFile.on('loaded', () => {
 					var features = eShapeFile.getFeatures();

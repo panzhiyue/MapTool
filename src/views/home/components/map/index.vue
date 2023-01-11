@@ -57,8 +57,8 @@
 				:tableName="layer.info.table"
 				:zIndex="index"
 				:style-obj="getStyle(layer.info)"
-				:dataProjection="layer.info.projection ? layer.info.projection : 'EPSG:4326'"
-				:featureProjection="mapInfo.projection">
+				:dataProjection="'EPSG:4326'"
+				:featureProjection="new SpatialReference(mapInfo.srs).getProjection()">
 			</vector-layer>
 			<vue2ol-layer-tile
 				v-else-if="layer.info.type === 'wmts'"
@@ -126,25 +126,19 @@
 			v-if="mapInfo.mousewheelzoom"
 			:active="true"></vue2ol-interaction-mousewheelzoom>
 		<vue2ol-interaction-select v-if="mapInfo.select" :active="true"></vue2ol-interaction-select>
-		<!-- <vector-editor></vector-editor> -->
 	</vue2ol-map>
 </template>
 <script setup lang="ts">
 import GeoJSON from 'ol/format/GeoJSON';
 import { useHomeStore } from '@/store/home';
-import { getById, updateById } from '@/api/mapInfo';
 import { IMapInfo, IMapLayerInfo } from 'types';
 import { MapEvent } from 'ol';
 import { ComputedRef, Ref } from 'vue';
 import VectorLayer from './components/vector-layer.vue';
 import StatusBar from '@/components/status-bar/index';
 import GridLayer from './components/grid-layer.vue';
-import { ipcRenderer } from 'electron';
 import { getOLStyle } from '@/utils/style';
-import * as proj from 'ol/proj';
-import VectorEditor from '@/components/vector-editor';
-import EditType from '@/enum/EditType';
-import EditState from '@/components/vector-editor/src/EditState';
+import SpatialReference from '@/utils/SpatialReference';
 
 let homeStore = useHomeStore();
 const format = ref(new GeoJSON());
@@ -153,9 +147,9 @@ const mapOptions = reactive({
 	interactions: [],
 	clipPolygon: null,
 });
-
+console.log(new SpatialReference(homeStore.mapInfo.srs).getProjection());
 const viewOptions = reactive({
-	projection: proj.get(homeStore.mapInfo.projection),
+	projection: new SpatialReference(homeStore.mapInfo.srs).getProjection(),
 });
 
 const mapLayer: ComputedRef<IMapLayerInfo[]> = computed(() => {

@@ -9,12 +9,8 @@ import { ILayerInfo, IMapInfo, IMapLayerInfo, Nullable, Undefinerable } from "ty
 import MeasureType from "@/enum/MeasureType";
 import { updateById } from "@/api/mapInfo"
 import * as TableApi from "@/api/table"
-import * as utilsol from "@gis-js/utilsol"
 import proj4 from "proj4"
 import * as olProj4 from "ol/proj/proj4";
-import Projection from "ol/proj/Projection";
-import * as proj from "ol/proj";
-import Units from "ol/proj/Units"
 
 interface IState {
   map: Nullable<olMap>,
@@ -93,7 +89,6 @@ export const useHomeStore = defineStore({
       await this.getMapInfo(mapId);
       await this.getLayerInfos(mapId);
       await this.getMapLayerInfos(mapId);
-      await this.initProjection();
       this.ready = true;
 
     },
@@ -188,97 +183,6 @@ export const useHomeStore = defineStore({
         dragZoomOut: dragZoomOut,
       });
     },
-    async initProjection() {
 
-      let result = await TableApi.getByWhere("spatial_ref_sys", { auth_name: "EPSG", srid: parseInt(this.mapInfo.projection.split(":")[1]) });
-      console.log(result);
-      for (let i = 0; i < result.data.length; i++) {
-        let item = result.data[i];
-        if (item.srid && item.proj4text) {
-          proj4.defs("EPSG:" + item.srid, item.proj4text);
-          // const def = proj4.defs("EPSG:" + item.srid);
-          // console.log("EPSG:" + item.srid, def, item.proj4text);
-          // let units = def.units;
-        }
-
-        // proj4.register(item.proj4text);
-        // console.log("EPSG:" + item.srid);
-        // proj4.defs("EPSG:" + item.srid, item.srtext);
-        // let newProj = new Projection({
-        //   code: "EPSG:" + item.srid,
-        // });
-        // proj.addProjection(newProj);
-        // utilsol.coordinateSystem.addCoordinateTransforms("4326", item.srid);
-        // utilsol.coordinateSystem.addCoordinateTransforms("3857", item.srid);
-      }
-      olProj4.register(proj4);
-      //  .then((result) => {
-      //     for (let i = 0; i < result.data.length; i++) {
-      //       let item = result.data[i];
-      //       if (item.srid && item.proj4text) {
-      //         proj4.defs("EPSG:" + item.srid, item.proj4text);
-      //         // const def = proj4.defs("EPSG:" + item.srid);
-      //         // console.log("EPSG:" + item.srid, def, item.proj4text);
-      //         // let units = def.units;
-      //       }
-
-      //       // proj4.register(item.proj4text);
-      //       // console.log("EPSG:" + item.srid);
-      //       // proj4.defs("EPSG:" + item.srid, item.srtext);
-      //       // let newProj = new Projection({
-      //       //   code: "EPSG:" + item.srid,
-      //       // });
-      //       // proj.addProjection(newProj);
-      //       // utilsol.coordinateSystem.addCoordinateTransforms("4326", item.srid);
-      //       // utilsol.coordinateSystem.addCoordinateTransforms("3857", item.srid);
-      //     }
-      //     olProj4.register(proj4);
-
-      //     // const projCodes = Object.keys(proj4.defs);
-      //     // const len = projCodes.length;
-      //     // let i, j;
-      //     // for (i = 0; i < len; ++i) {
-      //     //   const code = projCodes[i];
-      //     //   console.log(code);
-      //     //   if (!proj.get(code)) {
-      //     //     const def = proj4.defs(code);
-      //     //     let units = def.units;
-      //     //     if (!units && def.projName === 'longlat') {
-      //     //       units = Units.DEGREES;
-      //     //     }
-      //     //     proj.addProjection(
-      //     //       new Projection({
-      //     //         code: code,
-      //     //         axisOrientation: def.axis,
-      //     //         metersPerUnit: def.to_meter,
-      //     //         units,
-      //     //       })
-      //     //     );
-      //     //   }
-      //     // }
-
-      //     // for (i = 0; i < len; ++i) {
-      //     //   const code1 = projCodes[i];
-      //     //   const proj1 = proj.get(code1);
-      //     //   for (j = 0; j < len; ++j) {
-      //     //     const code2 = projCodes[j];
-      //     //     const proj2 = proj.get(code2);
-      //     //     if (!proj.getTransform(code1, code2)) {
-      //     //       if (proj4.defs[code1] === proj4.defs[code2]) {
-      //     //         proj.addEquivalentProjections([proj1, proj2]);
-      //     //       } else {
-      //     //         const transform = proj4(code1, code2);
-      //     //         proj.addCoordinateTransforms(
-      //     //           proj1,
-      //     //           proj2,
-      //     //           proj.createSafeCoordinateTransform(proj1, proj2, transform.forward),
-      //     //           proj.createSafeCoordinateTransform(proj2, proj1, transform.inverse)
-      //     //         );
-      //     //       }
-      //     //     }
-      //     //   }
-      //     // }
-      //   })
-    }
   },
 });

@@ -36,4 +36,8 @@ export default class SpatialReference {
     public getName(): string {
         return this.result.name;
     }
+
+    getProjection() {
+        return get(this.getAuthority())
+    }
 }

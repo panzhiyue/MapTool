@@ -18,7 +18,6 @@ const props = defineProps({
 		type: String,
 	},
 });
-console.log(props.dataProjection);
 const features: Ref<any[]> = ref([]);
 
 onMounted(() => {

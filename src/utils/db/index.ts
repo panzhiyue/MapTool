@@ -42,7 +42,7 @@ const createTable = async () => {
           table.boolean("mousewheelzoom").comment("滚轮缩放").notNullable();
           table.boolean("dragZoomIn").comment("选框放大").notNullable();
           table.boolean("dragZoomOut").comment("选框缩小").notNullable();
-          table.boolean("projection").comment("坐标系").notNullable();
+          table.boolean("srs").comment("坐标系").notNullable();
         })
         .then(() => {
           db("MapInfo")
@@ -58,7 +58,7 @@ const createTable = async () => {
               mousewheelzoom: true,
               dragZoomIn: false,
               dragZoomOut: false,
-              projection: "EPSG:4326"
+              srs: `GEOGCS["GCS_China_Geodetic_Coordinate_System_2000",DATUM["D_China_2000",SPHEROID["CGCS2000",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",4490]]`,
             })
             .then((result: any) => { });
         });
