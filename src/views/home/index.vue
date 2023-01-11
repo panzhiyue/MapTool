@@ -125,9 +125,7 @@ onMounted(() => {
 		const info = JSON.parse(result.data[0].info);
 		const result2 = await readAsGeoJSON(info.table);
 		let features = new GeoJSON({
-			dataProjection: new SpatialReference(
-				`GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",4326]]`,
-			).getProjection(),
+			dataProjection: 'EPSG:4490',
 			featureProjection: new SpatialReference(options.destSpatialReference).getProjection(),
 		}).readFeatures(result2);
 

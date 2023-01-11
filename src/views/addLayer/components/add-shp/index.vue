@@ -114,7 +114,7 @@ watch(path, () => {
 			return item != null;
 		});
 		const eShapeFile: any = new EShapeFile({
-			projection: olProj.get('EPSG:4326'),
+			projection: olProj.get('EPSG:4490'),
 		});
 		eShapeFile.on('loaded', () => {
 			features.value = eShapeFile.getFeatures();

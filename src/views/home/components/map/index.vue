@@ -57,7 +57,7 @@
 				:tableName="layer.info.table"
 				:zIndex="index"
 				:style-obj="getStyle(layer.info)"
-				:dataProjection="'EPSG:4326'"
+				:dataProjection="'EPSG:4490'"
 				:featureProjection="new SpatialReference(mapInfo.srs).getProjection()">
 			</vector-layer>
 			<vue2ol-layer-tile
@@ -66,7 +66,7 @@
 				:zIndex="index">
 				<vue2ol-source-xyz
 					:url="layer.info.url"
-					:projection="'EPSG:4326'"
+					:projection="'EPSG:4490'"
 					@init="onSourceInit"></vue2ol-source-xyz>
 			</vue2ol-layer-tile>
 
@@ -76,7 +76,7 @@
 				:zIndex="index">
 				<vue2ol-source-imagearcgisrest
 					:url="layer.info.url"
-					:projection="'EPSG:4326'"></vue2ol-source-imagearcgisrest>
+					:projection="'EPSG:4490'"></vue2ol-source-imagearcgisrest>
 			</vue2ol-layer-image>
 
 			<grid-layer v-if="showGrid" :zIndex="9999"></grid-layer>
