@@ -3,7 +3,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue';
-import WktParser from 'wkt-parser';
+import SpatialReference from '@/utils/SpatialReference';
 const props = defineProps({
 	value: {
 		type: String,
@@ -11,11 +11,7 @@ const props = defineProps({
 });
 
 const info = computed(() => {
-	if (props.value) {
-		console.log(WktParser(props.value));
-	}
-
-	return props.value ? WktParser(props.value).pretty_wkt : '<未知>';
+	return props.value ? new SpatialReference(props.value).result.name : '<未知>';
 });
 </script>
 <style lang="less" scoped>

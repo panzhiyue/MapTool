@@ -123,7 +123,23 @@ onMounted(() => {
 		const result = await getByWhere({ id: options.layerId as number });
 		const info = JSON.parse(result.data[0].info);
 		const result2 = await readAsGeoJSON(info.table);
+		// result2.features.forEach((feature) => {
+		// 	if (feature.geometry.type == 'MultiLineString') {
+		// 		feature.geometry.type = 'MultiPolygon';
+		// 		let coordinates = feature.geometry.coordinates;
+		// 		coordinates.forEach((coordinates1) => {
+		// 			coordinates1.push(coordinates1[0]);
+		// 		});
+		// 		feature.geometry.coordinates = [coordinates];
+		// 	}
+		// });
 		let features = new GeoJSON().readFeatures(result2);
+		// features.forEach((feature, index) => {
+		// 	if (feature.getGeometry().getType() == 'LineString') {
+		// 		feature.setGeometry()
+		// 	} else if (feature.getGeometry().getType() == 'MultiLineString') {
+		// 	}
+		// });
 		switch (options.format) {
 			case 'shp': {
 				let g2s = new GeoJson2Shp(result2);

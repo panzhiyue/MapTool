@@ -71,9 +71,14 @@ import DirectoryTree from '@/components/directory-tree';
 import ScrollBox from '@/components/scroll-box';
 import PATH from 'path';
 import fs from 'fs';
+import { useWindow } from '@/hooks/electron/useWindow';
 import CoordinateSystemInfo from '@/components/coordinte-system-info';
+import { ipcRenderer } from 'electron';
+import { useRoute } from 'vue-router';
 const remote = require('@electron/remote');
+let sharedObject = remote.getGlobal('sharedObject');
 
+const route = useRoute();
 const urls = ref([
 	PATH.join(__static, 'Coordinate Systems\\XY坐标系\\收藏夹'),
 	PATH.join(__static, 'Coordinate Systems\\XY坐标系\\地理坐标系'),
@@ -88,9 +93,16 @@ const urls2 = ref([
 const activeKey = ref('1');
 const directoryTreeDom = ref(null);
 
-const handleOk = () => {};
+const { close, currentWindow } = useWindow();
 
-const handleCancel = () => {};
+const handleOk = () => {
+	ipcRenderer.send(`changeSpatialReference_${route.query.uuid}`, selectedCoordinateSystem.value);
+	close();
+};
+
+const handleCancel = () => {
+	close();
+};
 
 const inFavorites = (name) => {
 	return fs.existsSync(PATH.join(__static, 'Coordinate Systems\\XY坐标系\\收藏夹', name));
@@ -139,10 +151,6 @@ const handleSelect = (selectedKeys, e) => {
 	} else {
 		selectedCoordinateSystem.value = null;
 	}
-
-	// console.log(e.node.path);
-	// selectedCoordinateSystem
-	// console.log(selectedKeys, e);
 };
 
 const selectedCoordinateSystem = ref('');

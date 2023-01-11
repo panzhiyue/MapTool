@@ -80,6 +80,6 @@ const handleCancel = () => {
 	close();
 };
 
-const coordinateSystem = ref('EPSG:4326');
+const coordinateSystem = ref('');
 </script>
 <style lang="less" scoped></style>

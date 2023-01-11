@@ -147,7 +147,8 @@ watch([excelData, format, lngField, latField, geometryField], () => {
 					parseFloat(item[lngField.value]),
 					parseFloat(item[latField.value]),
 				]);
-				delete item.geometry;
+				delete item[lngField.value];
+				delete item[latField.value];
 				let feature = new Feature({
 					geometry,
 				});
@@ -155,7 +156,7 @@ watch([excelData, format, lngField, latField, geometryField], () => {
 
 				fs.push(feature);
 			} catch {
-				console.log('error:' + i, item.geometry);
+				console.log('error:' + i, item[lngField.value], item[latField.value]);
 			}
 		}
 		features.value = fs;
@@ -165,16 +166,18 @@ watch([excelData, format, lngField, latField, geometryField], () => {
 			let item = excelData.value[i];
 			try {
 				let geometry = new FormatWKT().readGeometry(
-					typeof item.geometry == 'string' ? item.geometry : item.geometry.result,
+					typeof item[geometryField.value] == 'string'
+						? item[geometryField.value]
+						: item[geometryField.value].result,
 				);
-				delete item.geometry;
+				delete item[geometryField.value];
 				let feature = new Feature({
 					geometry,
 				});
 				feature.setProperties(item);
 				fs.push(feature);
 			} catch {
-				console.log('error:' + i, item.geometry);
+				console.log('error:' + i, item[geometryField.value]);
 			}
 		}
 		features.value = fs;
