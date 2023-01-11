@@ -6,6 +6,9 @@ declare module '@gis-js/utilsol'
 declare module '@gis-js/vue2ol'
 declare module '@gis-js/vue2ol-extend'
 declare module '@panzhiyue/utilscommon'
+declare global {
+    __static: string;
+}
 
 declare type Nullable<T> = T | null;  //类型T或Null
 declare type Undefinerable<T> = T | undefined

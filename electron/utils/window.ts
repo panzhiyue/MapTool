@@ -7,6 +7,29 @@ export const getWindowIdByTitle = (title) => {
     return global.sharedObject[title];
 }
 
+/**
+ * 获取当前窗口的id
+ * @param window 当前窗口
+ * @returns 当前窗口的id
+ */
+export const getWindowId = (window) => {
+    return window.webContents.id;
+}
+
+/**
+ * 获取当前窗口的title
+ * @param window 当前窗口
+ * @returns 当前窗口的title
+ */
+export const getWindowTitle = (window) => {
+    let id = getWindowId(window);
+    for (let f in global.sharedObject) {
+        if (global.sharedObject[f] == id) {
+            return f;
+        }
+    }
+}
+
 export const getWindowByTitle = (title) => {
     let id = getWindowIdByTitle(title);
     return getWindowById(id);

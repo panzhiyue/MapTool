@@ -17,7 +17,7 @@ enum WindowName {
     CREATE_DISTANCE_TABLE = "生成距离表",
     ADD_LAYER = "添加图层",
     GEOMETRY_CONVERSION = "几何格式转换",
-    GEOMETRY_CONVERSION_BATCH = "几何格式转换(批量)"
+    GEOMETRY_CONVERSION_BATCH = "几何格式转换(批量)",
 }
 
 export default WindowName;

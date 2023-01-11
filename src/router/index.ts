@@ -96,7 +96,11 @@ const routes = [
     name: "GeometryConversionBatch",
     component: () => import(/* webpackChunkName: "about" */ '../views/geometryConversionBatch/index.vue')
   },
-
+  {
+    path: '/coordinateSystem',
+    name: "CoordinateSystem",
+    component: () => import(/* webpackChunkName: "about" */ '../views/coordinateSystem/index.vue')
+  },
   // {
   //   path: '/home',
   //   name: 'home',

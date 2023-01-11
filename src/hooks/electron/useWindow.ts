@@ -1,7 +1,20 @@
-const { getCurrentWindow } = require("@electron/remote")
+const { getCurrentWindow, getGlobal } = require("@electron/remote")
+let sharedObject = getGlobal("sharedObject");
+
+
 
 export function useWindow() {
     let currentWindow = getCurrentWindow();
+    const windowId = currentWindow.webContents.id
+
+    const getWindowTitle = () => {
+        for (let f in sharedObject) {
+            if (sharedObject[f] == windowId) {
+                return f;
+            }
+        }
+    }
+
 
     const minimize = () => {
         currentWindow.minimize();
@@ -30,5 +43,7 @@ export function useWindow() {
     const changePosition = (pos) => {
         currentWindow.setBounds({ x: pos.x, y: pos.y })
     }
-    return { currentWindow, minimize, maximize, restore, unmaximize, close, fullscreen, changePosition }
+
+
+    return { currentWindow, windowId, getWindowTitle, minimize, maximize, restore, unmaximize, close, fullscreen, changePosition }
 }

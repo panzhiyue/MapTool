@@ -25,7 +25,7 @@
     ],
     "typeRoots": [
       "./node_modules/@types/",
-      "./types"
+      "./types/"
     ],
     "noEmit": false,
     "noEmitOnError": false,
@@ -54,6 +54,7 @@
     "types/**/*",
     "auto-imports.d.ts",
     "components.d.ts",
+    "types/index.d.ts",
     "./electron/*",
     "src/directives/mouseDrag.js",
     "src/directives/mouseDrag.js"

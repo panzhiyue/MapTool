@@ -1,0 +1,1 @@
+VERTCS["KOC_WD_depth_ft",VDATUM["KOC_Well_Datum"],PARAMETER["Vertical_Shift",0.0],PARAMETER["Direction",-1.0],UNIT["Foot",0.3048],AUTHORITY["EPSG",5614]]

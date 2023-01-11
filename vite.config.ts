@@ -96,10 +96,10 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     optimizeDeps: {
       esbuildOptions: {
         plugins: [
-          esbuildCommonjs(['ant-design-vue'])
+          esbuildCommonjs(['ant-design-vue', "gdal"])
         ],
       },
-      // exclude: ['@electron/remote']
+      // exclude: ['gdal', 'fs', 'path']
     },
     resolve: {
       //设置路径别名

@@ -9,6 +9,9 @@
 					<a-form-item label="输出路径:">
 						<input-save-path v-model:value="savePath" title="" :filters="filters"></input-save-path>
 					</a-form-item>
+					<a-form-item label="坐标系:">
+						<select-coordinate-system v-model:value="coordinateSystem"></select-coordinate-system>
+					</a-form-item>
 				</a-form>
 			</div>
 		</template>
@@ -76,5 +79,7 @@ const handleOk = () => {
 const handleCancel = () => {
 	close();
 };
+
+const coordinateSystem = ref('EPSG:4326');
 </script>
 <style lang="less" scoped></style>

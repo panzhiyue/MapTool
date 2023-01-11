@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
+		class="scroll-box scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
 		<slot></slot>
 	</div>
 </template>
