@@ -11,6 +11,7 @@ import { updateById } from "@/api/mapInfo"
 import * as TableApi from "@/api/table"
 import proj4 from "proj4"
 import * as olProj4 from "ol/proj/proj4";
+import SpatialReference from "@/utils/SpatialReference";
 
 interface IState {
   map: Nullable<olMap>,
@@ -89,6 +90,7 @@ export const useHomeStore = defineStore({
       await this.getMapInfo(mapId);
       await this.getLayerInfos(mapId);
       await this.getMapLayerInfos(mapId);
+      this.initProjection();
       this.ready = true;
 
     },
@@ -183,6 +185,15 @@ export const useHomeStore = defineStore({
         dragZoomOut: dragZoomOut,
       });
     },
+
+    initProjection() {
+      let list = [
+        'GEOGCS["GCS_China_Geodetic_Coordinate_System_2000",DATUM["D_China_2000",SPHEROID["CGCS2000",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",4490]]'
+      ]
+      list.forEach((item) => {
+        new SpatialReference(item)
+      })
+    }
 
   },
 });

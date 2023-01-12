@@ -13,6 +13,7 @@
 				:zIndex="index">
 				<vue2ol-source-tdt
 					:layer="layer.info.layer"
+					:projection="new SpatialReference(mapInfo.srs).getProjection()"
 					:options="{ maxZoom: layer.info.maxZoom, minZoom: layer.info.minZoom }"
 					@init="onSourceInit"></vue2ol-source-tdt>
 			</vue2ol-layer-tile>
@@ -24,6 +25,7 @@
 				:zIndex="index">
 				<vue2ol-source-baidu
 					:layer="layer.info.layer"
+					:projection="new SpatialReference(mapInfo.srs).getProjection()"
 					:options="{ maxZoom: layer.info.maxZoom, minZoom: layer.info.minZoom }"
 					@init="onSourceInit"></vue2ol-source-baidu>
 			</vue2ol-layer-tile>
@@ -35,6 +37,7 @@
 				:zIndex="index">
 				<vue2ol-source-gaode
 					:layer="layer.info.layer"
+					:projection="new SpatialReference(mapInfo.srs).getProjection()"
 					:options="{ maxZoom: layer.info.maxZoom, minZoom: layer.info.minZoom }"
 					@init="onSourceInit"></vue2ol-source-gaode>
 			</vue2ol-layer-tile>
@@ -46,6 +49,7 @@
 				:zIndex="index">
 				<vue2ol-source-geoq
 					:layer="layer.info.layer"
+					:projection="new SpatialReference(mapInfo.srs).getProjection()"
 					:options="{ maxZoom: layer.info.maxZoom, minZoom: layer.info.minZoom }"
 					@init="onSourceInit"></vue2ol-source-geoq>
 			</vue2ol-layer-tile>
@@ -66,7 +70,7 @@
 				:zIndex="index">
 				<vue2ol-source-xyz
 					:url="layer.info.url"
-					:projection="'EPSG:4490'"
+					:projection="new SpatialReference(mapInfo.srs).getProjection()"
 					@init="onSourceInit"></vue2ol-source-xyz>
 			</vue2ol-layer-tile>
 
@@ -75,8 +79,9 @@
 				:visible="layer.checked"
 				:zIndex="index">
 				<vue2ol-source-imagearcgisrest
-					:url="layer.info.url"
-					:projection="'EPSG:4490'"></vue2ol-source-imagearcgisrest>
+					:projection="
+						new SpatialReference(mapInfo.srs).getProjection()
+					"></vue2ol-source-imagearcgisrest>
 			</vue2ol-layer-image>
 
 			<grid-layer v-if="showGrid" :zIndex="9999"></grid-layer>
@@ -147,7 +152,6 @@ const mapOptions = reactive({
 	interactions: [],
 	clipPolygon: null,
 });
-console.log(new SpatialReference(homeStore.mapInfo.srs).getProjection());
 const viewOptions = reactive({
 	projection: new SpatialReference(homeStore.mapInfo.srs).getProjection(),
 });
@@ -187,6 +191,7 @@ const handleMapMoveEnd = (e: MapEvent) => {
 };
 
 const onSourceInit = (source) => {
+	console.log(source);
 	source.setTileLoadFunction((tile, src) => {
 		tile.getImage().src = src;
 		tile.getImage().crossOrigin = '*';

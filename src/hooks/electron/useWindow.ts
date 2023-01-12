@@ -2,7 +2,6 @@ const { getCurrentWindow, getGlobal } = require("@electron/remote")
 let sharedObject = getGlobal("sharedObject");
 
 
-
 export function useWindow() {
     let currentWindow = getCurrentWindow();
     const windowId = currentWindow.webContents.id
