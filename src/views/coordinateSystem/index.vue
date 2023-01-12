@@ -60,6 +60,7 @@
 				:pre-text="null"
 				ok-text="确定"
 				cancel-text="取消"
+				:ok-disabled="!selectedCoordinateSystem"
 				@on-ok="handleOk"
 				@on-cancel="handleCancel"></step-footer>
 		</template>
@@ -93,7 +94,7 @@ const urls2 = ref([
 const activeKey = ref('1');
 const directoryTreeDom = ref(null);
 
-const { close, currentWindow } = useWindow();
+const { close } = useWindow();
 
 const handleOk = () => {
 	ipcRenderer.send(`changeSpatialReference_${route.query.uuid}`, selectedCoordinateSystem.value);
