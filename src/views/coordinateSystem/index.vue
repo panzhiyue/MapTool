@@ -157,7 +157,7 @@ const selectedCoordinateSystem = ref('');
 </script>
 <style lang="less" scoped>
 /deep/.ant-tabs-tabpane {
-	height: 400px;
+	height: 350px;
 
 	.scroll-box {
 		width: 100%;
