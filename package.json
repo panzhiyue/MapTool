@@ -41,7 +41,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.6.0",
     "less": "^4.0.0",
-    "less-loader": "^8.0.0",
+    "less-loader": "^11.1.0",
     "new-github-issue-url": "^1.0.0",
     "node-gyp": "8.4.1",
     "prebuild": "^11.0.4",
