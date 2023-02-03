@@ -69,7 +69,9 @@ import { getArea, getLength } from '@/utils/gis';
 import * as turf from '@turf/turf';
 import LengthUnits from '@/enum/LengthUnits';
 import { Blob } from 'buffer';
-import SpatialReference from '@/utils/SpatialReference';
+import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
+
+const { getByAuth } = useCoordinateSystem();
 
 let homeStore = useHomeStore();
 
@@ -124,9 +126,10 @@ onMounted(() => {
 		const result = await getByWhere({ id: options.layerId as number });
 		const info = JSON.parse(result.data[0].info);
 		const result2 = await readAsGeoJSON(info.table);
+		const destSpatialReference = getByAuth(options.destSpatialReference);
 		let features = new GeoJSON({
 			dataProjection: 'EPSG:4490',
-			featureProjection: new SpatialReference(options.destSpatialReference).getProjection(),
+			featureProjection: destSpatialReference.getProjection(),
 		}).readFeatures(result2);
 
 		let resultGeojson = new GeoJSON().writeFeatures(features);
@@ -147,7 +150,7 @@ onMounted(() => {
 					fs.writeFileSync(shpPath, files.shp);
 					fs.writeFileSync(shxPath, files.shx);
 					fs.writeFileSync(dbfPath, files.dbf);
-					fs.writeFileSync(prjPath, options.destSpatialReference);
+					fs.writeFileSync(prjPath, destSpatialReference.srtext);
 					fs.writeFileSync(cpgPath, 'UTF-8');
 				});
 
@@ -155,7 +158,7 @@ onMounted(() => {
 					fs.writeFileSync(shpPath, files.shp);
 					fs.writeFileSync(shxPath, files.shx);
 					fs.writeFileSync(dbfPath, files.dbf);
-					fs.writeFileSync(prjPath, options.destSpatialReference);
+					fs.writeFileSync(prjPath, destSpatialReference.srtext);
 					fs.writeFileSync(cpgPath, 'UTF-8');
 				});
 
@@ -163,7 +166,7 @@ onMounted(() => {
 					fs.writeFileSync(shpPath, files.shp);
 					fs.writeFileSync(shxPath, files.shx);
 					fs.writeFileSync(dbfPath, files.dbf);
-					fs.writeFileSync(prjPath, options.destSpatialReference);
+					fs.writeFileSync(prjPath, destSpatialReference.srtext);
 					fs.writeFileSync(cpgPath, 'UTF-8');
 				});
 				break;

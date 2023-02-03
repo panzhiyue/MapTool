@@ -8,10 +8,12 @@ import BaseLayer from "ol/layer/Base"
 import { ILayerInfo, IMapInfo, IMapLayerInfo, Nullable, Undefinerable } from "types";
 import MeasureType from "@/enum/MeasureType";
 import { updateById } from "@/api/mapInfo"
-import * as TableApi from "@/api/table"
-import proj4 from "proj4"
-import * as olProj4 from "ol/proj/proj4";
-import SpatialReference from "@/utils/SpatialReference";
+import fs from "fs"
+import PATH from "path"
+import { excel2json, json2Excel, download } from '@/utils/excel';
+import { WktInfo } from "@/utils/SpatialReference";
+import { testRegexr } from "windicss/utils";
+import { registerRuntimeHelpers } from "@vue/compiler-core";
 
 interface IState {
   map: Nullable<olMap>,
@@ -22,7 +24,8 @@ interface IState {
   measureCallback: Function,
   plotType: string,
   showGrid: boolean,
-  ready: boolean  //是否准备完毕
+  ready: boolean,  //是否准备完毕
+  spatial_ref_sys: any
 }
 
 export const useHomeStore = defineStore({
@@ -36,7 +39,8 @@ export const useHomeStore = defineStore({
     measureCallback: null,
     plotType: null,
     showGrid: false,
-    ready: false
+    ready: false,
+    spatial_ref_sys: null
   }),
   actions: {
     setMap(data: Nullable<olMap>) {
@@ -86,11 +90,10 @@ export const useHomeStore = defineStore({
 
     async initData(mapId: string | number) {
       this.ready = false;
-
+      await this.initProjection();
       await this.getMapInfo(mapId);
       await this.getLayerInfos(mapId);
       await this.getMapLayerInfos(mapId);
-      this.initProjection();
       this.ready = true;
 
     },
@@ -185,14 +188,62 @@ export const useHomeStore = defineStore({
         dragZoomOut: dragZoomOut,
       });
     },
+    setSpatialRefSys(data) {
+      this.spatial_ref_sys = data;
+    },
 
-    initProjection() {
-      let list = [
-        'GEOGCS["GCS_China_Geodetic_Coordinate_System_2000",DATUM["D_China_2000",SPHEROID["CGCS2000",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",4490]]'
-      ]
-      list.forEach((item) => {
-        new SpatialReference(item)
+    getSpatialRefSys() {
+      return new Promise((inject, reject) => {
+        let result = fs.readFileSync(PATH.join(__static, "spatial_ref_sys.xlsx"));
+
+        excel2json(result).then((res) => {
+          if (res.length > 0) {
+            let data = res[0].data;
+            inject(data);
+            // this.setSpatialRefSys(data);
+          }
+        });
       })
+    },
+
+
+    async initProjection() {
+
+      let result = fs.readFileSync(PATH.join(__static, "spatial_ref_sys.xlsx"));
+
+      await excel2json(result).then((res) => {
+        if (res.length > 0) {
+          let data = res[0].data;
+          data = data.sort((a, b) => {
+            return a.name[0] > b.name[0] ? 1 : -1;
+          })
+          this.setSpatialRefSys(data);
+        }
+      });
+
+    },
+    async handlePrjData() {
+      let result = fs.readFileSync(PATH.join(__static, "spatial_ref_sys.xlsx"));
+      await excel2json(result).then((res) => {
+        if (res.length > 0) {
+          let data = res[0].data;
+          data = data.filter((item) => {
+            return item.srid && item.auth_name && item.auth_srid && item.srtext && item.proj4text;
+          })
+          data.forEach((item) => {
+            item.name = new WktInfo(item.srtext).wktParserResult.name;
+            item.type = new WktInfo(item.srtext).wktParserResult.type;
+          })
+          download({
+            name: testRegexr, worksheets: [{
+              data: data,  //要导出的数据
+
+              name: "sheet1",  //文件名称
+            }]
+          });
+          this.setSpatialRefSys(data);
+        }
+      });
     }
 
   },

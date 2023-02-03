@@ -2,7 +2,7 @@
 	<div class="status-bar">
 		<a-space
 			>坐标系:<span class="cursor-pointer" @click="handleChangeCoordinateSystem">{{
-				new SpatialReference(homeStore.mapInfo.srs).getName()
+				getByAuth(homeStore.mapInfo.srs).name
 			}}</span
 			>分辨率:<span>{{ resolution }}</span
 			>层级<span>{{ zoom }}</span> X:<span>{{ x }}</span> Y:<span>{{ y }}</span></a-space
@@ -13,9 +13,8 @@
 import { findParentMap } from '@gis-js/vue2ol';
 import { getCurrentInstance } from 'vue';
 import { useHomeStore } from '@/store/home';
-import SpatialReference from '@/utils/SpatialReference';
-import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
 import { transform } from 'ol/proj';
+import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
 
 const homeStore = useHomeStore();
 
@@ -45,14 +44,14 @@ onMounted(() => {
 	});
 });
 
-const { selectCoordinateSystem } = useCoordinateSystem();
+const { selectCoordinateSystem, getByAuth } = useCoordinateSystem();
 
 const handleChangeCoordinateSystem = () => {
 	selectCoordinateSystem((spatialReference) => {
 		let destCoor = transform(
 			[homeStore.mapInfo.centerx, homeStore.mapInfo.centery],
-			new SpatialReference(homeStore.mapInfo.srs).getProjection(),
-			new SpatialReference(spatialReference).getProjection(),
+			getByAuth(homeStore.mapInfo.srs).getProjection(),
+			getByAuth(spatialReference).getProjection(),
 		);
 		homeStore.setMapInfo({
 			...homeStore.mapInfo,

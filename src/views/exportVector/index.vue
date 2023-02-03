@@ -40,7 +40,6 @@ import WindowName from '@/enum/WindowName';
 import ToolContainer from '@/components/tool-container';
 import { useHomeStore } from '@/store/home';
 import { IMapInfo } from '#/';
-import SpatialReference from '@/utils/SpatialReference';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 

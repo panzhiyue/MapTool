@@ -1,10 +1,13 @@
 import { ipcRenderer } from 'electron';
 import { useWindow } from '@/hooks/electron/useWindow';
 import { buildUUID } from '@/utils/uuid';
+import { useHomeStore } from '@/store/home';
+import SpatialReference from '@/utils/SpatialReference';
 const remote = require('@electron/remote');
 
 
 export function useCoordinateSystem() {
+    const homeStore = useHomeStore();
     const selectCoordinateSystem = (callback) => {
         const { getWindowTitle } = useWindow();
         const uuid = buildUUID();
@@ -20,6 +23,21 @@ export function useCoordinateSystem() {
         });
     }
 
-    return { selectCoordinateSystem }
+    /**
+     * 根据Auth获取坐标系
+     * @example
+     * getByAuth("EPSG:4490")
+     */
+    const getByAuth = (auth) => {
+        for (let i in homeStore.spatial_ref_sys) {
+            let item = homeStore.spatial_ref_sys[i]
+            if (`${item.auth_name}:${item.auth_srid}` == auth) {
+                return new SpatialReference(item)
+            }
+        }
+        return null;
+    }
+
+    return { selectCoordinateSystem, getByAuth }
 
 }

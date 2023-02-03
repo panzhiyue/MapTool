@@ -20,10 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { deleteById } from '@/api/mapLayerInfo';
-import { useHomeStore } from '@/store/home';
-import { ipcRenderer } from 'electron';
-import SysHeader from '@/components/header/index.vue';
 import SelectFormat from './components/select-format/index.vue';
 import AddNull from './components/add-null/index.vue';
 import AddShp from './components/add-shp/index.vue';
@@ -33,8 +29,6 @@ import AddImageArcgisRest from './components/add-image-arcgis-rest/index.vue';
 import AddExcel from './components/add-excel/index.vue';
 import AddGeometryText from './components/add-geometry-text/index.vue';
 import AddApiResult from './components/add-api-result/index.vue';
-const remote = require('@electron/remote');
-const homeStore = useHomeStore();
 
 const current = ref(0);
 const format = ref('');

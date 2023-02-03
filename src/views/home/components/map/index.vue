@@ -1,5 +1,9 @@
 <template>
-	<vue2ol-map :options="mapOptions" @ready="handleMapReady" @moveend="handleMapMoveEnd">
+	<vue2ol-map
+		v-if="viewOptions"
+		:options="mapOptions"
+		@ready="handleMapReady"
+		@moveend="handleMapMoveEnd">
 		<vue2ol-renderer-canvasclip :polygon="clipPolygon"></vue2ol-renderer-canvasclip>
 		<vue2ol-view
 			:zoom="mapInfo.zoom"
@@ -13,7 +17,6 @@
 				:zIndex="index">
 				<vue2ol-source-tdt
 					:layer="layer.info.layer"
-					:projection="new SpatialReference(mapInfo.srs).getProjection()"
 					:options="{ maxZoom: layer.info.maxZoom, minZoom: layer.info.minZoom }"
 					@init="onSourceInit"></vue2ol-source-tdt>
 			</vue2ol-layer-tile>
@@ -25,7 +28,7 @@
 				:zIndex="index">
 				<vue2ol-source-baidu
 					:layer="layer.info.layer"
-					:projection="new SpatialReference(mapInfo.srs).getProjection()"
+					:projection="viewOptions.projection"
 					:options="{ maxZoom: layer.info.maxZoom, minZoom: layer.info.minZoom }"
 					@init="onSourceInit"></vue2ol-source-baidu>
 			</vue2ol-layer-tile>
@@ -37,7 +40,7 @@
 				:zIndex="index">
 				<vue2ol-source-gaode
 					:layer="layer.info.layer"
-					:projection="new SpatialReference(mapInfo.srs).getProjection()"
+					:projection="viewOptions.projection"
 					:options="{ maxZoom: layer.info.maxZoom, minZoom: layer.info.minZoom }"
 					@init="onSourceInit"></vue2ol-source-gaode>
 			</vue2ol-layer-tile>
@@ -49,7 +52,7 @@
 				:zIndex="index">
 				<vue2ol-source-geoq
 					:layer="layer.info.layer"
-					:projection="new SpatialReference(mapInfo.srs).getProjection()"
+					:projection="viewOptions.projection"
 					:options="{ maxZoom: layer.info.maxZoom, minZoom: layer.info.minZoom }"
 					@init="onSourceInit"></vue2ol-source-geoq>
 			</vue2ol-layer-tile>
@@ -62,7 +65,7 @@
 				:zIndex="index"
 				:style-obj="getStyle(layer.info)"
 				:dataProjection="'EPSG:4490'"
-				:featureProjection="new SpatialReference(mapInfo.srs).getProjection()">
+				:featureProjection="viewOptions.projection">
 			</vector-layer>
 			<vue2ol-layer-tile
 				v-else-if="layer.info.type === 'wmts'"
@@ -70,7 +73,7 @@
 				:zIndex="index">
 				<vue2ol-source-xyz
 					:url="layer.info.url"
-					:projection="new SpatialReference(mapInfo.srs).getProjection()"
+					:projection="viewOptions.projection"
 					@init="onSourceInit"></vue2ol-source-xyz>
 			</vue2ol-layer-tile>
 
@@ -79,9 +82,7 @@
 				:visible="layer.checked"
 				:zIndex="index">
 				<vue2ol-source-imagearcgisrest
-					:projection="
-						new SpatialReference(mapInfo.srs).getProjection()
-					"></vue2ol-source-imagearcgisrest>
+					:projection="viewOptions.projection"></vue2ol-source-imagearcgisrest>
 			</vue2ol-layer-image>
 
 			<grid-layer v-if="showGrid" :zIndex="9999"></grid-layer>
@@ -143,8 +144,11 @@ import VectorLayer from './components/vector-layer.vue';
 import StatusBar from '@/components/status-bar/index';
 import GridLayer from './components/grid-layer.vue';
 import { getOLStyle } from '@/utils/style';
-import SpatialReference from '@/utils/SpatialReference';
+import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
 
+const { getByAuth } = useCoordinateSystem();
+let proj = getByAuth('EPSG:4490').getProjection();
+console.log(proj);
 let homeStore = useHomeStore();
 const format = ref(new GeoJSON());
 const mapOptions = reactive({
@@ -153,7 +157,7 @@ const mapOptions = reactive({
 	clipPolygon: null,
 });
 const viewOptions = reactive({
-	projection: new SpatialReference(homeStore.mapInfo.srs).getProjection(),
+	projection: getByAuth(homeStore.mapInfo.srs).getProjection(),
 });
 
 const mapLayer: ComputedRef<IMapLayerInfo[]> = computed(() => {
@@ -191,7 +195,6 @@ const handleMapMoveEnd = (e: MapEvent) => {
 };
 
 const onSourceInit = (source) => {
-	console.log(source);
 	source.setTileLoadFunction((tile, src) => {
 		tile.getImage().src = src;
 		tile.getImage().crossOrigin = '*';

@@ -9,8 +9,10 @@
 import { useVModel } from '@vueuse/core';
 import { ipcRenderer } from 'electron';
 import { useWindow } from '@/hooks/electron/useWindow';
-import SpatialReference from '@/utils/SpatialReference';
 import { buildUUID } from '@/utils/uuid';
+import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
+
+const { getByAuth } = useCoordinateSystem();
 const remote = require('@electron/remote');
 const props = defineProps({
 	title: {
@@ -29,7 +31,7 @@ const emits = defineEmits(['update:value']);
 
 const value = useVModel(props, 'value', emits);
 const name = computed(() => {
-	return value.value ? new SpatialReference(value.value).getName() : '';
+	return value.value ? getByAuth(value.value).name : '';
 });
 
 const { getWindowTitle } = useWindow();

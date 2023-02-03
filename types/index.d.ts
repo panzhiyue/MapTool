@@ -160,3 +160,13 @@ export interface IPolygonStyle {
     lineWidth: number,
     lineColor: string;
 }
+
+
+export interface ISpatialReferenceOptions {
+    srid: number | string,
+    name: string,
+    auth_name: string,
+    auth_srid: number | string,
+    srtext: string,
+    proj4text: string
+}

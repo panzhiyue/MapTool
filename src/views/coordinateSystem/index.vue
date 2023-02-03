@@ -2,53 +2,54 @@
 	<tool-container>
 		<template #content>
 			<div class="w-full h-full p-5">
-				<a-tabs v-model:active-key="activeKey">
-					<a-tab-pane key="1" tab="XY 坐标系">
-						<scroll-box>
-							<directory-tree :urls="urls" ref="directoryTreeDom" @select="handleSelect">
-								<template #title="{ title, data }">
-									<a-dropdown :trigger="['contextmenu']">
-										<span>{{ PATH.basename(title, '.prj') }}</span>
+				<a-input-search
+					v-model:value="filterStr"
+					placeholder="input search text"
+					style="width: 200px" />
+				<scroll-box>
+					<a-directory-tree
+						v-if="treeData"
+						:tree-data="treeData"
+						ref="tree"
+						:trigger="['contextmenu']"
+						draggable
+						show-icon
+						:height="350"
+						@select="handleSelect">
+						<template #title="{ title, data }">
+							<a-dropdown :trigger="['contextmenu']">
+								<span>{{ title }}</span>
 
-										<template #overlay>
-											<a-menu>
-												<a-menu-item
-													:disabled="
-														data.children ||
-														data.path.indexOf('收藏夹') > -1 ||
-														inFavorites(data.title)
-													"
-													@click="handleAddToFavorites(data.title, data.path)"
-													>添加到收藏夹</a-menu-item
-												>
-												<a-menu-item
-													:disabled="data.children || data.path.indexOf('收藏夹') == -1"
-													@click="handleRemoveFromFavorites(data.path)"
-													>从收藏夹中移除</a-menu-item
-												>
-												<a-menu-item
-													:disabled="data.children"
-													@click="handleCopyAndModify(data.title, data.path)"
-													>复制并修改</a-menu-item
-												>
-												<a-menu-item
-													:disabled="data.children"
-													@click="handleSaveAs(data.title, data.path)"
-													>另存为</a-menu-item
-												>
-											</a-menu>
-										</template>
-									</a-dropdown>
+								<template #overlay>
+									<a-menu>
+										<a-menu-item
+											:disabled="
+												data.children || data.path.indexOf('收藏夹') > -1 || inFavorites(data.title)
+											"
+											@click="handleAddToFavorites(data.title, data.path)"
+											>添加到收藏夹</a-menu-item
+										>
+										<a-menu-item
+											:disabled="data.children || data.path.indexOf('收藏夹') == -1"
+											@click="handleRemoveFromFavorites(data.path)"
+											>从收藏夹中移除</a-menu-item
+										>
+										<a-menu-item
+											:disabled="data.children"
+											@click="handleCopyAndModify(data.title, data.path)"
+											>复制并修改</a-menu-item
+										>
+										<a-menu-item
+											:disabled="data.children"
+											@click="handleSaveAs(data.title, data.path)"
+											>另存为</a-menu-item
+										>
+									</a-menu>
 								</template>
-							</directory-tree>
-						</scroll-box>
-					</a-tab-pane>
-					<a-tab-pane key="2" tab="Z 坐标系">
-						<scroll-box>
-							<directory-tree :urls="urls2"></directory-tree>
-						</scroll-box>
-					</a-tab-pane>
-				</a-tabs>
+							</a-dropdown>
+						</template>
+					</a-directory-tree>
+				</scroll-box>
 				<coordinate-system-info :value="selectedCoordinateSystem"></coordinate-system-info>
 			</div>
 		</template>
@@ -76,22 +77,49 @@ import { useWindow } from '@/hooks/electron/useWindow';
 import CoordinateSystemInfo from '@/components/coordinte-system-info';
 import { ipcRenderer } from 'electron';
 import { useRoute } from 'vue-router';
+import { useHomeStore } from '@/store/home';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
+const homeStore = useHomeStore();
 const route = useRoute();
-const urls = ref([
-	PATH.join(__static, 'Coordinate Systems\\XY坐标系\\收藏夹'),
-	PATH.join(__static, 'Coordinate Systems\\XY坐标系\\地理坐标系'),
-	PATH.join(__static, 'Coordinate Systems\\XY坐标系\\投影坐标系'),
-]);
+homeStore.initProjection();
+const filterStr = ref('');
+const treeData = computed(() => {
+	let spatial_ref_sys = homeStore.spatial_ref_sys;
+	if (!spatial_ref_sys) {
+		return [];
+	}
+	if (filterStr.value) {
+		spatial_ref_sys = spatial_ref_sys.filter((item) => {
+			return item.auth_srid == filterStr.value || item.name.indexOf(filterStr.value) > -1;
+		});
+	}
 
-const urls2 = ref([
-	PATH.join(__static, 'Coordinate Systems\\Z坐标系\\收藏夹'),
-	PATH.join(__static, 'Coordinate Systems\\Z坐标系\\垂直坐标系'),
-]);
+	let temp = {};
+	spatial_ref_sys.forEach((item) => {
+		if (!temp[item.type]) {
+			temp[item.type] = [];
+		}
+		temp[item.type].push({
+			title: item.name,
+			data: item,
+			path: '',
+		});
+	});
+	let result = [];
+	for (let i in temp) {
+		result.push({
+			title: i,
+			path: '',
+			children: temp[i],
+		});
+	}
+	return result;
 
-const activeKey = ref('1');
+	// return homeStore.spatial_ref_sys.map()
+});
+
 const directoryTreeDom = ref(null);
 
 const { close } = useWindow();
@@ -146,9 +174,10 @@ const handleSaveAs = (name: string, path: string) => {
 };
 
 const handleSelect = (selectedKeys, e) => {
-	const path = e.node.path;
+	console.log(e.node.data);
+	const auth = `${e.node.data.auth_name}:${e.node.data.auth_srid}`;
 	if (!e.node.children) {
-		selectedCoordinateSystem.value = fs.readFileSync(path).toString();
+		selectedCoordinateSystem.value = auth;
 	} else {
 		selectedCoordinateSystem.value = null;
 	}
@@ -157,14 +186,10 @@ const handleSelect = (selectedKeys, e) => {
 const selectedCoordinateSystem = ref('');
 </script>
 <style lang="less" scoped>
-/deep/.ant-tabs-tabpane {
-	height: 350px;
-
-	.scroll-box {
-		width: 100%;
-		height: 100%;
-		border: 1px solid #ccc;
-	}
+.scroll-box {
+	width: 100%;
+	height: 355px;
+	border: 1px solid #ccc;
 }
 
 /deep/ .coordinate-system-info {

@@ -4,106 +4,72 @@ import { get } from "ol/proj"
 import { register } from "ol/proj/proj4";
 import loadsh from "loadsh"
 import parseString from "wkt-parser/parser"
+import { ISpatialReferenceOptions } from '#/index';
 export default class SpatialReference {
-    result: any;
-    wkt: Array<any> | null;
-    constructor(str) {
-        if (!str) {
-            throw "str不能为空"
-        }
+    srid: number | string;
+    name: string;
+    auth_name: string;
+    auth_srid: number | string;
+    srtext: string;
+    proj4text: string;
 
-        this.result = WktParser(str)
-        this.wkt = parseString(str);
-        this.result.input = str;
+    wktParserResult: any;
+    wktParserString: Array<any> | null;
+    constructor(options: ISpatialReferenceOptions) {
+        this.srid = options.srid;
+        this.name = options.name;
+        this.auth_name = options.auth_name;
+        this.auth_srid = options.auth_srid;
+        this.srtext = options.srtext;
+        this.proj4text = options.proj4text;
+        this.wktParserResult = WktParser(options.srtext)
+        this.wktParserString = parseString(options.srtext);
         if (!get(this.getAuthority())) {
-            proj4.defs(this.getAuthority(), this.result.input);
+            proj4.defs(this.getAuthority(), this.srtext);
             register(proj4);
         }
     }
 
-    getAuthoritySrid() {
-        return this._getAuthoritySrid(this.result);
-    }
-    private _getAuthoritySrid(info) {
-        for (let f in info.AUTHORITY) {
-            return info.AUTHORITY[f];
-        }
-    }
-    getAuthorityName() {
-        return this._getAuthorityName(this.result);
-    }
-    private _getAuthorityName(info) {
-        for (let f in info.AUTHORITY) {
-            return f
-        }
-    }
-
-
     getAuthority() {
-        return `${this.getAuthorityName()}:${this.getAuthoritySrid()}`
-    }
-
-    private _getAuthority(info) {
-        return `${this._getAuthorityName(info)}:${this._getAuthoritySrid(info)}`
-    }
-
-    getName(): string {
-        return this.result.name;
-    }
-
-    private _getName(info) {
-        return info.name;
+        return `${this.auth_name}:${this.auth_srid}`
     }
 
     getProjection() {
         return get(this.getAuthority())
     }
 
-    exportToPrettyWKT() {
-        let result = "";
-        let deep = 0;
-        let hh = 0;
-        for (let index in this.result.input) {
-            let i = this.result.input[index]
-            let next = this.result.input[index + 1]
-            result += i;
-            if (i == "[") {
-                deep++;
-                hh++;
-            }
-            if (i == "]") {
-                deep--;
-            }
-            if (i == "," && next == "\"") {
+    exportToArcMap() {
+        return new WktInfo(this.srtext).exportToArcMap();
+    }
+}
 
-                result += `\n`;
-                for (let j = 0; j < deep; j++) {
-                    result += "    ";
-                }
-                hh--;
-            }
-        }
-        return result
+
+export class WktInfo {
+    wktParserResult: any;
+    wktParserStringResult: Array<any> | null;
+    constructor(str) {
+        this.wktParserResult = WktParser(str)
+        this.wktParserStringResult = parseString(str);
     }
 
-    exportToEsriInfo() {
-        let result = `${this._getName(this.result)}
-WKID:${this._getAuthoritySrid(this.result)} 权限:${loadsh.capitalize(this._getAuthorityName(this.result))}
+    exportToArcMap() {
+        let result = `${this._getName(this.wktParserResult)}
+WKID:${this._getAuthoritySrid(this.wktParserResult)} 权限:${loadsh.capitalize(this._getAuthorityName(this.wktParserResult))}
 
 `
-        if (this.result.type == "GEOGCS") {
-            return result + this._getGeogcsInfo(this.result);
+        if (this.wktParserResult.type == "GEOGCS") {
+            return result + this._getGeogcsInfo(this.wktParserResult);
         } else {
-            return result + `${this._getProjcsInfo(this.result)}
+            return result + `${this._getProjcsInfo(this.wktParserResult)}
 
-${this._getGeogcsInfo(this.result.GEOGCS)}`
+${this._getGeogcsInfo(this.wktParserResult.GEOGCS)}`
         }
     }
 
     private _getProjcsInfo(projcs) {
         let result = `Projection: ${projcs.projName}\n`;
-        for (let i in this.wkt) {
-            let info = this.wkt[i];
+        for (let i in this.wktParserStringResult) {
+            let info = this.wktParserStringResult[i];
             if (info[0].toUpperCase() == "PARAMETER") {
                 result += `${info[1]}: ${info[2]}\n`;
             }
@@ -124,6 +90,27 @@ Datum: ${geogcs.DATUM.name}
 `;
 
         return result;
+    }
+
+    private _getName(info) {
+        return info.name;
+    }
+
+    getAuthoritySrid() {
+        return this._getAuthoritySrid(this.wktParserResult);
+    }
+    private _getAuthoritySrid(info) {
+        for (let f in info.AUTHORITY) {
+            return info.AUTHORITY[f];
+        }
+    }
+    getAuthorityName() {
+        return this._getAuthorityName(this.wktParserResult);
+    }
+    private _getAuthorityName(info) {
+        for (let f in info.AUTHORITY) {
+            return f
+        }
     }
     /**
      * 获取短轴长度

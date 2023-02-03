@@ -5,8 +5,10 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue';
-import SpatialReference from '@/utils/SpatialReference';
 import ScrollBox from '@/components/scroll-box';
+import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
+
+const { getByAuth } = useCoordinateSystem();
 const props = defineProps({
 	value: {
 		type: String,
@@ -14,7 +16,7 @@ const props = defineProps({
 });
 
 const info = computed(() => {
-	return props.value ? new SpatialReference(props.value).exportToEsriInfo() : '<未知>';
+	return props.value ? getByAuth(props.value).exportToArcMap() : '<未知>';
 });
 </script>
 <style lang="less" scoped>

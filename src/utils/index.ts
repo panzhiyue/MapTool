@@ -53,7 +53,7 @@ export const importVector = (parentId: string, geometryType, tableName: string, 
                         info: {
                             type: "vector",
                             table: tableName,
-                            srs: `GEOGCS["GCS_China_Geodetic_Coordinate_System_2000",DATUM["D_China_2000",SPHEROID["CGCS2000",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",4490]]`,
+                            srs: `EPSG:4490`,
                             geometryType: geometryType,
                         },
                     }).then((result) => {
