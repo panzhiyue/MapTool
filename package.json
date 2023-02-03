@@ -94,7 +94,7 @@
     "mockjs": "^1.1.0",
     "nock": "^13.2.9",
     "pinia": "^2.0.22",
-    "vite-plugin-windicss": "^1.8.8",
+    "vite-plugin-windicss": "^1.8.10",
     "vue-color-next": "^0.7.0",
     "vue-router": "^4.1.5",
     "windicss": "^3.5.6",
