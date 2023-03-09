@@ -16,6 +16,20 @@ import { VueColor } from 'vue-color-next'
 import '../node_modules/vue-color-next/dist/index.css'
 
 import unhandled from "@/utils/unhandled.ts"
+// import workerUrl from 'gdal3.js/dist/package/gdal3.js?url'
+// import dataUrl from 'gdal3.js/dist/package/gdal3WebAssembly.data?url'
+// import wasmUrl from 'gdal3.js/dist/package/gdal3WebAssembly.wasm?url'
+// import initGdalJs from 'gdal3.js';
+// const paths = {
+//   wasm: wasmUrl,
+//   data: dataUrl,
+//   js: workerUrl,
+// };
+// console.log(paths);
+// initGdalJs({ paths }).then((Gdal) => {
+//   // count.value = Object.keys(Gdal.drivers.raster).length + Object.keys(Gdal.drivers.vector).length;
+//   // console.log(333);
+// });
 unhandled({
   logger: (error) => {
     console.error(error)

@@ -34,7 +34,9 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       copy({
         targets: [
           { src: './src/styles/common/iconfonts/fonts/**', dest: './dist/fonts' }, //执行拷贝
-          { src: './src/styles/common/iconfonts/fonts/**', dest: './public/fonts' } //执行拷贝
+          { src: './src/styles/common/iconfonts/fonts/**', dest: './public/fonts' }, //执行拷贝
+          { src: './node_modules/gdal3.js/dist/package/gdal3WebAssembly.wasm', dest: './public/static' }, //执行拷贝
+          { src: './node_modules/gdal3.js/dist/package/gdal3WebAssembly.data', dest: './public/static' }, //执行拷贝
         ]
       }),
       // 
