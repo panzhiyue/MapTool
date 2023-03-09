@@ -19,7 +19,7 @@
 					</a-collapse-Panel>
 				</a-collapse>
 			</a-layout-sider>
-			<a-layout style="padding: 0 24px 24px">
+			<a-layout style="padding: 0 6px 6px">
 				<a-layout-content
 					:style="{
 						background: '#fff',
