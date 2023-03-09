@@ -20,6 +20,12 @@ export interface IResponseResult<T> {
     msg: string;
 }
 
+export interface IConfig {
+    id?: string,
+    name?: string,
+    isShowStatusbar: boolean
+}
+
 export interface ILayerInfo {
     id?: string,
     parentId?: string,

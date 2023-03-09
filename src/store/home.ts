@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import { getList as getLayerInfoList } from "@/api/layerInfo";
 import { getList as getMapLayerInfoList } from "@/api/mapLayerInfo";
-import { getById as getMapInfoById } from "@/api/mapInfo";
+import { getById as getMapInfoById, updateById as updateMapInfoById } from "@/api/mapInfo";
+import { getById as getConfigById, updateById as updateConfigById } from "@/api/config";
 import olMap from "ol/Map"
 import Collection from "ol/Collection"
 import BaseLayer from "ol/layer/Base"
-import { ILayerInfo, IMapInfo, IMapLayerInfo, Nullable, Undefinerable } from "types";
+import { ILayerInfo, IMapInfo, IMapLayerInfo, Nullable, Undefinerable, IConfig } from "types";
 import MeasureType from "@/enum/MeasureType";
-import { updateById } from "@/api/mapInfo"
 import fs from "fs"
 import PATH from "path"
 import { excel2json, json2Excel, download } from '@/utils/excel';
@@ -18,6 +18,7 @@ import { registerRuntimeHelpers } from "@vue/compiler-core";
 interface IState {
   map: Nullable<olMap>,
   mapInfo: Nullable<IMapInfo>,
+  config: Nullable<IConfig>,
   layerInfos: ILayerInfo[],
   mapLayerInfos: IMapLayerInfo[],
   measureType: MeasureType,
@@ -33,6 +34,7 @@ export const useHomeStore = defineStore({
   state: (): IState => ({
     map: null,
     mapInfo: null,
+    config: null,
     layerInfos: [],
     mapLayerInfos: [],
     measureType: null,
@@ -48,13 +50,28 @@ export const useHomeStore = defineStore({
     },
     setMapInfo(data: IMapInfo) {
       this.mapInfo = data;
-      updateById(this.mapInfo).then((result) => { });
+      updateMapInfoById(this.mapInfo).then((result) => { });
     },
     async getMapInfo(mapId: string | number): Promise<IMapInfo> {
       return new Promise((inject, reject) => {
         getMapInfoById(mapId).then((result) => {
           this.mapInfo = result.data;
           inject(this.mapInfo);
+        }).catch((err) => {
+          reject(err);
+        });
+      })
+    },
+
+    setConfig(data: IConfig) {
+      this.config = data;
+      updateConfigById(this.config).then((result) => { });
+    },
+    async getConfig(id: string | number): Promise<IConfig> {
+      return new Promise((inject, reject) => {
+        getConfigById(id).then((result) => {
+          this.config = result.data;
+          inject(this.config);
         }).catch((err) => {
           reject(err);
         });
@@ -94,6 +111,7 @@ export const useHomeStore = defineStore({
       await this.getMapInfo(mapId);
       await this.getLayerInfos(mapId);
       await this.getMapLayerInfos(mapId);
+      await this.getConfig("1");
       this.ready = true;
 
     },
@@ -235,7 +253,8 @@ export const useHomeStore = defineStore({
             item.type = new WktInfo(item.srtext).wktParserResult.type;
           })
           download({
-            name: testRegexr, worksheets: [{
+            name: testRegexr,
+            worksheets: [{
               data: data,  //要导出的数据
 
               name: "sheet1",  //文件名称

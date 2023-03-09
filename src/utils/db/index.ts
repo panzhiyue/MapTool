@@ -516,6 +516,28 @@ const createTable = async () => {
         });
     }
   });
+
+  db.schema.hasTable("Config").then((exists: Boolean) => {
+    if (!exists) {
+      db.schema
+        .createTable("Config", (table: any) => {
+          table.increments("m_id").notNullable();
+          table.text('id').notNullable().unique();
+          table.text('name');
+          table.boolean('isShowStatusbar');
+        })
+        .then(() => {
+          db("Config")
+            .insert([{
+              id: "1",
+              name: '默认',
+              isShowStatusbar: true
+            },
+            ])
+            .then((result: any) => { });
+        });
+    }
+  });
 };
 
 

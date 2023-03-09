@@ -30,6 +30,17 @@
 				</a-menu>
 			</template>
 		</a-dropdown>
+
+		<a-dropdown>
+			<span>视图</span>
+			<template #overlay>
+				<a-menu>
+					<a-menu-item key="0">
+						<span @click="handleToggleStatusbar"> 状态栏</span>
+					</a-menu-item>
+				</a-menu>
+			</template>
+		</a-dropdown>
 		<a-dropdown>
 			<span>工具</span>
 			<template #overlay>
@@ -149,6 +160,16 @@ const showAboutWindow = () => {
 		title: '关于MapTool',
 		copyright: 'Copyright © Sindre Sorhus',
 		text: 'Some more info.',
+	});
+};
+
+/**
+ * 切换状态栏显示与隐藏
+ */
+const handleToggleStatusbar = () => {
+	homeStore.setConfig({
+		...homeStore.config,
+		isShowStatusbar: !homeStore.config.isShowStatusbar,
 	});
 };
 </script>

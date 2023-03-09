@@ -87,7 +87,7 @@
 
 			<grid-layer v-if="showGrid" :zIndex="9999"></grid-layer>
 		</div>
-		<status-bar></status-bar>
+		<status-bar v-show="homeStore.config.isShowStatusbar"></status-bar>
 		<div v-if="measureType">
 			<vue2ol-layer-vector :zIndex="901">
 				<vue2ol-source-vector>
