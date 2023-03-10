@@ -113,7 +113,6 @@ export const useHomeStore = defineStore({
       await this.getMapLayerInfos(mapId);
       await this.getConfig("1");
       this.ready = true;
-
     },
     getLayerBySysId(layerId: any) {
       if (!layerId) {
