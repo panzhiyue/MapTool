@@ -4,7 +4,7 @@
 		:options="mapOptions"
 		@ready="handleMapReady"
 		@moveend="handleMapMoveEnd">
-		<vue2ol-renderer-canvasclip :polygon="clipPolygon"></vue2ol-renderer-canvasclip>
+		<vue2ol-renderer-canvasclip :polygon="mapOptions.clipPolygon"></vue2ol-renderer-canvasclip>
 		<vue2ol-view
 			:zoom="mapInfo.zoom"
 			:center="[mapInfo.centerx, mapInfo.centery]"

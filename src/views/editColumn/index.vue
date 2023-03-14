@@ -24,7 +24,7 @@
 	</tool-container>
 </template>
 <script lang="ts" setup>
-import SqliteColumnType from '@/components/sqlite-column-type';
+import SqliteColumnType from '@/components/sqlite-column-type/index.vue';
 import { useWindow } from '@/hooks/electron/useWindow';
 import * as TableApi from '@/api/table';
 import { useRoute } from 'vue-router';

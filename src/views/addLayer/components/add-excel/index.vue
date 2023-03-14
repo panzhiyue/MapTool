@@ -188,7 +188,7 @@ watch([excelData, format, lngField, latField, geometryField], () => {
 
 watch(path, () => {
 	fs.readFile(path.value, (err, result) => {
-		excel2json(result).then((res) => {
+		excel2json(result).then((res: any) => {
 			if (res.length > 0) {
 				let data = res[0];
 				header.value = data.header;

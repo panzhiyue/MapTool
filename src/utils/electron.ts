@@ -26,19 +26,19 @@ export const electronVersion = process.versions.electron || '0.0.0'
 
 export const chromeVersion = process.versions.chrome.replace(/\.\d+$/, '');
 
-export const platform = object => {
-    let { platform } = process;
+// export const platform = object => {
+//     let { platform } = process;
 
-    if (platform === 'darwin') {
-        platform = 'macos';
-    } else if (platform === 'win32') {
-        platform = 'windows';
-    }
+//     if (platform === 'darwin') {
+//         platform = 'macos';
+//     } else if (platform === 'win32') {
+//         platform = 'windows';
+//     }
 
-    const fn = platform in object ? object[platform] : object.default;
+//     const fn = platform in object ? object[platform] : object.default;
 
-    return typeof fn === 'function' ? fn() : fn;
-};
+//     return typeof fn === 'function' ? fn() : fn;
+// };
 
 export const activeWindow = () => {
     return api.getCurrentWindow();

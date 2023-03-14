@@ -67,7 +67,7 @@ import { useMapLayerInfo } from '@/hooks/useMapLayerInfo';
 import { useTable } from '@/hooks/useTable';
 import { IColumnStructure } from '#/database';
 import InputSavePath from '@/components/input-save-path';
-import { Nullable } from '#/';
+import { Nullable } from '#/index';
 import { buildUUID } from '@/utils/uuid';
 import LengthUnits from '@/enum/LengthUnits';
 import InputNumber from '@/components/input-number';
@@ -122,8 +122,8 @@ const columns = ref([
 		key: 'destName',
 	},
 ]);
-const tableCompare1: Ref<Nullable<ITableStructureCompare>> = ref(null);
-const tableCompare2: Ref<Nullable<ITableStructureCompare>> = ref(null);
+const tableCompare1: Ref<Nullable<Array<ITableStructureCompare>>> = ref(null);
+const tableCompare2: Ref<Nullable<Array<ITableStructureCompare>>> = ref(null);
 watch(tableStructure1, () => {
 	tableCompare1.value = tableStructure1.value.map((item: IColumnStructure) => {
 		return {

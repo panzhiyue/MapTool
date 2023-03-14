@@ -25,7 +25,12 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     },
     base: "./",
     build: {
-      outDir: "dist"
+      outDir: "dist",
+      rollupOptions: {
+        external: [
+          "clean-stack",
+        ],
+      },
     },
     plugins: [
 

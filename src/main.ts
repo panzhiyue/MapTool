@@ -9,13 +9,13 @@ import Vue2olExtend from '@gis-js/vue2ol-extend'
 import '@/styles/index.less'
 import "ol/ol.css"
 
-// import ElementPlus from "@/utils/element-plus.ts"
+// import ElementPlus from "@/utils/element-plus"
 // import 'element-plus/dist/index.css'
 import Directive from './directives/index'
 import { VueColor } from 'vue-color-next'
 import '../node_modules/vue-color-next/dist/index.css'
 
-import unhandled from "@/utils/unhandled.ts"
+import unhandled from "@/utils/unhandled"
 // import workerUrl from 'gdal3.js/dist/package/gdal3.js?url'
 // import dataUrl from 'gdal3.js/dist/package/gdal3WebAssembly.data?url'
 // import wasmUrl from 'gdal3.js/dist/package/gdal3WebAssembly.wasm?url'
@@ -52,7 +52,9 @@ createApp(App).use(router).use(store)
   .use(Vue2olExtend).use(Directive).use(VueColor)
   .mount('#app')
   .$nextTick(() => {
-    postMessage({ payload: 'removeLoading' }, '*')
+    // postMessage({ payload: 'removeLoading' }, '*')
   })
+
+
 
 

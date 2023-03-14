@@ -9,8 +9,8 @@ export const getTableNameList = async (): Promise<ResponseResult<String[]>> => {
     const db = await getDB();
     return await db("sqlite_master").where({ type: 'table' }).select().then((result) => {
         return new Promise((resolve, reject) => {
-            resolve(ResponseResult.buildSuccess(resultProps.map((item) => {
-                return isTemplateNode.name;
+            resolve(ResponseResult.buildSuccess(result.map((item) => {
+                return item.name;
             })));
         })
     }).catch((err: any) => {

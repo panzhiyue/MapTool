@@ -6,16 +6,17 @@
 <script lang="ts" setup>
 import { GeoJSON } from 'ol/format';
 import { readAsGeoJSON } from '@/api/table';
-import { Ref } from 'vue';
+import { PropType, Ref } from 'vue';
+import { Projection } from 'ol/proj';
 const props = defineProps({
 	tableName: {
 		type: String,
 	},
 	dataProjection: {
-		type: String,
+		type: Object as PropType<any>,
 	},
 	featureProjection: {
-		type: String,
+		type: Object as PropType<any>,
 	},
 });
 const features: Ref<any[]> = ref([]);

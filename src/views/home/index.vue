@@ -95,7 +95,7 @@ onMounted(() => {
 			content: '正在导出图片！',
 			duration: 0,
 		});
-		let dom = homeStore.map.getTarget();
+		let dom: any = homeStore.map.getTarget();
 		if (options.control == false) {
 			dom = dom.getElementsByClassName('ol-layers')[0];
 		}
@@ -215,7 +215,7 @@ onMounted(() => {
 				header: options.header,
 			},
 		]);
-		const excelData = await excel.xlsx.writeBuffer();
+		const excelData: any = await excel.xlsx.writeBuffer();
 		const blob = new Blob([excelData], { type: EXCEL_TYPE });
 		var buffer = await blob.arrayBuffer();
 		fs.writeFileSync(options.savePath as string, new DataView(buffer));
@@ -332,7 +332,7 @@ onMounted(() => {
 				header: true,
 			},
 		]);
-		const excelData = await excel.xlsx.writeBuffer();
+		const excelData: any = await excel.xlsx.writeBuffer();
 		const blob = new Blob([excelData], { type: EXCEL_TYPE });
 		var buffer = await blob.arrayBuffer();
 		fs.writeFileSync(options.savePath as string, new DataView(buffer));

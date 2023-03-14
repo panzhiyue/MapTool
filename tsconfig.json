@@ -4,7 +4,8 @@
     "target": "esnext",
     "module": "esnext",
     "lib": [
-      "esnext"
+      "esnext",
+      "DOM"
     ],
     "allowJs": true,
     "checkJs": false,
@@ -21,7 +22,8 @@
     "declaration": true,
     "types": [
       "vite/client",
-      "unplugin-vue-define-options/macros-global"
+      "unplugin-vue-define-options/macros-global",
+      "node"
     ],
     "typeRoots": [
       "./node_modules/@types/",

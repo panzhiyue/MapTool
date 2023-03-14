@@ -18,7 +18,7 @@ import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
 
 const homeStore = useHomeStore();
 
-const instance = getCurrentInstance();
+const instance: any = getCurrentInstance();
 const map = ref(null);
 
 const x = ref(0);

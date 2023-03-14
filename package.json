@@ -81,6 +81,7 @@
     "@gis-js/vue2ol-extend": "^1.0.0-alpha.44",
     "@panzhiyue/utilscommon": "^1.1.1",
     "@turf/turf": "^6.5.0",
+    "@types/node": "^18.15.2",
     "ant-design-vue": "^3.2.12",
     "aws-sdk": "^2.1292.0",
     "better-sqlite3": "^7.1.5",

@@ -39,7 +39,7 @@ import { useMainWindow } from '@/hooks/electron/useMainWindow';
 import WindowName from '@/enum/WindowName';
 import ToolContainer from '@/components/tool-container';
 import { useHomeStore } from '@/store/home';
-import { IMapInfo } from '#/';
+import { IMapInfo } from '#/index';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 

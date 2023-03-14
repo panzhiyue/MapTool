@@ -5,9 +5,9 @@ const EXCEL_TYPE =
 
 export interface Worksheet {
     data: Array<Object>,  //要导出的数据
-    fields: Array<string>,  //要导出的 JSON 对象内的字段。如果未提供，则 JSON 中的所有属性都将被导出。
+    fields?: Array<string>,  //要导出的 JSON 对象内的字段。如果未提供，则 JSON 中的所有属性都将被导出。
     name: string,  //文件名称
-    header: Array<string>,  //表头
+    header?: Array<string>,  //表头
 }
 
 
@@ -57,12 +57,12 @@ export function json2Excel(worksheets: Array<Worksheet>): Excel.Workbook {
  * 
  */
 export function download(options: {
-    name: string,  //文件名
+    name: string | any,  //文件名
     worksheets: Array<Worksheet>
 }) {
     let workbook = json2Excel(options.worksheets);
 
-    workbook.xlsx.writeBuffer().then((data) => {
+    workbook.xlsx.writeBuffer().then((data: any) => {
         const blob = new Blob([data], { type: EXCEL_TYPE });
         saveAs(blob, options.name + ".xlsx");
     });
@@ -71,13 +71,13 @@ export function download(options: {
 /**
  * 
  */
- export function downloadAsCsv(options: {
+export function downloadAsCsv(options: {
     name: string,  //文件名
     worksheets: Array<Worksheet>
 }) {
     let workbook = json2Excel(options.worksheets);
 
-    workbook.csv.writeBuffer().then((data) => {
+    workbook.csv.writeBuffer().then((data: any) => {
         const blob = new Blob([data], { type: EXCEL_TYPE });
         saveAs(blob, options.name + ".csv");
     });

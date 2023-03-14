@@ -43,6 +43,7 @@ import { ref } from 'vue';
 import { useWindow } from '@/hooks/electron/useWindow';
 import GeometryFormatEnum from '@/enum/GisFormatType';
 import { convertGisFormat } from '@/utils/gis';
+import GisFormatType from '@/enum/GisFormatType';
 const geometryFormat = ref('features');
 const formatType1 = ref(GisFormatType.geojson);
 const formatType2 = ref(GisFormatType.geojson);

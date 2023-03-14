@@ -4,5 +4,5 @@
 		<slot></slot>
 	</div>
 </template>
-<script></script>
+<script type="ts" setup></script>
 <style lang="less" scoped></style>

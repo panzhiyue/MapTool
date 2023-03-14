@@ -19,8 +19,8 @@ const defaultPointStyle: IPointStyle = {
  */
 const defaultLineStringStyle: ILineStringStyle = {
     type: StyleType.LINESTRING,
-    width: 10,
-    color: "#ff0000"
+    lineWidth: 10.0,
+    lineColor: "#ff0000"
 }
 
 /**

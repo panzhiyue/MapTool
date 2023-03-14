@@ -80,7 +80,7 @@ import { useRoute } from 'vue-router';
 import { useHomeStore } from '@/store/home';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
-
+const __static = global.__static;
 const homeStore = useHomeStore();
 const route = useRoute();
 homeStore.initProjection();
@@ -133,27 +133,27 @@ const handleCancel = () => {
 	close();
 };
 
-const inFavorites = (name) => {
+const inFavorites: Function = (name) => {
 	return fs.existsSync(PATH.join(__static, 'Coordinate Systems\\XY坐标系\\收藏夹', name));
 };
 
 //添加到收藏夹
-const handleAddToFavorites = (name: string, path: string) => {
+const handleAddToFavorites: Function = (name: string, path: string) => {
 	fs.copyFile(path, PATH.join(__static, 'Coordinate Systems\\XY坐标系\\收藏夹', name), () => {
 		directoryTreeDom.value.update();
 	});
 };
 //从收藏夹移除
-const handleRemoveFromFavorites = (path: string) => {
+const handleRemoveFromFavorites: Function = (path: string) => {
 	fs.unlink(path, () => {
 		directoryTreeDom.value.update();
 	});
 };
 //复制与修改
-const handleCopyAndModify = (name: string, path: string) => {};
+const handleCopyAndModify: Function = (name: string, path: string) => {};
 
 //另存为
-const handleSaveAs = (name: string, path: string) => {
+const handleSaveAs: Function = (name: string, path: string) => {
 	remote.dialog
 		.showSaveDialog({
 			title: '请选择文件',

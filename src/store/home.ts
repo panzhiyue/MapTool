@@ -211,9 +211,9 @@ export const useHomeStore = defineStore({
 
     getSpatialRefSys() {
       return new Promise((inject, reject) => {
-        let result = fs.readFileSync(PATH.join(__static, "spatial_ref_sys.xlsx"));
+        let result = fs.readFileSync(PATH.join((<any>global).__static, "spatial_ref_sys.xlsx"));
 
-        excel2json(result).then((res) => {
+        excel2json(result).then((res: any) => {
           if (res.length > 0) {
             let data = res[0].data;
             inject(data);
@@ -226,9 +226,9 @@ export const useHomeStore = defineStore({
 
     async initProjection() {
 
-      let result = fs.readFileSync(PATH.join(__static, "spatial_ref_sys.xlsx"));
+      let result = fs.readFileSync(PATH.join((<any>global).__static, "spatial_ref_sys.xlsx"));
 
-      await excel2json(result).then((res) => {
+      await excel2json(result).then((res: any) => {
         if (res.length > 0) {
           let data = res[0].data;
           data = data.sort((a, b) => {
@@ -240,8 +240,8 @@ export const useHomeStore = defineStore({
 
     },
     async handlePrjData() {
-      let result = fs.readFileSync(PATH.join(__static, "spatial_ref_sys.xlsx"));
-      await excel2json(result).then((res) => {
+      let result = fs.readFileSync(PATH.join((<any>global).__static, "spatial_ref_sys.xlsx"));
+      await excel2json(result).then((res: any) => {
         if (res.length > 0) {
           let data = res[0].data;
           data = data.filter((item) => {

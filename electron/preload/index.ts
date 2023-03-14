@@ -1,5 +1,5 @@
-import { getDB } from "../../src/utils/db/index.ts"
-const db=getDB();
+import { getDB } from "../../src/utils/db/index"
+const db = getDB();
 
 function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
   return new Promise(resolve => {

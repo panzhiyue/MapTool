@@ -16,7 +16,8 @@ let installed = false;
 
 let options = {
     logger: console.error,
-    showDialog: true
+    showDialog: true,
+    reportButton: (error) => { }
 };
 
 // NOTE: The ES6 default for title will only be used if the error is invoked from the main process directly. When invoked via the renderer, it will use the ES6 default from invokeErrorHandler

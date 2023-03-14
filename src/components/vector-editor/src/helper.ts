@@ -18,6 +18,7 @@ import { Style } from 'windicss/types/utils/style'
 // import { getReverse } from 'EMap/Edit/EditType.js'
 // import SelProIndex from 'EMap/Control/SelProIndex.js'
 
+const FeatureHelper: any = {};
 
 /**
  * 矢量图层编辑类 
@@ -544,7 +545,7 @@ class VectorHelper extends EditHelper {
         }
         this.editorControl_.updateItemsState(enableTypes, EditState.ENABLE);
         this.editorControl_.updateItemsState(hideTypes, EditState.HIDE);
-        let reverse = getReverse(enableTypes);
+        let reverse: any = {} //getReverse(enableTypes);
 
         for (let i = 0; i < reverse.length; i++) {
             let itemInfo = this.editorControl_.getItemInfoByType(reverse[i]);
