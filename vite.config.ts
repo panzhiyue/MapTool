@@ -22,16 +22,18 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
   return {
     define: {
       __static: `"${path.join(__dirname, './static').replace(/\\/g, '\\\\')}"`
+
     },
     base: "./",
     build: {
       outDir: "dist",
       rollupOptions: {
         external: [
-          "clean-stack",
+          // "clean-stack",
         ],
       },
     },
+
     plugins: [
 
       vue(),

@@ -93,7 +93,7 @@ export default {
 			let rPath = `/data/${dayjs().valueOf()}.json`;
 
 			let str = geojson;
-			fs.writeFileSync(path.join(__static, rPath), str);
+			fs.writeFileSync(path.join(homeStore.staticPath, rPath), str);
 			let info = {
 				type: 'layer',
 				title: this.name,

@@ -59,7 +59,7 @@ async function createWindow() {
   if (app.isPackaged) {
     win.loadFile(indexHtml)
     // // 打开开发工具
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
   } else {
     win.loadURL(url)
     // Open devTool if the app is not packaged

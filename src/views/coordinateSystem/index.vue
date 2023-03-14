@@ -69,7 +69,6 @@
 </template>
 <script lang="ts" setup>
 import ToolContainer from '@/components/tool-container';
-import DirectoryTree from '@/components/directory-tree';
 import ScrollBox from '@/components/scroll-box';
 import PATH from 'path';
 import fs from 'fs';
@@ -80,10 +79,11 @@ import { useRoute } from 'vue-router';
 import { useHomeStore } from '@/store/home';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
-const __static = global.__static;
+
 const homeStore = useHomeStore();
 const route = useRoute();
 homeStore.initProjection();
+const staticPath = homeStore.staticPath;
 const filterStr = ref('');
 const treeData = computed(() => {
 	let spatial_ref_sys = homeStore.spatial_ref_sys;
@@ -134,12 +134,12 @@ const handleCancel = () => {
 };
 
 const inFavorites: Function = (name) => {
-	return fs.existsSync(PATH.join(__static, 'Coordinate Systems\\XY坐标系\\收藏夹', name));
+	return fs.existsSync(PATH.join(staticPath, 'Coordinate Systems\\XY坐标系\\收藏夹', name));
 };
 
 //添加到收藏夹
 const handleAddToFavorites: Function = (name: string, path: string) => {
-	fs.copyFile(path, PATH.join(__static, 'Coordinate Systems\\XY坐标系\\收藏夹', name), () => {
+	fs.copyFile(path, PATH.join(staticPath, 'Coordinate Systems\\XY坐标系\\收藏夹', name), () => {
 		directoryTreeDom.value.update();
 	});
 };

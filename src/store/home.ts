@@ -12,9 +12,13 @@ import fs from "fs"
 import PATH from "path"
 import { excel2json, json2Excel, download } from '@/utils/excel';
 import { WktInfo } from "@/utils/SpatialReference";
-import { testRegexr } from "windicss/utils";
-import { registerRuntimeHelpers } from "@vue/compiler-core";
+// import { testRegexr } from "windicss/utils";
 
+
+console.log(__static);
+const staticPath = __static;
+// const staticPath = globalTemp.__static;
+console.log(staticPath);
 interface IState {
   map: Nullable<olMap>,
   mapInfo: Nullable<IMapInfo>,
@@ -26,7 +30,8 @@ interface IState {
   plotType: string,
   showGrid: boolean,
   ready: boolean,  //是否准备完毕
-  spatial_ref_sys: any
+  spatial_ref_sys: any,
+  staticPath: string
 }
 
 export const useHomeStore = defineStore({
@@ -42,7 +47,8 @@ export const useHomeStore = defineStore({
     plotType: null,
     showGrid: false,
     ready: false,
-    spatial_ref_sys: null
+    spatial_ref_sys: null,
+    staticPath: staticPath
   }),
   actions: {
     setMap(data: Nullable<olMap>) {
@@ -211,7 +217,7 @@ export const useHomeStore = defineStore({
 
     getSpatialRefSys() {
       return new Promise((inject, reject) => {
-        let result = fs.readFileSync(PATH.join((<any>global).__static, "spatial_ref_sys.xlsx"));
+        let result = fs.readFileSync(PATH.join(this.staticPath, "spatial_ref_sys.xlsx"));
 
         excel2json(result).then((res: any) => {
           if (res.length > 0) {
@@ -226,7 +232,7 @@ export const useHomeStore = defineStore({
 
     async initProjection() {
 
-      let result = fs.readFileSync(PATH.join((<any>global).__static, "spatial_ref_sys.xlsx"));
+      let result = fs.readFileSync(PATH.join(this.staticPath, "spatial_ref_sys.xlsx"));
 
       await excel2json(result).then((res: any) => {
         if (res.length > 0) {
@@ -240,7 +246,7 @@ export const useHomeStore = defineStore({
 
     },
     async handlePrjData() {
-      let result = fs.readFileSync(PATH.join((<any>global).__static, "spatial_ref_sys.xlsx"));
+      let result = fs.readFileSync(PATH.join(this.staticPath, "spatial_ref_sys.xlsx"));
       await excel2json(result).then((res: any) => {
         if (res.length > 0) {
           let data = res[0].data;
@@ -252,7 +258,7 @@ export const useHomeStore = defineStore({
             item.type = new WktInfo(item.srtext).wktParserResult.type;
           })
           download({
-            name: testRegexr,
+            name: "test",
             worksheets: [{
               data: data,  //要导出的数据
 

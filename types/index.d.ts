@@ -7,10 +7,6 @@ declare module '@gis-js/vue2ol'
 declare module '@gis-js/vue2ol-extend'
 declare module '@panzhiyue/utilscommon'
 
-interface window {
-    __static: string;
-}
-// declare const windos: Window & typeof globalThis
 
 declare type Nullable<T> = T | null;  //类型T或Null
 declare type Undefinerable<T> = T | undefined
