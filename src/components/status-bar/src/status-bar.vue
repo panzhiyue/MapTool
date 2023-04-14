@@ -27,7 +27,7 @@ const resolution = ref(0);
 const zoom = ref(0);
 
 onMounted(() => {
-	map.value = findParentMap(instance.ctx).mapObject;
+	map.value = homeStore.map;
 	map.value.on('pointermove', (evt) => {
 		let pixel = map.value.getEventPixel(evt.originalEvent); //鼠标当前像素坐标
 		let coordinate = map.value.getCoordinateFromPixel(pixel); //鼠标当前坐标位置

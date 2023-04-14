@@ -34,9 +34,9 @@ const layer = new TileLayer({
 });
 layer.setZIndex(props.zIndex);
 
-const map = findParentMap(instance.ctx).mapObject;
-
+const map = ref(null);
 onMounted(() => {
+	const map = findParentMap(instance.ctx).mapObject;
 	map.addLayer(layer);
 });
 

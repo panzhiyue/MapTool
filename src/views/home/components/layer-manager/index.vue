@@ -1,10 +1,10 @@
 <template>
-	<div>
+	<div v-if="treeData">
 		<a-tree
 			v-model:tree-data="treeData"
 			class="demo-tree-render"
 			:trigger="['contextmenu']"
-			ref="tree"
+			ref="myTree"
 			draggable
 			@drop="handleDrop">
 			<template #title="{ key: treeKey, id, title, type, canDelete, canEdit, data }">
@@ -30,7 +30,7 @@
 				</a-dropdown>
 			</template>
 		</a-tree>
-		<add-or-edit-menu :ref="'addOrEditMenu'" @sure="updateLayer"></add-or-edit-menu>
+		<add-or-edit-menu ref="addOrEditMenu"></add-or-edit-menu>
 	</div>
 </template>
 <script setup lang="ts">
@@ -58,7 +58,7 @@ let homeStore = useHomeStore();
 const layerInfos = computed(() => {
 	return homeStore.layerInfos;
 });
-
+console.log(111);
 const treeData = computed(() => {
 	let children = !layerInfos.value
 		? []
@@ -82,6 +82,7 @@ const treeData = computed(() => {
 			},
 		},
 	];
+	console.log(data);
 	return data;
 });
 
@@ -101,7 +102,10 @@ const getTreeDataItem = (data) => {
 	return treeDataItem;
 };
 
-onMounted(() => {});
+onMounted(() => {
+	console.log(2222);
+	console.log('treeData', treeData);
+});
 
 const addOrEditMenu = ref(null);
 

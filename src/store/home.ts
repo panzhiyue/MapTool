@@ -15,10 +15,7 @@ import { WktInfo } from "@/utils/SpatialReference";
 // import { testRegexr } from "windicss/utils";
 
 
-console.log(__static);
 const staticPath = __static;
-// const staticPath = globalTemp.__static;
-console.log(staticPath);
 interface IState {
   map: Nullable<olMap>,
   mapInfo: Nullable<IMapInfo>,

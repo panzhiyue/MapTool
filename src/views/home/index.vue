@@ -11,12 +11,12 @@
 				style="background: #fff"
 				class="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
 				<a-collapse>
-					<a-collapse-Panel key="1" header="图层管理">
+					<a-collapse-panel key="1" header="图层管理">
 						<layer-manager></layer-manager>
-					</a-collapse-Panel>
-					<a-collapse-Panel key="2" header="地图管理">
+					</a-collapse-panel>
+					<a-collapse-panel key="2" header="地图管理">
 						<map-layer-manager></map-layer-manager>
-					</a-collapse-Panel>
+					</a-collapse-panel>
 				</a-collapse>
 			</a-layout-sider>
 			<a-layout style="padding: 0 6px 6px">
