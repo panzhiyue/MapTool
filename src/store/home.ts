@@ -12,10 +12,11 @@ import fs from "fs"
 import PATH from "path"
 import { excel2json, json2Excel, download } from '@/utils/excel';
 import { WktInfo } from "@/utils/SpatialReference";
+import { getStaticPath } from "@/utils/path"
 // import { testRegexr } from "windicss/utils";
 
-
-const staticPath = __static;
+const staticPath = getStaticPath();
+console.log(staticPath);
 interface IState {
   map: Nullable<olMap>,
   mapInfo: Nullable<IMapInfo>,

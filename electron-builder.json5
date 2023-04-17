@@ -3,11 +3,17 @@
  */
 {
 	appId: 'YourAppID',
-	asar: false,
+	asar: true,
 	directories: {
 		output: 'release/${version}',
 	},
 	files: ['dist'],
+	extraResources: [
+		{
+			from: 'static',
+			to: '../static',
+		},
+	], //静态文件打包
 	mac: {
 		artifactName: '${productName}_${version}.${ext}',
 		target: ['dmg'],

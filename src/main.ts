@@ -14,6 +14,7 @@ import "ol/ol.css"
 import Directive from './directives/index'
 import { VueColor } from 'vue-color-next'
 import '../node_modules/vue-color-next/dist/index.css'
+import PATH from "path"
 
 import unhandled from "@/utils/unhandled"
 // import workerUrl from 'gdal3.js/dist/package/gdal3.js?url'
@@ -40,6 +41,7 @@ unhandled({
   }
 });
 
+
 // unhandled.logError(Error, {
 //   title: 'Title of the Box'
 // })
@@ -54,7 +56,6 @@ createApp(App).use(router).use(store)
   .$nextTick(() => {
     // postMessage({ payload: 'removeLoading' }, '*')
   })
-
 
 
 

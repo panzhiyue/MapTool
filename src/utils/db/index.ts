@@ -1,6 +1,7 @@
 import fs from "fs";
+import { getDbPath } from "../path"
 const knex = require("knex");
-let filename = "I:\\MapTool\\static\\sqlite.db";
+let filename = getDbPath();
 let db: any;
 const initDB = async () => {
   if (!fs.existsSync(filename)) {
