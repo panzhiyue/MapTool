@@ -34,13 +34,13 @@ const layer = new TileLayer({
 });
 layer.setZIndex(props.zIndex);
 
-const map = ref(null);
+let map = null;
 onMounted(() => {
-	const map = findParentMap(instance.ctx).mapObject;
+	map = findParentMap(instance.ctx).mapObject;
 	map.addLayer(layer);
 });
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
 	map.removeLayer(layer);
 });
 </script>
