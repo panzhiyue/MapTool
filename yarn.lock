@@ -165,17 +165,17 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@gis-js/geojson2shp@1.0.0-beta.1":
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@gis-js/geojson2shp/-/geojson2shp-1.0.0-beta.1.tgz#49c32b3dfe214fc54d383c9e29cd81936737e647"
-  integrity sha512-Ymp0/c3aWxW/ESqrshFTJgutaR2Lv69nQd77eQY4tV6vasU68q5nNlaUuMc6JF2UP/918n/nVe3Zv6+9y2MHWA==
+"@gis-js/geojson2shp@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/@gis-js/geojson2shp/-/geojson2shp-1.0.1.tgz#917be3da23e9a2c06465e4f92fe54cf76ebbd353"
+  integrity sha512-mjhxriK4yu3snnqihv7TysrnJGLFlO5A0ALicbR78mnFBi7C9yzZKntQ1YyPQcrN/8vjDApU/GPZXd55fWt41A==
 
-"@gis-js/utilsol@1.0.0-beta.5", "@gis-js/utilsol@^1.0.0-beta.5":
-  version "1.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@gis-js/utilsol/-/utilsol-1.0.0-beta.5.tgz#a2b8b7886ed3bc644bd8bf495cf635c7a65bbaec"
-  integrity sha512-+YYu6LfhKFdcNI7Ngzi3ldnZSzl+kl1wCiT2tJHbmWCIiqZaFMw0s51naWgzhAMwNPGclr0bwBt3UTcQIkUe8Q==
+"@gis-js/utilsol@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/@gis-js/utilsol/-/utilsol-1.0.1.tgz#4672863036cf097577cb1c1359eb55d4e686e7f2"
+  integrity sha512-Ep132ATYleJ0w9LZem8ZYB7MeDINKO83sV16KbE5PSUraG4Qg9r/YAflhZmveiQtWEjsjo/wxvPIJekrbQ84AQ==
   dependencies:
-    "@gis-js/geojson2shp" "1.0.0-beta.1"
+    "@gis-js/geojson2shp" "1.0.1"
     "@turf/turf" "6.5.0"
     dom-to-image "^2.6.0"
     file-saver-es "^2.0.5"
@@ -184,22 +184,36 @@
     proj4 "^2.8.0"
     shapefile "^0.6.6"
 
-"@gis-js/vue2ol-extend@^1.0.0-alpha.44":
-  version "1.0.0-alpha.44"
-  resolved "https://registry.yarnpkg.com/@gis-js/vue2ol-extend/-/vue2ol-extend-1.0.0-alpha.44.tgz#d3e582e0ce902d01f707951f48f3b6cc6a80b0a3"
-  integrity sha512-viKuDwRf7fcUlKo4P3qPschveAoT2wCwzM3BkOOR2+LxfF91QCzprN/eDf5ebvaPOI1YxFrqSQc1SxLO6yvQVA==
+"@gis-js/utilsol@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@gis-js/utilsol/-/utilsol-1.0.3.tgz#985adf4eebb1b3372df08375df0bc54bcb6ba760"
+  integrity sha512-DgAkFz5vMNNkRE29N4nFjS/5vJmFlei0CGXFw9p7rWe2VAeqJsvmZIl69VOtPrDE0UoUVZ7hjgPsIn7MV17UwA==
   dependencies:
-    "@gis-js/utilsol" "1.0.0-beta.5"
-    "@gis-js/vue2ol" "1.0.0-alpha.40"
+    "@gis-js/geojson2shp" "1.0.1"
+    "@turf/turf" "6.5.0"
+    dom-to-image "^2.6.0"
+    file-saver-es "^2.0.5"
+    jszip "^3.8.0"
+    ol "^6.14.1"
+    proj4 "^2.8.0"
+    shapefile "^0.6.6"
+
+"@gis-js/vue2ol-extend@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npmmirror.com/@gis-js/vue2ol-extend/-/vue2ol-extend-1.0.2.tgz#51b1ac6422002a4bd43027c0c9fe6e347911b1fe"
+  integrity sha512-TQrlGtVD9+H4WfJgGh/Q0TnmW4Kl8O/9I/LXbBGhFAT/Ev/2tcAOcfFapMUT1XcBcWblWVHMnuEA0YLR2NZyfQ==
+  dependencies:
+    "@gis-js/utilsol" "1.0.1"
+    "@gis-js/vue2ol" "1.0.2"
     "@turf/turf" "6.5.0"
     echarts "^5.4.0"
     ol "^6.14.1"
     ol-echarts "^3.0.0"
 
-"@gis-js/vue2ol@1.0.0-alpha.40", "@gis-js/vue2ol@^1.0.0-alpha.40":
-  version "1.0.0-alpha.40"
-  resolved "https://registry.yarnpkg.com/@gis-js/vue2ol/-/vue2ol-1.0.0-alpha.40.tgz#c1c98cfca5617ebe578841e042f64aad698e50da"
-  integrity sha512-LqJ8/YbuQGu+dN8Ui3iuJvX+o5fChyzZbwpxFMW7av1v33OZmVUrcW+ndE/q2UdAcmfYcIBY4tA1fapKLVw5jQ==
+"@gis-js/vue2ol@1.0.2", "@gis-js/vue2ol@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npmmirror.com/@gis-js/vue2ol/-/vue2ol-1.0.2.tgz#aca45f0695dbf4df78afd4e31e5ce560647af27a"
+  integrity sha512-TIv5QWP90KNTFj2cPmfcwY8jPfSzJmLsR6F395JuA8fm0Cw7mOxTupLV9nyRkUm2ZA1u5WRu5cE4tgfTT0RWGQ==
   dependencies:
     ol "^6.14.1"
 

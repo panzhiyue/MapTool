@@ -1,3 +1,6 @@
+/**
+ * 窗口名称
+ */
 enum WindowName {
     MAIN = "Main",
     EXPORT_IMAGE = "导出图片",
@@ -18,6 +21,7 @@ enum WindowName {
     ADD_LAYER = "添加图层",
     GEOMETRY_CONVERSION = "几何格式转换",
     GEOMETRY_CONVERSION_BATCH = "几何格式转换(批量)",
+    EXPORT_KNEEPOINT_TABLE = "导出拐点"
 }
 
 export default WindowName;

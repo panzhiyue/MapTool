@@ -44,6 +44,7 @@ import ToolBar from './components/tool-bar/index.vue';
 import SysMenu from './components/menu/index.vue';
 import {
 	IExportAttributeTableOptions,
+	IExportKneePointTableOptions,
 	IExportImageOptions,
 	IExportVectorOptions,
 	IMeasureOptions,
@@ -56,7 +57,7 @@ import { getByWhere } from '@/api/mapLayerInfo';
 import ResponseResult from '@/utils/db/ResponseResult';
 import { IMapLayerInfo } from '#/index';
 import { readAsGeoJSON } from '@/api/table';
-import { GeoJSON, TopoJSON } from 'ol/format';
+import { GeoJSON, TopoJSON, WKT } from 'ol/format';
 import fs from 'fs';
 import { GeoJson2Shp } from '@gis-js/geojson2shp';
 import * as TableApi from '@/api/table';
@@ -70,6 +71,7 @@ import * as turf from '@turf/turf';
 import LengthUnits from '@/enum/LengthUnits';
 import { Blob } from 'buffer';
 import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
+import * as utilsol from '@gis-js/utilsol';
 const { getByAuth } = useCoordinateSystem();
 
 let homeStore = useHomeStore();
@@ -223,6 +225,82 @@ onMounted(() => {
 		hide();
 		notification.success({
 			message: `导出属性表！`,
+			duration: 5,
+		});
+	});
+
+	ipcRenderer.on('exportKneePointTable', async (event, options: IExportKneePointTableOptions) => {
+		let hide = message.loading({
+			content: '正在导出拐点坐标！',
+			duration: 0,
+		});
+		const result = await getByWhere({ id: options.layerId as number });
+		console.log(options, result);
+		const info = JSON.parse(result.data[0].info);
+		const result2 = await readAsGeoJSON(info.table);
+		const destSpatialReference = getByAuth(options.destSpatialReference);
+		let features = new GeoJSON({
+			dataProjection: 'EPSG:4490',
+			featureProjection: 'EPSG:4490', // destSpatialReference.getProjection(),
+		}).readFeatures(result2);
+
+		let kneePointData = []; //拐点数据列表
+		let wkt = new WKT();
+		console.log(utilsol);
+		for (let i = 0; i < features.length; i++) {
+			let feature = features[i];
+
+			let properties = Object.assign({}, feature.getProperties());
+			let flatCoordinate = utilsol.helper.coordinateHelper.getFlatCoordinates(
+				feature.getGeometry().getCoordinates(),
+			);
+
+			properties.geometry = wkt.writeGeometry(feature.getGeometry());
+			for (let flatIndex = 0; flatIndex < flatCoordinate.length; flatIndex += 2) {
+				let properties2 = Object.assign({}, properties);
+				properties2.KneePointX = flatCoordinate[flatIndex] + '';
+				properties2.KneePointY = flatCoordinate[flatIndex + 1] + '';
+				kneePointData.push(properties2);
+			}
+		}
+		switch (options.format) {
+			case 'xlsx': {
+				let excel = UtilsCommon.excel.json2Excel([
+					{
+						data: kneePointData,
+						name: 'sheet1',
+						header: true,
+					},
+				]);
+				const excelData: any = await excel.xlsx.writeBuffer();
+				const blob = new Blob([excelData], { type: EXCEL_TYPE });
+				var buffer = await blob.arrayBuffer();
+				fs.writeFileSync(options.savePath as string, new DataView(buffer));
+				event.sender.send(`${options.fromWindowName}-close`);
+				// utilscommon.excel.download({
+				// 	name: 'download',
+				// 	worksheets: [
+				// 		{
+				// 			data: data, //要导出的数据
+				// 			name: '属性表', //文件名称
+				// 			header: true,
+				// 		},
+				// 		{
+				// 			data: kneePointData, //要导出的数据
+				// 			name: '拐点', //文件名称
+				// 			header: true,
+				// 		},
+				// 	],
+				// });
+				// fs.writeFileSync(options.savePath as string, resultGeojson);
+				break;
+			}
+		}
+
+		event.sender.send(`${options.fromWindowName}-close`);
+		hide();
+		notification.success({
+			message: `导出拐点坐标！`,
 			duration: 5,
 		});
 	});

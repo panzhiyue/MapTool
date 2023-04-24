@@ -32,6 +32,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/exportAttributeTable/index.vue')
   },
   {
+    path: '/exportKneePointTable',
+    name: "ExportKneePointTable",
+    component: () => import(/* webpackChunkName: "about" */ '../views/exportKneePointTable/index.vue')
+  },
+
+  {
     path: '/attributeTable',
     name: "AttributeTable",
     component: () => import(/* webpackChunkName: "about" */ '../views/attributeTable/index.vue')

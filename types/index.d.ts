@@ -89,6 +89,17 @@ export interface IExportVectorOptions extends IElectronCommunicationOptions {
     destSpatialReference: any
 }
 
+/**
+ * 导出拐点参数参数
+ */
+export interface IExportKneePointTableOptions extends IElectronCommunicationOptions {
+    layerId: string | number,  //导出图层Id
+    savePath: string,  //保存路径
+    format: string,  //导出格式
+    kneepPointXField: string, //拐点X坐标字段名
+    kneepPontYField: string //拐点Y坐标字段名
+}
+
 
 /**
  * 导出属性表

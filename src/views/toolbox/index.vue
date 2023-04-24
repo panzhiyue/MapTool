@@ -70,6 +70,15 @@ const treeData: TreeProps['treeData'] = [
 					url: 'exportAttributeTable',
 				},
 			},
+			{
+				title: '导出拐点坐标',
+				key: '0-1-3',
+				isLeaf: true,
+				options: {
+					name: WindowName.EXPORT_KNEEPOINT_TABLE,
+					url: 'exportKneePointTable',
+				},
+			},
 		],
 	},
 	{
