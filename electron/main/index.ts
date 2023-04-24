@@ -41,7 +41,7 @@ async function createWindow() {
   win = new BrowserWindow({
     title: '地图管理工具',
 
-    icon: join(process.env.PUBLIC, 'favicon.ico'),
+    icon: join(process.env.PUBLIC, 'logo.png'),
     // frame: false,
     webPreferences: {
       preload,
@@ -118,6 +118,7 @@ app.on('activate', () => {
 ipcMain.on('open-win', (event, windowName, arg, opt_options, webPreferences) => {
   let options = Object.assign({
     title: windowName,
+    icon: join(process.env.PUBLIC, 'logo.png'),
     // parent: options.parent ? getWindowByTitle(options.parent) : null,
     webPreferences: {
       ...webPreferences,
