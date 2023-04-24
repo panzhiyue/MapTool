@@ -42,7 +42,7 @@ async function createWindow() {
     title: 'Main',
 
     icon: join(process.env.PUBLIC, 'favicon.ico'),
-    frame: false,
+    // frame: false,
     webPreferences: {
       preload,
 

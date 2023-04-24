@@ -1,7 +1,7 @@
 <template>
 	<a-layout class="main" v-if="homeStore.ready">
 		<a-layout-header class="header">
-			<sys-header></sys-header>
+			<!-- <sys-header></sys-header> -->
 			<sys-menu></sys-menu>
 			<tool-bar></tool-bar>
 		</a-layout-header>
