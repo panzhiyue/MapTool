@@ -246,7 +246,6 @@ onMounted(() => {
 
 		let kneePointData = []; //拐点数据列表
 		let wkt = new WKT();
-		console.log(utilsol);
 		for (let i = 0; i < features.length; i++) {
 			let feature = features[i];
 

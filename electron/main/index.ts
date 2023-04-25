@@ -42,16 +42,25 @@ async function createWindow() {
     title: '地图管理工具',
 
     icon: join(process.env.PUBLIC, 'logo.png'),
-    // frame: false,
+    frame: true,
+    // fullscreen: true,
+    width: 1024,
+    height: 700,
+    resizable: false,
+    show: false,
     webPreferences: {
-      preload,
+      // preload,
 
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // Consider using contextBridge.exposeInMainWorld
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
       nodeIntegration: true,
       contextIsolation: false,
+
     },
+  })
+  win.once('ready-to-show', () => {
+    win.show();
   })
   global.sharedObject = {
     Main: win.webContents.id
