@@ -433,10 +433,10 @@ onMounted(() => {
 }
 
 .ant-layout-header {
-	background-color: rgba(0, 0, 0, 0);
+	background-color: rgba(255, 255, 255, 1);
 	padding: 0px;
 	margin: 0px;
-	height: 80px;
+	height: 60px;
 }
 
 /* 

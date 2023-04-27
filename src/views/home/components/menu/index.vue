@@ -177,6 +177,7 @@ const handleToggleStatusbar = () => {
 .menu {
 	height: 20px;
 	line-height: 20px;
+	margin-left: 8px;
 
 	/deep/ .ant-dropdown-trigger {
 		display: inline-block;

@@ -52,7 +52,7 @@ const handleHelp = () => {};
 </script>
 <style lang="less" scoped>
 .toolbar {
-	background-color: rgba(240, 242, 245, 1);
+	background-color: rgba(255, 255, 255, 1);
 	color: #000;
 	font-size: 16px;
 	height: 30px;
