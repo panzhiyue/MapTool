@@ -72,6 +72,10 @@ import LengthUnits from '@/enum/LengthUnits';
 import { Blob } from 'buffer';
 import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
 import * as utilsol from '@gis-js/utilsol';
+// const gdal = require('gdal-async');
+// const gdal = require('gdal');
+// console.log(path);
+// console.log(gdal);
 const { getByAuth } = useCoordinateSystem();
 
 let homeStore = useHomeStore();

@@ -11,7 +11,7 @@ import {
   AntDesignVueResolver
 } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
-import { viteMockServe } from 'vite-plugin-mock'
+// import { viteMockServe } from 'vite-plugin-mock'
 import copy from 'rollup-plugin-copy'
 import DefineOptions from 'unplugin-vue-define-options/vite';
 
@@ -64,10 +64,10 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       viteCommonjs({
         include: ['/node_modules']
       }),
-      viteMockServe({
-        mockPath: 'db/controller', // 设置模拟.ts 文件的存储文件夹
-        localEnabled: command === 'serve', // 设置是否启用本地 xxx.ts 文件，不要在生产环境中打开它.设置为 false 将禁用 mock 功能
-      }),
+      // viteMockServe({
+      //   mockPath: 'db/controller', // 设置模拟.ts 文件的存储文件夹
+      //   localEnabled: command === 'serve', // 设置是否启用本地 xxx.ts 文件，不要在生产环境中打开它.设置为 false 将禁用 mock 功能
+      // }),
       electron({
         main: {
           entry: 'electron/main/index.ts',
