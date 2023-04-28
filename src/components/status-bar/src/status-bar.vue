@@ -31,16 +31,16 @@ onMounted(() => {
 	map.value.on('pointermove', (evt) => {
 		let pixel = map.value.getEventPixel(evt.originalEvent); //鼠标当前像素坐标
 		let coordinate = map.value.getCoordinateFromPixel(pixel); //鼠标当前坐标位置
-		x.value = coordinate[0].toFixed(9);
-		y.value = coordinate[1].toFixed(9);
+		x.value = coordinate[0].toFixed(3);
+		y.value = coordinate[1].toFixed(3);
 	});
 
 	map.value.on('moveend', () => {
 		resolution.value = map.value.getView().getResolution();
-		zoom.value = map.value.getView().getZoom();
+		zoom.value = map.value.getView().getZoom().toFixed(3);
 		let center = map.value.getView().getCenter();
-		x.value = center[0].toFixed(9);
-		y.value = center[1].toFixed(9);
+		x.value = center[0].toFixed(3);
+		y.value = center[1].toFixed(3);
 	});
 });
 
@@ -77,7 +77,7 @@ const handleChangeCoordinateSystem = () => {
 	background-color: rgba(0, 0, 0, 0.5);
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
 	color: #fff;
-
+	overflow: hidden;
 	span {
 		font-weight: 500;
 		color: #ffff33;

@@ -151,7 +151,6 @@ import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
 
 const { getByAuth } = useCoordinateSystem();
 let proj = getByAuth('EPSG:4490').getProjection();
-console.log(proj);
 let homeStore = useHomeStore();
 const format = ref(new GeoJSON());
 const mapOptions = reactive({
