@@ -255,7 +255,7 @@ onMounted(() => {
 
 			let properties = Object.assign({}, feature.getProperties());
 			let flatCoordinate = utilsol.helper.coordinateHelper.getFlatCoordinates(
-				feature.getGeometry().getCoordinates(),
+				(feature.getGeometry() as any).getCoordinates(),
 			);
 
 			properties.geometry = wkt.writeGeometry(feature.getGeometry());

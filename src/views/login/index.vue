@@ -3,9 +3,9 @@
 		<video
 			src="../../assets/images/login_bg.mp4"
 			style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0"
-			autoplay="autoplay"
-			loop="loop"
-			muted="muted"></video>
+			:autoplay="true"
+			:loop="true"
+			:muted="true"></video>
 
 		<div class="move" v-mouse-drag="changePosition"></div>
 		<!-- <button class="close" id="close-button" @click="handleClose">

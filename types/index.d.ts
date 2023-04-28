@@ -97,7 +97,8 @@ export interface IExportKneePointTableOptions extends IElectronCommunicationOpti
     savePath: string,  //保存路径
     format: string,  //导出格式
     kneepPointXField: string, //拐点X坐标字段名
-    kneepPontYField: string //拐点Y坐标字段名
+    kneepPontYField: string, //拐点Y坐标字段名
+    destSpatialReference: any
 }
 
 
