@@ -29,13 +29,15 @@ const style = computed(() => {
 			height: '16px',
 			backgroundColor: styleInfo.fillColor,
 			borderRadius: '8px',
-			border: `${styleInfo.lineWidth > 1 ? 1 : styleInfo.lineWidth}px solid ${styleInfo.lineColor}`,
+			border: `${styleInfo.lineWidth > 1 ? styleInfo.lineWidth : styleInfo.lineWidth}px solid ${
+				styleInfo.lineColor
+			}`,
 		};
 	} else if (styleInfo.type == StyleType.LINESTRING) {
 		return {
 			width: '16px',
 			marginTop: '8px',
-			height: `${styleInfo.lineWidth > 1 ? 1 : styleInfo.lineWidth}px`,
+			height: `${styleInfo.lineWidth > 1 ? styleInfo.lineWidth : styleInfo.lineWidth}px`,
 			backgroundColor: styleInfo.lineColor,
 		};
 	} else if (styleInfo.type == StyleType.POLYGON) {
@@ -43,7 +45,9 @@ const style = computed(() => {
 			width: '16px',
 			height: '16px',
 			backgroundColor: styleInfo.fillColor,
-			border: `${styleInfo.lineWidth > 1 ? 1 : styleInfo.lineWidth}px solid ${styleInfo.lineColor}`,
+			border: `${styleInfo.lineWidth > 1 ? styleInfo.lineWidth : styleInfo.lineWidth}px solid ${
+				styleInfo.lineColor
+			}`,
 		};
 	}
 });
@@ -62,6 +66,7 @@ const style = computed(() => {
 
 	span {
 		display: block;
+		box-sizing: content-box;
 	}
 }
 </style>

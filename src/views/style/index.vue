@@ -1,41 +1,47 @@
 <template>
-	<div class="style-selector w-full h-full p-3" v-if="layerInfo">
-		<div class="left">
-			<list-box class="style-save"></list-box>
-		</div>
-		<div class="right">
-			<group-box class="style-current" title="当前符号">
-				<div class="style-box">
-					<style-icon :info="layerInfo.info"></style-icon>
+	<tool-container>
+		<template #content>
+			<div class="style-selector w-full h-full p-3" v-if="layerInfo">
+				<div class="left">
+					<list-box class="style-save"></list-box>
 				</div>
-				<a-space v-if="styleInfo.type == StyleType.POINT || styleInfo.type == StyleType.POLYGON"
-					>填充色：<color-picker
-						v-model:value="styleInfo.fillColor"
-						style="z-index: 200"></color-picker
-				></a-space>
-				<br />
-				<a-space
-					>边框色：<color-picker
-						v-model:value="styleInfo.lineColor"
-						style="z-index: 199"></color-picker
-				></a-space>
-				<a-space
-					>边框宽度：<a-input-number v-model:value="styleInfo.lineWidth"></a-input-number
-				></a-space>
-				<a-space v-if="styleInfo.type == StyleType.POINT"
-					>大小：<a-input-number v-model:value="styleInfo.size"></a-input-number
-				></a-space>
-			</group-box>
-		</div>
-	</div>
-	<step-footer
-		pre-most-text=""
-		pre-text=""
-		next-text=""
-		next-most-text=""
-		@on-cancel="handleCancel"
-		@on-ok="handleOk">
-	</step-footer>
+				<div class="right">
+					<group-box class="style-current" title="当前符号">
+						<div class="style-box">
+							<style-icon :info="layerInfo.info"></style-icon>
+						</div>
+						<a-space v-if="styleInfo.type == StyleType.POINT || styleInfo.type == StyleType.POLYGON"
+							>填充色：<color-picker
+								v-model:value="styleInfo.fillColor"
+								style="z-index: 200"></color-picker
+						></a-space>
+						<br />
+						<a-space
+							>边框色：<color-picker
+								v-model:value="styleInfo.lineColor"
+								style="z-index: 199"></color-picker
+						></a-space>
+						<a-space
+							>边框宽度：<a-input-number v-model:value="styleInfo.lineWidth"></a-input-number
+						></a-space>
+						<a-space v-if="styleInfo.type == StyleType.POINT"
+							>大小：<a-input-number v-model:value="styleInfo.size"></a-input-number
+						></a-space>
+					</group-box>
+				</div>
+			</div>
+		</template>
+		<template #footer>
+			<step-footer
+				pre-most-text=""
+				pre-text=""
+				next-text=""
+				next-most-text=""
+				@on-cancel="handleCancel"
+				@on-ok="handleOk">
+			</step-footer>
+		</template>
+	</tool-container>
 </template>
 <script lang="ts" setup>
 import ListBox from '@/components/list-box';
@@ -47,6 +53,7 @@ import { useWindow } from '@/hooks/electron/useWindow';
 import * as TableApi from '@/api/table';
 import { useMainWindow } from '@/hooks/electron/useMainWindow';
 import StyleType from '@/enum/StyleType';
+import ToolContainer from '@/components/tool-container';
 
 const route = useRoute();
 const id = route.query.id as string;
@@ -123,5 +130,10 @@ const handleOk = () => {
 			}
 		}
 	}
+}
+
+/deep/.picker-box {
+	left: -300px !important;
+	top: -50px !important;
 }
 </style>
