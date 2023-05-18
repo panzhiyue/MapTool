@@ -14,7 +14,7 @@ export function getVersion() {
  * 但是应用名的完整名称通常是首字母大写的，你应该单独使用一个 productName 字段，用于表示你的应用程序的完整名称。Electron 会优先使用这个字段作为应用名。
  * @returns 
  */
-export function getName(){
+export function getName() {
     return app.getName();
 }
 
@@ -22,6 +22,6 @@ export function getName(){
  * 重写当前应用的名字
  * @param {String} name 
  */
-export function setName(name){
+export function setName(name) {
     app.setName(name);
 }
