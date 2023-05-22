@@ -99,11 +99,18 @@ const treeData: TreeProps['treeData'] = [
 ];
 
 const handleDoubleClick = (options: any) => {
-	ipcRenderer.send('open-win', options.name, options.url, {
-		width: 700,
-		height: 400,
-		frame: true,
-		parent: WindowName.MAIN,
-	});
+	ipcRenderer.send(
+		'open-win',
+		options.name,
+		options.url,
+		{
+			width: 700,
+			height: 400,
+			frame: true,
+			parent: WindowName.MAIN,
+		},
+		{},
+		false,
+	);
 };
 </script>

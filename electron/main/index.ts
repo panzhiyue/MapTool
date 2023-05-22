@@ -138,35 +138,54 @@ app.on('activate', () => {
   }
 })
 
-// new window example arg: new windows url
-ipcMain.on('open-win', (event, windowName, arg, opt_options, webPreferences) => {
-  let options = Object.assign({
-    title: windowName,
-    icon: join(process.env.PUBLIC, 'logo.png'),
-    // parent: options.parent ? getWindowByTitle(options.parent) : null,
-    webPreferences: {
-      ...webPreferences,
-      // preload,
-      nodeIntegration: true,
-      contextIsolation: false,
+/**
+ * 创建新窗口
+ */
+ipcMain.on('open-win', (event, windowName, arg, opt_options, webPreferences, close = false) => {
 
-    },
-  }, opt_options)
-
-  if (options.parent) {
-    options.parent = getWindowByTitle(options.parent)
-  }
-  const childWindow = new BrowserWindow(options)
-  if (app.isPackaged) {
-    childWindow.loadFile(indexHtml, { hash: arg })
+  let win = getWindowByTitle(windowName)
+  if (win) {
+    win.show();
   } else {
-    childWindow.loadURL(`${url}#${arg}`)
+
+
+
+    let options = Object.assign({
+      title: windowName,
+      icon: join(process.env.PUBLIC, 'logo.png'),
+      // parent: options.parent ? getWindowByTitle(options.parent) : null,
+      webPreferences: {
+        ...webPreferences,
+        // preload,
+        nodeIntegration: true,
+        contextIsolation: false,
+
+      },
+    }, opt_options)
+
+    if (options.parent) {
+      options.parent = getWindowByTitle(options.parent)
+    }
+    const childWindow = new BrowserWindow(options)
+    if (app.isPackaged) {
+      childWindow.loadFile(indexHtml, { hash: arg })
+    } else {
+      childWindow.loadURL(`${url}#${arg}`)
+    }
+
+    //隐藏窗口不关闭
+    if (close == false) {
+      childWindow.on("close", (event) => {
+        childWindow.hide();
+        event.preventDefault();
+      });
+    }
+
+    // 保存win2窗口的 id
+    global.sharedObject[windowName] = childWindow.webContents.id
+
+    windowListener(childWindow, windowName);
+
+    remote.enable(childWindow.webContents);
   }
-
-  // 保存win2窗口的 id
-  global.sharedObject[windowName] = childWindow.webContents.id
-
-  windowListener(childWindow, windowName);
-
-  remote.enable(childWindow.webContents);
 })

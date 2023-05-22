@@ -89,12 +89,18 @@ import * as ElectronUtil from '@/utils/electron';
 console.log(ElectronUtil);
 const homeStore = useHomeStore();
 const handleShowTool = () => {
-	ipcRenderer.send('open-win', WindowName.TOOLBOX, `toolbox`, {
-		width: 400,
-		height: 700,
-		frame: true,
-		parent: WindowName.MAIN,
-	});
+	ipcRenderer.send(
+		'open-win',
+		WindowName.TOOLBOX,
+		`toolbox`,
+		{
+			width: 400,
+			height: 700,
+			frame: true,
+			parent: WindowName.MAIN,
+		},
+		{},
+	);
 };
 
 const handleShowXY = () => {
