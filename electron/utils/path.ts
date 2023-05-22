@@ -12,7 +12,7 @@ export function getAppPath() {
  * 返回用户的 home 文件夹（主目录）
  * @returns  
  */
-export function getHomePath() {
+export function getUserHomePath() {
     return app.getPath("home")
 }
 
@@ -31,7 +31,7 @@ export function getAppDataPath() {
  * 储存你应用程序设置文件的文件夹，默认是 appData 文件夹附加应用的名称
  * @returns  
  */
- export function getUserDataPath() {
+export function getUserDataPath() {
     return app.getPath("userData")
 }
 
@@ -47,7 +47,7 @@ export function getTempPath() {
  * 返回当前的可执行文件
  * @returns  
  */
- export function getExePath() {
+export function getExePath() {
     return app.getPath("exe")
 }
 
@@ -56,7 +56,7 @@ export function getTempPath() {
  * libchromiumcontent 库
  * @returns  
  */
- export function getModulePath() {
+export function getModulePath() {
     return app.getPath("module")
 }
 
@@ -65,7 +65,7 @@ export function getTempPath() {
  * 当前用户的桌面文件夹
  * @returns  
  */
- export function getDesktopPath() {
+export function getDesktopPath() {
     return app.getPath("desktop")
 }
 
@@ -74,7 +74,7 @@ export function getTempPath() {
  * 用户文档目录的路径
  * @returns  
  */
- export function getDocumentsPath() {
+export function getDocumentsPath() {
     return app.getPath("documents")
 }
 
@@ -83,7 +83,7 @@ export function getTempPath() {
  * 用户下载目录的路径
  * @returns  
  */
- export function getDownloadsPath() {
+export function getDownloadsPath() {
     return app.getPath("downloads")
 }
 
@@ -92,7 +92,7 @@ export function getTempPath() {
  * 用户音乐目录的路径.
  * @returns  
  */
- export function getMusicPath() {
+export function getMusicPath() {
     return app.getPath("music")
 }
 
@@ -101,7 +101,7 @@ export function getTempPath() {
  * 用户图片目录的路径.
  * @returns  
  */
- export function getPicturesPath() {
+export function getPicturesPath() {
     return app.getPath("pictures")
 }
 
@@ -110,6 +110,6 @@ export function getTempPath() {
  * 用户视频目录的路径.
  * @returns  
  */
- export function getVideosPath() {
+export function getVideosPath() {
     return app.getPath("videos")
 }

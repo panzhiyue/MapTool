@@ -4,6 +4,7 @@ import { join } from 'path'
 import { windowListener, commonListener } from "../utils/listenCommonIpc"
 import electronDebug from 'electron-debug'
 import { getWindowByTitle } from '../utils/window'
+import TrayAddon from "../addon/tray/index"
 
 electronDebug({ showDevTools: false })
 const remote = require("@electron/remote/main") //1 
@@ -88,9 +89,20 @@ async function createWindow() {
   Menu.setApplicationMenu(null)
   windowListener(win, "Main");
   remote.enable(win.webContents);
+  loadAddon();
+
 
 }
 
+//加载插件
+const loadAddon = () => {
+  let addon = new TrayAddon(win);
+  addon.create();
+}
+// function preload() {
+//   let addon = new TrayAddon(app, win);
+//   addon.create();
+// }
 app.whenReady().then(() => {
   installExtension.default(installExtension.VUEJS_DEVTOOLS)
     .then(() => { })
@@ -99,7 +111,10 @@ app.whenReady().then(() => {
     })
   createWindow();
   commonListener();
+
 })
+
+
 
 app.on('window-all-closed', () => {
   win = null
