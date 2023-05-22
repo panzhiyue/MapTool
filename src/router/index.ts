@@ -117,6 +117,16 @@ const routes = [
     name: "CoordinateSystem",
     component: () => import(/* webpackChunkName: "about" */ '../views/coordinateSystem/index.vue')
   },
+  {
+    path: '/electronApi',
+    name: "ElectronApi",
+    component: () => import(/* webpackChunkName: "about" */ '../views/electronApi/index.vue')
+  },
+  {
+    path: '/modelSelect',
+    name: "ModelSelect",
+    component: () => import(/* webpackChunkName: "about" */ '../views/modelSelect/index.vue')
+  },
   // {
   //   path: '/home',
   //   name: 'home',

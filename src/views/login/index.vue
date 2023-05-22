@@ -43,7 +43,7 @@ const password = ref('');
 const onSubmit = () => {
 	if (userName.value === 'Administrator' && password.value === '123456') {
 		router.push({
-			path: '/home',
+			path: '/modelSelect',
 		});
 		currentWindow.resizable = true;
 	}
