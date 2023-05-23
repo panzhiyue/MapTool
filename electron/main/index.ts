@@ -1,28 +1,22 @@
 import { app, BrowserWindow, shell, ipcMain, Menu } from 'electron'
 import { release } from 'os'
 import { join } from 'path'
-import { windowListener, commonListener } from "../utils/listenCommonIpc"
+import { windowListener } from "../../ee/listener/commonIpc"
 import electronDebug from 'electron-debug'
 import { getWindowByTitle } from '../utils/window'
-import TrayAddon from "../addon/tray/index"
+import Application from "../../ee/core/Application"
+import config from "../../ee/config"
+const remote = require("@electron/remote/main") //1 
 
 electronDebug({ showDevTools: false })
-const remote = require("@electron/remote/main") //1 
-remote.initialize()//2
-let installExtension = require('electron-devtools-installer')
-
-
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
 
 // Set application name for Windows 10+ notifications
 if (process.platform === 'win32') app.setAppUserModelId(app.getName())
+let p = new Application(config);
 
-if (!app.requestSingleInstanceLock()) {
-  app.quit()
-  process.exit(0)
-}
 
 // Remove electron security warnings
 // This warning only shows in development mode
@@ -32,112 +26,9 @@ if (!app.requestSingleInstanceLock()) {
 process.env.DIST = join(__dirname, '../..')
 process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST, '../public')
 
-let win: BrowserWindow | null = null
-// Here, you can also use other preload
-const preload = join(__dirname, '../preload/index.js')
+
 const url = process.env.VITE_DEV_SERVER_URL as string
 const indexHtml = join(process.env.DIST, 'index.html')
-
-async function createWindow() {
-  win = new BrowserWindow({
-    title: '地图管理工具',
-
-    icon: join(process.env.PUBLIC, 'logo.png'),
-    frame: true,
-    // fullscreen: true,
-    width: 1024,
-    height: 700,
-    resizable: false,
-    show: false,
-    webPreferences: {
-      // preload,
-
-      // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
-      // Consider using contextBridge.exposeInMainWorld
-      // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
-      nodeIntegration: true,
-      contextIsolation: false,
-
-    },
-  })
-  win.once('ready-to-show', () => {
-    win.show();
-  })
-  global.sharedObject = {
-    Main: win.webContents.id
-  }
-  if (app.isPackaged) {
-    win.loadFile(indexHtml)
-    // // 打开开发工具
-    win.webContents.openDevTools();
-  } else {
-    win.loadURL(url)
-    // Open devTool if the app is not packaged
-    // win.webContents.openDevTools()
-  }
-
-  // Test actively push message to the Electron-Renderer
-  win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', new Date().toLocaleString())
-  })
-
-  // Make all links open with the browser, not with the application
-  win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('https:')) shell.openExternal(url)
-    return { action: 'deny' }
-  })
-  Menu.setApplicationMenu(null)
-  windowListener(win, "Main");
-  remote.enable(win.webContents);
-  loadAddon();
-
-
-}
-
-//加载插件
-const loadAddon = () => {
-  let addon = new TrayAddon(win);
-  addon.create();
-}
-// function preload() {
-//   let addon = new TrayAddon(app, win);
-//   addon.create();
-// }
-app.whenReady().then(() => {
-  installExtension.default(installExtension.VUEJS_DEVTOOLS)
-    .then(() => { })
-    .catch(err => {
-      console.log('Unable to install `vue-devtools`: \n', err)
-    })
-  createWindow();
-  commonListener();
-
-})
-
-
-
-app.on('window-all-closed', () => {
-  win = null
-  if (process.platform !== 'darwin') app.quit()
-})
-
-app.on('second-instance', () => {
-  if (win) {
-    // Focus on the main window if the user tried to open another
-    if (win.isMinimized()) win.restore()
-    win.focus()
-  }
-})
-
-app.on('activate', () => {
-  const allWindows = BrowserWindow.getAllWindows()
-  if (allWindows.length) {
-    allWindows[0].focus()
-  } else {
-    createWindow()
-  }
-})
-
 /**
  * 创建新窗口
  */
@@ -156,7 +47,7 @@ ipcMain.on('open-win', (event, windowName, arg, opt_options, webPreferences, clo
       // parent: options.parent ? getWindowByTitle(options.parent) : null,
       webPreferences: {
         ...webPreferences,
-        // preload,
+
         nodeIntegration: true,
         contextIsolation: false,
 

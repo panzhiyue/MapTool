@@ -110,7 +110,9 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     resolve: {
       //设置路径别名
       alias: {
-        '@': path.resolve(__dirname, './src')
+        '@': path.resolve(__dirname, './src'),
+        '#ee': path.resolve(__dirname, './ee'),
+        '#electron': path.resolve(__dirname, './electron'),
       },
       extensions: ['.ts', '.js', '.json', '.mjs', ".vue"]
     },

@@ -42,10 +42,16 @@
     "noUnusedParameters": false, // 是否检查未使用的参数，默认false
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ],
       "#/*": [
         "types/*"
+      ],
+      "#ee/*": [
+        "ee/*"
+      ],
+      "#electron/*": [
+        "electron/*"
       ]
     },
   },
@@ -59,7 +65,8 @@
     "types/index.d.ts",
     "./electron/*",
     "src/directives/mouseDrag.js",
-    "src/directives/mouseDrag.js"
+    "src/directives/mouseDrag.js",
+    "./ee/*"
   ],
   "references": [
     {

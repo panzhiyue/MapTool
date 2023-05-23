@@ -1,5 +1,9 @@
-import { getDB } from "../../src/utils/db/index"
-const db = getDB();
+/*************************************************
+ ** preload为预加载模块，该文件将会在程序启动时加载 **
+ *************************************************/
+
+// import { getDB } from "../../src/utils/db/index"
+// const db = getDB();
 
 function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
   return new Promise(resolve => {
