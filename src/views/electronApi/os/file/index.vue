@@ -1,0 +1,174 @@
+<template>
+	<div id="app-base-file">
+		<div class="one-block-1">
+			<span> 1. 系统原生对话框 </span>
+		</div>
+		<div class="one-block-2">
+			<a-space>
+				<a-button @click="messageShow()">消息提示(ipc)</a-button>
+				<a-button @click="messageShowConfirm()">消息提示与确认(ipc)</a-button>
+			</a-space>
+		</div>
+		<div class="one-block-1">
+			<span> 2. 选择保存目录 </span>
+		</div>
+		<div class="one-block-2">
+			<a-row>
+				<a-col :span="12">
+					<a-input v-model="dir_path" :value="dir_path" addon-before="保存目录" />
+				</a-col>
+				<a-col :span="12">
+					<a-button @click="selectDir"> 修改目录 </a-button>
+				</a-col>
+			</a-row>
+		</div>
+		<div class="one-block-1">
+			<span> 2. 选择保存文件目录 </span>
+		</div>
+		<div class="one-block-2">
+			<a-row>
+				<a-col :span="12">
+					<a-input v-model="file_path" :value="file_path" addon-before="保存文件" />
+				</a-col>
+				<a-col :span="12">
+					<a-button @click="selectFile"> 修改文件路径 </a-button>
+				</a-col>
+			</a-row>
+		</div>
+		<div class="one-block-1">
+			<span> 3. 打开文件夹 </span>
+		</div>
+		<div class="one-block-2">
+			<a-list :grid="{ gutter: 16, column: 4 }" :data-source="file_list">
+				<template #renderItem="{ item }">
+					<a-list-item slot="renderItem" slot-scope="item" @click="openDirectry(item.id)">
+						<a-card :title="item.content">
+							<a-button type="link"> 打开 </a-button>
+						</a-card>
+					</a-list-item>
+				</template>
+			</a-list>
+		</div>
+
+		<div class="footer"></div>
+	</div>
+</template>
+<script>
+import path from 'path';
+const { dialog, app: electronApp, shell } = require('@electron/remote');
+
+const fileList = [
+	{
+		content: '【下载】目录',
+		id: 'downloads',
+	},
+	{
+		content: '【图片】目录',
+		id: 'pictures',
+	},
+	{
+		content: '【文档】目录',
+		id: 'documents',
+	},
+	{
+		content: '【音乐】目录',
+		id: 'music',
+	},
+];
+
+export default {
+	data() {
+		return {
+			file_list: fileList,
+			action_url: '',
+			image_info: [],
+			num: 0,
+			servicAddress: '',
+			dir_path: 'D:\\www\\ee',
+			file_path: 'D:\\WWW\ee\\a.pdf',
+		};
+	},
+	mounted() {},
+	methods: {
+		openDirectry(id) {
+			if (!id) {
+				return false;
+			}
+			let dir = '';
+			if (path.isAbsolute(id)) {
+				dir = id;
+			} else {
+				dir = electronApp.getPath(id);
+			}
+
+			shell.openPath(dir);
+			return true;
+		},
+		selectFile() {
+			dialog
+				.showOpenDialog({
+					title: '请选择文件',
+					defaultPath: this.file_path,
+					filters: [],
+					properties: ['openFile ', 'multiSelections'],
+				})
+				.then((result) => {
+					if (result && result.filePaths.length) {
+						this.file_path = result.filePaths.join(';');
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
+		selectDir() {
+			const filePaths = dialog.showOpenDialogSync({
+				properties: ['openDirectory', 'createDirectory'],
+			});
+
+			if (!filePaths) {
+				return null;
+			}
+			this.dir_path = filePaths.join(';');
+		},
+		messageShow() {
+			dialog.showMessageBoxSync({
+				type: 'info', // "none", "info", "error", "question" 或者 "warning"
+				title: '自定义标题-message',
+				message: '自定义消息内容',
+				detail: '其它的额外信息',
+			});
+		},
+		messageShowConfirm() {
+			const res = dialog.showMessageBoxSync({
+				type: 'info',
+				title: '自定义标题-message',
+				message: '自定义消息内容',
+				detail: '其它的额外信息',
+				cancelId: 1, // 用于取消对话框的按钮的索引
+				defaultId: 0, // 设置默认选中的按钮
+				buttons: ['确认', '取消'], // 按钮及索引
+			});
+			let data = res === 0 ? '点击确认按钮' : '点击取消按钮';
+			alert(data);
+		},
+	},
+};
+</script>
+<style lang="less" scoped>
+#app-base-file {
+	padding: 0px 10px;
+	text-align: left;
+	width: 100%;
+	.one-block-1 {
+		font-size: 16px;
+		padding-top: 10px;
+	}
+	.one-block-2 {
+		padding-top: 10px;
+	}
+	.footer {
+		padding-top: 10px;
+	}
+}
+</style>

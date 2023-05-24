@@ -14,8 +14,6 @@ import "ol/ol.css"
 import Directive from './directives/index'
 import { VueColor } from 'vue-color-next'
 import '../node_modules/vue-color-next/dist/index.css'
-import PATH from "path"
-
 import unhandled from "@/utils/unhandled"
 // import workerUrl from 'gdal3.js/dist/package/gdal3.js?url'
 // import dataUrl from 'gdal3.js/dist/package/gdal3WebAssembly.data?url'
@@ -49,13 +47,12 @@ unhandled({
 
 const store = createPinia()
 
-createApp(App).use(router).use(store)
+let app = createApp(App).use(router).use(store)
   .use(Vue2ol)
   .use(Vue2olExtend).use(Directive).use(VueColor)
   .mount('#app')
   .$nextTick(() => {
     // postMessage({ payload: 'removeLoading' }, '*')
   })
-
 
 

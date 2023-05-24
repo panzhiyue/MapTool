@@ -1,5 +1,12 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+const modules: any = import.meta.globEager('./modules/*.ts');
+const routeModuleList = [];
 
+Object.keys(modules).forEach((key) => {
+  const mod = modules[key].default || {};
+  const modList = Array.isArray(mod) ? [...mod] : [mod];
+  routeModuleList.push(...modList);
+});
 const routes = [
   // {
   //   path: '/',
@@ -118,11 +125,7 @@ const routes = [
     name: "CoordinateSystem",
     component: () => import(/* webpackChunkName: "about" */ '../views/mapTool/coordinateSystem/index.vue')
   },
-  {
-    path: '/electronApi',
-    name: "ElectronApi",
-    component: () => import(/* webpackChunkName: "about" */ '../views/electronApi/index.vue')
-  },
+
   {
     path: '/modelSelect',
     name: "ModelSelect",
@@ -133,6 +136,7 @@ const routes = [
   //   name: 'home',
   //   component: () => import(/* webpackChunkName: "about" */ '../views/home/index.vue')
   // }
+  ...routeModuleList
 ]
 
 const router = createRouter({
