@@ -70,6 +70,31 @@
 			</template>
 		</a-dropdown>
 		<a-dropdown>
+			<span>天地图</span>
+			<template #overlay>
+				<a-menu>
+					<a-menu-item key="0">
+						<span @click="handleShowSearch">地名搜索</span>
+					</a-menu-item>
+					<a-menu-item key="0">
+						<span @click="handleShowDrive">驾车规划</span>
+					</a-menu-item>
+					<a-menu-item key="0">
+						<span @click="handleShowBusline">公交规划</span>
+					</a-menu-item>
+					<a-menu-item key="0">
+						<span @click="handleShowGeocoder">地理编码查询</span>
+					</a-menu-item>
+					<a-menu-item key="0">
+						<span @click="handleShowReverseGeocoder">逆地理编码查询</span>
+					</a-menu-item>
+					<a-menu-item key="0">
+						<span @click="handleShowAdministrative">行政区划</span>
+					</a-menu-item>
+				</a-menu>
+			</template>
+		</a-dropdown>
+		<a-dropdown>
 			<span>帮助</span>
 			<template #overlay>
 				<a-menu>
@@ -86,7 +111,6 @@ import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
 import { useHomeStore } from '@/store/home';
 import * as ElectronUtil from '@/utils/electron';
-console.log(ElectronUtil);
 const homeStore = useHomeStore();
 const handleShowTool = () => {
 	ipcRenderer.send(
@@ -178,6 +202,59 @@ const handleToggleStatusbar = () => {
 		isShowStatusbar: !homeStore.config.isShowStatusbar,
 	});
 };
+
+/**
+ * 天地图地名搜索
+ */
+const handleShowSearch = () => {};
+/**
+ * 天地图驾车规划
+ */
+const handleShowDrive = () => {};
+
+/**
+ * 天地图公交规划
+ */
+const handleShowBusline = () => {};
+
+/**
+ * 天地图地理编码查询
+ */
+const handleShowGeocoder = () => {
+	ipcRenderer.send('open-win', WindowName.TDT_GEOCODER, `tdt/geocoder`, {
+		width: 700,
+		height: 400,
+		frame: true,
+		parent: WindowName.MAIN,
+		close: true,
+	});
+};
+
+/**
+ * 天地图逆地理编码查询
+ */
+const handleShowReverseGeocoder = () => {
+	ipcRenderer.send('open-win', WindowName.TDT_REVERSE_GEOCODER, `tdt/reverseGeocoder`, {
+		width: 700,
+		height: 400,
+		frame: true,
+		parent: WindowName.MAIN,
+		close: true,
+	});
+};
+
+/**
+ * 天地图行政区划
+ */
+const handleShowAdministrative = () => {
+	ipcRenderer.send('open-win', WindowName.ADMINISTRATIVE, `tdt/administrative`, {
+		width: 700,
+		height: 400,
+		frame: true,
+		parent: WindowName.MAIN,
+		close: true,
+	});
+};
 </script>
 <style lang="less" scoped>
 .menu {
@@ -187,7 +264,7 @@ const handleToggleStatusbar = () => {
 
 	/deep/ .ant-dropdown-trigger {
 		display: inline-block;
-		width: 40px;
+		min-width: 40px;
 		text-align: center;
 	}
 }

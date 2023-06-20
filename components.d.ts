@@ -62,6 +62,7 @@ declare module '@vue/runtime-core' {
     ScrollBox: typeof import('./src/components/scroll-box/src/scroll-box.vue')['default']
     SelectCoordinateSystem: typeof import('./src/components/select-coordinate-system/src/select-coordinate-system.vue')['default']
     SqliteColumnType: typeof import('./src/components/sqlite-column-type/index.vue')['default']
+    Src: typeof import('./src/components/row/src/index.vue')['default']
     StatusBar: typeof import('./src/components/status-bar/src/status-bar.vue')['default']
     StepFooter: typeof import('./src/components/step-footer/index.vue')['default']
     StyleIcon: typeof import('./src/components/style-icon/src/style-icon.vue')['default']

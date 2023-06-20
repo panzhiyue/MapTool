@@ -18,8 +18,11 @@
 				</a-card>
 			</a-col>
 			<a-col :span="8">
-				<a-card title="Card title" :bordered="false">
-					<p>card content</p>
+				<a-card title="Webmaster Tools" :bordered="false">
+					<p>站长工具</p>
+					<template #extra>
+						<a-button type="link" @click="handleIn('/webmaster-tools')">进入</a-button>
+					</template>
 				</a-card>
 			</a-col>
 		</a-row>

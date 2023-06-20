@@ -21,7 +21,10 @@ enum WindowName {
     ADD_LAYER = "添加图层",
     GEOMETRY_CONVERSION = "几何格式转换",
     GEOMETRY_CONVERSION_BATCH = "几何格式转换(批量)",
-    EXPORT_KNEEPOINT_TABLE = "导出拐点"
+    EXPORT_KNEEPOINT_TABLE = "导出拐点",
+    TDT_GEOCODER = "地理编码查询",
+    TDT_REVERSE_GEOCODER = "逆地理编码查询",
+    ADMINISTRATIVE = "行政区划"
 }
 
 export default WindowName;
