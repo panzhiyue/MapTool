@@ -13,5 +13,6 @@
     "source.fixAll.eslint": false
   },
   "eslint.codeActionsOnSave.rules": null,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "compile-hero.disable-compile-files-on-did-save-code": false
 }
