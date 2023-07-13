@@ -30,6 +30,11 @@ const routes = [
         name: "ModelSelect",
         component: () => import(/* webpackChunkName: "about" */ '../views/modelSelect/index.vue')
       },
+      {
+        path: '/api',
+        name: "api",
+        component: () => import(/* webpackChunkName: "about" */ '../views/api/index.vue')
+      },
       ...routeModuleList
     ]
   },
