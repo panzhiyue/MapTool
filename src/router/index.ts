@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import mapToolRouters from "./map-tool"
 const modules: any = import.meta.globEager('./modules/*.ts');
 const routeModuleList = [];
 
@@ -19,18 +20,21 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/login/index.vue')
   },
 
-
   {
-    path: '/modelSelect',
-    name: "ModelSelect",
-    component: () => import(/* webpackChunkName: "about" */ '../views/modelSelect/index.vue')
+    path: '/home',
+    name: "home",
+    component: () => import(/* webpackChunkName: "about" */ '../views/home/index.vue'),
+    children: [
+      {
+        path: '/modelSelect',
+        name: "ModelSelect",
+        component: () => import(/* webpackChunkName: "about" */ '../views/modelSelect/index.vue')
+      },
+      ...routeModuleList
+    ]
   },
-  // {
-  //   path: '/home',
-  //   name: 'home',
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/home/index.vue')
-  // }
-  ...routeModuleList
+  ...mapToolRouters
+
 ]
 
 const router = createRouter({
