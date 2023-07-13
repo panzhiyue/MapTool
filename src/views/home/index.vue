@@ -1,6 +1,9 @@
 <template>
 	<a-layout class="main">
 		<a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible width="30px">
+			<div class="sider-container">
+				<home-outlined class="icon" title="首页" @click="toHome" />
+			</div>
 		</a-layout-sider>
 		<a-layout>
 			<!-- <a-layout-header style="background: #fff; padding: 0">
@@ -18,7 +21,16 @@
 	</a-layout>
 </template>
 <script setup>
+import { HomeOutlined } from '@ant-design/icons-vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const collapsed = ref(false);
+
+const toHome = () => {
+	router.push({
+		path: '/modelSelect',
+	});
+};
 </script>
 <style lang="less" scoped>
 .main {
@@ -26,8 +38,15 @@ const collapsed = ref(false);
 	height: 100%;
 	overflow: hidden;
 
-	.sider {
+	.sider-container {
 		width: 30px;
+		text-align: center;
+		padding-top: 10px;
+
+		.icon {
+			color: white;
+			cursor: pointer;
+		}
 	}
 }
 </style>
