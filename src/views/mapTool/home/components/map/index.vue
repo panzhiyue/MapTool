@@ -91,14 +91,15 @@
 			</div>
 			<status-bar v-show="homeStore.config.isShowStatusbar"></status-bar>
 			<div v-if="measureType">
-				<vue2ol-layer-vector :zIndex="901">
+				<vue2ol-interaction-measure :type="measureType" :active="true"></vue2ol-interaction-measure>
+				<!-- <vue2ol-layer-vector :zIndex="901">
 					<vue2ol-source-vector>
 						<vue2ol-interaction-draw
 							:type="measureType"
 							:active="true"
 							@drawend="handleMeasureDrawEnd"></vue2ol-interaction-draw>
 					</vue2ol-source-vector>
-				</vue2ol-layer-vector>
+				</vue2ol-layer-vector> -->
 			</div>
 			<div v-if="plotType">
 				<vue2ol-layer-vector :zIndex="901">

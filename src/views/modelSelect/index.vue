@@ -1,3 +1,4 @@
+<!--假设分配法-->
 <template>
 	<div class="main">
 		<a-card title="地图管理工具" :bordered="false">

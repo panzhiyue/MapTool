@@ -5,7 +5,7 @@
 				<img class="pic-logo" src="~@/assets/logo.png" />
 			</div>
 			<a-menu class="menu-item" theme="light" mode="inline">
-				<a-menu-item v-for="(item, index) in menus">
+				<a-menu-item v-for="(item, index) in menus" :key="index">
 					<router-link :to="{ path: item.path, params: {} }">
 						{{ item.title }}
 					</router-link>
@@ -24,8 +24,12 @@ import { ref, reactive } from 'vue';
 const collapsed = ref(false);
 const menus = reactive([
 	{
-		title: '速算',
-		path: '/webmaster-tools/rapid-calculation',
+		title: '计算基期',
+		path: '/webmaster-tools/calculation-baseperiod',
+	},
+	{
+		title: '涂鸦板',
+		path: '/webmaster-tools/graffiti-board',
 	},
 ]);
 </script>

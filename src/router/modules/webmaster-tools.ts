@@ -8,10 +8,16 @@ const router =
     component: Layout,
     children: [
         {
-            path: '/webmaster-tools/rapid-calculation',
-            name: 'WebmastertoolsRapidcalculation',
-            component: () => import('@/views/webmaster-tools/rapid-calculation/index.vue')
+            path: '/webmaster-tools/calculation-baseperiod',
+            name: 'WebmastertoolsCalculationbaseperiod',
+            component: () => import('@/views/webmaster-tools/calculation-baseperiod/index.vue')
         },
+        {
+            path: '/webmaster-tools/graffiti-board',
+            name: 'WebmastertoolsGraffitiboard',
+            component: () => import('@/views/webmaster-tools/graffiti-board/index.vue')
+        },
+
     ]
 };
 
