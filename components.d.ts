@@ -68,6 +68,7 @@ declare module '@vue/runtime-core' {
     StyleIcon: typeof import('./src/components/style-icon/src/style-icon.vue')['default']
     TableStructure: typeof import('./src/components/table-structure/src/table-structure.vue')['default']
     TableStructureCompare: typeof import('./src/components/table-structure-compare/src/table-structure-compare.vue')['default']
+    Timer: typeof import('./src/components/timer/index.vue')['default']
     ToolContainer: typeof import('./src/components/tool-container/src/tool-container.vue')['default']
     VectorEditor: typeof import('./src/components/vector-editor/src/vector-editor.vue')['default']
     WindowControls: typeof import('./src/components/window-controls/index.vue')['default']

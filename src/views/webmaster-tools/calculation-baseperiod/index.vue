@@ -9,7 +9,9 @@
 				<div class="item">增长率小数位：<a-input v-model:value="decimalDigit2"></a-input></div>
 				<div class="item">增长率最大值：<a-input v-model:value="maxValue2"></a-input></div>
 				<div class="item">生成数量：<a-input v-model:value="count"></a-input></div>
+				<timer class="item"></timer>
 			</div>
+
 			<div class="btn-container">
 				<a-button @click="handleClick">生成</a-button>
 				<a-button class="ml-5" @click="handleShow">显示答案</a-button>
@@ -35,13 +37,14 @@
 </template>
 <script lang="ts" setup>
 import { Ref, ref } from 'vue';
-const integerDigit = ref(4);
+import timer from '@/components/timer/index.vue';
+const integerDigit = ref(3);
 const decimalDigit = ref(0);
-const maxValue = ref(100);
-const maxValue2 = ref(100);
+const maxValue = ref(999);
+const maxValue2 = ref(20);
 
 const integerDigit2 = ref(2);
-const decimalDigit2 = ref(2);
+const decimalDigit2 = ref(1);
 
 const count = ref(10);
 
