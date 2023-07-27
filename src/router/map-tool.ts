@@ -1,6 +1,11 @@
 
 const router = [
     {
+        path: '/mapTool',
+        name: "MapTool",
+        component: () => import(/* webpackChunkName: "about" */ '@/views/mapTool/home/index.vue')
+    },
+    {
         path: '/addLayer',
         name: "AddLayer",
         component: () => import(/* webpackChunkName: "about" */ '@/views/mapTool/addLayer/index.vue')

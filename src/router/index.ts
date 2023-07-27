@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import mapToolRouters from "./map-tool"
+// import mapToolRouters from "./map-tool"
 const modules: any = import.meta.globEager('./modules/*.ts');
 const routeModuleList = [];
 
@@ -30,15 +30,17 @@ const routes = [
         name: "ModelSelect",
         component: () => import(/* webpackChunkName: "about" */ '../views/modelSelect/index.vue')
       },
-      {
-        path: '/api',
-        name: "api",
-        component: () => import(/* webpackChunkName: "about" */ '../views/api/index.vue')
-      },
-      ...routeModuleList
+
+
     ]
   },
-  ...mapToolRouters
+  {
+    path: '/api',
+    name: "api",
+    component: () => import(/* webpackChunkName: "about" */ '../views/api/index.vue')
+  },
+  ...routeModuleList
+  // ...mapToolRouters
 
 ]
 

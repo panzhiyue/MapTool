@@ -1,4 +1,3 @@
-<!--假设分配法-->
 <template>
 	<div class="main">
 		<div class="item" v-for="(item, index) in data">
@@ -9,38 +8,13 @@
 				</div>
 			</div>
 		</div>
-		<!-- <a-card title="地图管理工具" :bordered="false">
-			<p>一个用于管理地图数据的工具</p>
-			<template #extra>
-				<a-button type="link" @click="handleIn('./home')">进入</a-button>
-			</template>
-		</a-card>
-
-		<a-card title="Electron Api" :bordered="false">
-			<p>用于展示ElectronApi功能</p>
-			<template #extra>
-				<a-button type="link" @click="handleIn('./electronApi')">进入</a-button>
-			</template>
-		</a-card>
-
-		<a-card title="Webmaster Tools" :bordered="false">
-			<p>站长工具</p>
-			<template #extra>
-				<a-button type="link" @click="handleIn('/webmaster-tools')">进入</a-button>
-			</template>
-		</a-card>
-
-		<a-card title="API" :bordered="false">
-			<p>集成API地址</p>
-			<template #extra>
-				<a-button type="link" @click="handleIn('./api')">进入</a-button>
-			</template>
-		</a-card> -->
 	</div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { ipcRenderer } from 'electron';
+import WindowName from '@/enum/WindowName';
 
 const router = useRouter();
 const handleIn = (url) => {
@@ -54,28 +28,63 @@ const data = ref([
 			{
 				title: '地图管理工具',
 				describe: '一个用于管理地图数据的工具',
-				url: './home',
+				name: WindowName.MAPTOOL,
+				url: '/mapTool',
+				params: {
+					minWidth: 1024,
+					minHeight: 600,
+					frame: true,
+					fullscreen: false,
+					parent: null,
+				},
 			},
 			{
 				title: 'Electron Api',
 				describe: '用于展示ElectronApi功能',
-				url: './electronApi',
+				name: 'ELECTRON_API',
+				url: '/electronApi',
+				params: {
+					minWidth: 1024,
+					minHeight: 600,
+					frame: true,
+					fullscreen: false,
+					parent: null,
+				},
 			},
 			{
 				title: '站长工具',
 				describe: '站长工具',
+				name: 'WEBMASTER_TOOLS',
 				url: '/webmaster-tools',
+				params: {
+					minWidth: 1024,
+					minHeight: 600,
+					frame: true,
+					fullscreen: false,
+					parent: null,
+				},
 			},
 			{
 				title: 'Api',
 				describe: '集成API地址',
-				url: './api',
+				name: 'API',
+				url: '/api',
+				params: {
+					minWidth: 1024,
+					minHeight: 600,
+					frame: true,
+					fullscreen: false,
+					parent: null,
+				},
 			},
 		],
 	},
 ]);
 
-const openTool = (params) => {};
+const openTool = (params) => {
+	console.log(params);
+	ipcRenderer.send('open-win', params.name, params.url, params.params, {}, false);
+};
 </script>
 <style lang="less" scoped>
 .main {
@@ -106,6 +115,7 @@ const openTool = (params) => {};
 				font-size: 20px;
 				padding-left: 10px;
 				font-weight: bold;
+				cursor: pointer;
 			}
 		}
 	}

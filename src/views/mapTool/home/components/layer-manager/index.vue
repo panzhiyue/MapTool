@@ -121,7 +121,7 @@ const handleContextMenuAddLayer = (data: any) => {
 		width: 700,
 		height: 500,
 		// frame: false,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 	});
 };
 

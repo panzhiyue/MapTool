@@ -171,8 +171,8 @@ const handleOk = () => {
 		maxCount: countValue.value,
 		fromWindowId: sharedObject[WindowName.CREATE_DISTANCE_TABLE],
 		fromWindowName: WindowName.CREATE_DISTANCE_TABLE,
-		toWindowId: sharedObject[WindowName.MAIN],
-		toWindowName: WindowName.MAIN,
+		toWindowId: sharedObject[WindowName.MAPTOOL],
+		toWindowName: WindowName.MAPTOOL,
 	});
 };
 

@@ -65,8 +65,8 @@ const handleOk = () => {
 		kneePointYField: yField.value,
 		fromWindowId: sharedObject[WindowName.EXPORT_KNEEPOINT_TABLE],
 		fromWindowName: WindowName.EXPORT_KNEEPOINT_TABLE,
-		toWindowId: sharedObject[WindowName.MAIN],
-		toWindowName: WindowName.MAIN,
+		toWindowId: sharedObject[WindowName.MAPTOOL],
+		toWindowName: WindowName.MAPTOOL,
 	});
 };
 

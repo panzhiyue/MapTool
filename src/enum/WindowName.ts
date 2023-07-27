@@ -3,6 +3,7 @@
  */
 enum WindowName {
     MAIN = "Main",
+    MAPTOOL = "MapTool",
     EXPORT_IMAGE = "导出图片",
     EXPORT_VECTOR = "导出矢量",
     EXPORT_ATTRIBUTE_TABLE = "导出属性表",

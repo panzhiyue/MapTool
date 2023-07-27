@@ -52,8 +52,8 @@ const handleOk = () => {
 		format: ext,
 		fromWindowId: sharedObject[WindowName.EXPORT_IMAGE],
 		fromWindowName: WindowName.EXPORT_IMAGE,
-		toWindowId: sharedObject[WindowName.MAIN],
-		toWindowName: WindowName.MAIN,
+		toWindowId: sharedObject[WindowName.MAPTOOL],
+		toWindowName: WindowName.MAPTOOL,
 	});
 };
 

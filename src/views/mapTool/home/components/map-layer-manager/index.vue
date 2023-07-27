@@ -118,7 +118,7 @@ const handleOpenAttributeTable = (id: Number) => {
 		width: 700,
 		height: 400,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 	});
 };
 
@@ -157,7 +157,7 @@ const handleShowStyleSelector = (data) => {
 		width: 540,
 		height: 540,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 	});
 };
 </script>

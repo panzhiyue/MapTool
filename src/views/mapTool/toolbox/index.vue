@@ -107,7 +107,7 @@ const handleDoubleClick = (options: any) => {
 			width: 700,
 			height: 400,
 			frame: true,
-			parent: WindowName.MAIN,
+			parent: WindowName.MAPTOOL,
 		},
 		{},
 		false,

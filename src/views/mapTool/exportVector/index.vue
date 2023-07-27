@@ -77,8 +77,8 @@ const handleOk = () => {
 		destSpatialReference: coordinateSystem.value,
 		fromWindowId: sharedObject[WindowName.EXPORT_VECTOR],
 		fromWindowName: WindowName.EXPORT_VECTOR,
-		toWindowId: sharedObject[WindowName.MAIN],
-		toWindowName: WindowName.MAIN,
+		toWindowId: sharedObject[WindowName.MAPTOOL],
+		toWindowName: WindowName.MAPTOOL,
 	});
 };
 

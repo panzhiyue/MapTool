@@ -121,7 +121,7 @@ const handleShowTool = () => {
 			width: 400,
 			height: 700,
 			frame: true,
-			parent: WindowName.MAIN,
+			parent: WindowName.MAPTOOL,
 		},
 		{},
 	);
@@ -132,7 +132,7 @@ const handleShowXY = () => {
 		width: 360,
 		height: 100,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 	});
 };
 
@@ -141,7 +141,7 @@ const handleShowMeasure = () => {
 		width: 400,
 		height: 200,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 	});
 };
 
@@ -150,7 +150,7 @@ const handleShowPlot = () => {
 		width: 500,
 		height: 250,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 	});
 };
 
@@ -163,7 +163,7 @@ const handleShowCoordinateConversion = () => {
 		width: 500,
 		height: 250,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 	});
 };
 
@@ -172,7 +172,7 @@ const handleShowGeometryConversion = () => {
 		width: 600,
 		height: 400,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 	});
 };
 
@@ -181,7 +181,7 @@ const handleShowGeometryConversionBatch = () => {
 		width: 600,
 		height: 400,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 	});
 };
 
@@ -225,7 +225,7 @@ const handleShowGeocoder = () => {
 		width: 700,
 		height: 400,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 		close: true,
 	});
 };
@@ -238,7 +238,7 @@ const handleShowReverseGeocoder = () => {
 		width: 700,
 		height: 400,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 		close: true,
 	});
 };
@@ -251,7 +251,7 @@ const handleShowAdministrative = () => {
 		width: 700,
 		height: 400,
 		frame: true,
-		parent: WindowName.MAIN,
+		parent: WindowName.MAPTOOL,
 		close: true,
 	});
 };

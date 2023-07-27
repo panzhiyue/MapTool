@@ -58,8 +58,8 @@ const handleOk = () => {
 	exportAttributeTable({
 		fromWindowId: sharedObject[WindowName.EXPORT_ATTRIBUTE_TABLE],
 		fromWindowName: WindowName.EXPORT_ATTRIBUTE_TABLE,
-		toWindowId: sharedObject[WindowName.MAIN],
-		toWindowName: WindowName.MAIN,
+		toWindowId: sharedObject[WindowName.MAPTOOL],
+		toWindowName: WindowName.MAPTOOL,
 		layerId: selectLayer.value,
 		savePath: savePath.value,
 		header: header.value,
