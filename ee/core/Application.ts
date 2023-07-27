@@ -97,11 +97,11 @@ class Application {
             title: '地图管理工具',
 
             icon: 'logo.png',
-            frame: true,
+            frame: false,
             // fullscreen: true,
-            width: 1024,
-            height: 700,
-            resizable: false,
+            width: 880,
+            height: 540,
+            resizable: true,
             show: false,
             webPreferences: {
                 preload,

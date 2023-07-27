@@ -9,11 +9,11 @@ Object.keys(modules).forEach((key) => {
   routeModuleList.push(...modList);
 });
 const routes = [
-  // {
-  //   path: '/',
-  //   name: "home",
-  //   redirect: "/login"
-  // },
+  {
+    path: '/',
+    name: "",
+    redirect: "/modelSelect"
+  },
   // {
   //   path: '/',
   //   name: "Login",
@@ -21,7 +21,7 @@ const routes = [
   // },
 
   {
-    path: '/',
+    path: '/home',
     name: "home",
     component: () => import(/* webpackChunkName: "about" */ '../views/home/index.vue'),
     children: [
