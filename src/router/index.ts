@@ -14,14 +14,14 @@ const routes = [
   //   name: "home",
   //   redirect: "/login"
   // },
-  {
-    path: '/',
-    name: "Login",
-    component: () => import(/* webpackChunkName: "about" */ '../views/login/index.vue')
-  },
+  // {
+  //   path: '/',
+  //   name: "Login",
+  //   component: () => import(/* webpackChunkName: "about" */ '../views/login/index.vue')
+  // },
 
   {
-    path: '/home',
+    path: '/',
     name: "home",
     component: () => import(/* webpackChunkName: "about" */ '../views/home/index.vue'),
     children: [
