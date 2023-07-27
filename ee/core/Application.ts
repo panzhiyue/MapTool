@@ -99,8 +99,10 @@ class Application {
             icon: 'logo.png',
             frame: false,
             // fullscreen: true,
-            width: 880,
-            height: 540,
+            width: 1024,
+            height: 580,
+            minWidth: 1024,
+            minHeight: 580,
             resizable: true,
             show: false,
             webPreferences: {
