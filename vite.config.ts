@@ -14,6 +14,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 // import { viteMockServe } from 'vite-plugin-mock'
 import copy from 'rollup-plugin-copy'
 import DefineOptions from 'unplugin-vue-define-options/vite';
+import cesium from 'vite-plugin-cesium'
 
 rmSync('dist', { recursive: true, force: true }) // v14.14.0
 
@@ -36,6 +37,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     plugins: [
 
       vue(),
+      cesium(),
       DefineOptions(),
       copy({
         targets: [

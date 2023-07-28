@@ -39,6 +39,11 @@ const routes = [
     name: "api",
     component: () => import(/* webpackChunkName: "about" */ '../views/api/index.vue')
   },
+  {
+    path: '/cesiumViewer',
+    name: "CesiumViewer",
+    component: () => import(/* webpackChunkName: "about" */ '../views/cesiumViewer/index.vue')
+  },
   ...routeModuleList
   // ...mapToolRouters
 

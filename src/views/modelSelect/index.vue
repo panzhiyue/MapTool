@@ -3,7 +3,10 @@
 		<div class="item" v-for="(item, index) in data">
 			<div class="title">{{ item.title }}</div>
 			<div class="children-container">
-				<div class="children-item" v-for="(item2, index) in item.children" @click="openTool(item2)">
+				<div
+					class="children-item"
+					v-for="(item2, index) in item.children"
+					@click="openTool({ name: item2.name, url: item2.url, params: { ...item2.params } })">
 					{{ item2.title }}
 				</div>
 			</div>
@@ -11,17 +14,14 @@
 	</div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
 
 const router = useRouter();
-const handleIn = (url) => {
-	router.push(url);
-};
 
-const data = ref([
+const list = [
 	{
 		title: '常用功能',
 		children: [
@@ -77,12 +77,27 @@ const data = ref([
 					parent: null,
 				},
 			},
+			{
+				title: 'CesiumViewer',
+				describe: '三维可视化',
+				name: 'CesiumViewer',
+				url: '/cesiumViewer',
+				params: {
+					minWidth: 1024,
+					minHeight: 600,
+					frame: true,
+					fullscreen: false,
+					parent: null,
+				},
+			},
 		],
 	},
-]);
+];
+
+const data = ref(list);
 
 const openTool = (params) => {
-	console.log(params);
+	console.log('open-win', params.name, params.url, params.params, {}, false);
 	ipcRenderer.send('open-win', params.name, params.url, params.params, {}, false);
 };
 </script>

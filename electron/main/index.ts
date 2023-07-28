@@ -47,7 +47,7 @@ ipcMain.on('open-win', (event, windowName, arg, opt_options, webPreferences, clo
       // parent: options.parent ? getWindowByTitle(options.parent) : null,
       webPreferences: {
         ...webPreferences,
-
+        webSecurity: false,
         nodeIntegration: true,
         contextIsolation: false,
 

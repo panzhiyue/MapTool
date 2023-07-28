@@ -9,6 +9,7 @@ import Vue2olExtend from '@gis-js/vue2ol-extend'
 import '@/styles/index.less'
 import "ol/ol.css"
 
+import VueCesium from 'vue-cesium'
 // import ElementPlus from "@/utils/element-plus"
 // import 'element-plus/dist/index.css'
 import Directive from './directives/index'
@@ -49,7 +50,7 @@ const store = createPinia()
 
 let app = createApp(App).use(router).use(store)
   .use(Vue2ol)
-  .use(Vue2olExtend).use(Directive).use(VueColor)
+  .use(Vue2olExtend).use(Directive).use(VueColor).use(VueCesium)
   .mount('#app')
   .$nextTick(() => {
     // postMessage({ payload: 'removeLoading' }, '*')
