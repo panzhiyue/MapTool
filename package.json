@@ -85,6 +85,7 @@
     "@gis-js/vue2ol-extend": "^1.0.2",
     "@panzhiyue/utilscommon": "^1.1.1",
     "@turf/turf": "^6.5.0",
+    "@types/cesium": "^1.70.0",
     "ant-design-vue": "^3.2.12",
     "better-sqlite3": "^8.3.0",
     "cesium": "^1.107.2",

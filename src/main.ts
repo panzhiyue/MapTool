@@ -30,15 +30,15 @@ import unhandled from "@/utils/unhandled"
 //   // count.value = Object.keys(Gdal.drivers.raster).length + Object.keys(Gdal.drivers.vector).length;
 //   // console.log(333);
 // });
-unhandled({
-  logger: (error) => {
-    console.error(error)
-  },
-  showDialog: true,
-  reportButton: (error) => {
-    console.log("Report Button Initialized");
-  }
-});
+// unhandled({
+//   logger: (error) => {
+//     console.error(error)
+//   },
+//   showDialog: true,
+//   reportButton: (error) => {
+//     console.log("Report Button Initialized");
+//   }
+// });
 
 
 // unhandled.logError(Error, {
