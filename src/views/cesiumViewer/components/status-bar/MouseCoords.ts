@@ -49,7 +49,7 @@ class MouseCoords {
         this.longitude = ''
         this.north = ''
         this.east = ''
-        this.useProjection = false
+        this.useProjection = true
         this.debounceSampleAccurateHeight = debounce(this.sampleAccurateHeight, this.accurateSamplingDebounceTime)
         this.decimal = options.decimal || 5
         this.rangeType = options.rangeType || 0
@@ -127,8 +127,9 @@ class MouseCoords {
         const { Math: CesiumMath } = Cesium
         const latitude = CesiumMath.toDegrees(coordinates.latitude)
         const longitude = CesiumMath.toDegrees(coordinates.longitude)
-
+        console.log('cartographicToFields', 1, this.useProjection);
         if (this.useProjection) {
+            console.log('cartographicToFields', 2);
             const prettyProjection = prettifyProjection(longitude, latitude, this.proj4Projection, this.proj4longlat, this.projectionUnits)
             this.utmZone = prettyProjection.utmZone
             this.north = prettyProjection.north
@@ -141,7 +142,7 @@ class MouseCoords {
             decimal: this.decimal,
             rangeType: this.rangeType
         })
-
+        console.log('prettyCoordinate', prettyCoordinate);
         this.latitude = prettyCoordinate.latitude
         this.longitude = prettyCoordinate.longitude
         this.elevation = prettyCoordinate.elevation
