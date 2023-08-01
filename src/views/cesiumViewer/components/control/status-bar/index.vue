@@ -41,12 +41,10 @@
 	</div>
 </template>
 <script setup>
-import { useVueCesium } from 'vue-cesium';
-import { heightToLevel } from '../../utils/cesium-helpers';
+import { heightToLevel } from '../../../utils/cesium-helpers';
 import throttle from '@/utils/private/throttle';
 import MouseCoords, { extendForMouseCoords } from './MouseCoords';
-const $vc = useVueCesium();
-const viewer = $vc.viewer;
+const viewer = inject('viewer').value;
 
 //相机信息
 const cameraInfo = reactive({
@@ -68,16 +66,7 @@ let debugShowFramesPerSecond = false;
 
 const mouseCoordsInfo = ref(null);
 
-// const mouseCoordsInfo2 = ref(null);
 const mouseCoordsInfo2 = computed(() => {
-	console.log({
-		elevation: mouseCoordsInfo.value?.elevation,
-		utmZone: mouseCoordsInfo.value?.utmZone,
-		latitude: mouseCoordsInfo.value?.latitude,
-		longitude: mouseCoordsInfo.value?.longitude,
-		north: mouseCoordsInfo.value?.north,
-		east: mouseCoordsInfo.value?.east,
-	});
 	return {
 		elevation: mouseCoordsInfo.value?.elevation,
 		utmZone: mouseCoordsInfo.value?.utmZone,
@@ -111,6 +100,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+	const viewerElement = viewer._element;
 	viewerElement.removeEventListener('wheel', onMouseMove);
 	viewerElement.removeEventListener('mousemove', onMouseMove);
 	viewerElement.removeEventListener('touchmove', onMouseMove);
@@ -170,16 +160,6 @@ const onMouseMove = (e) => {
 		const rect = viewerElement.getBoundingClientRect();
 		const position = new Cartesian2(clientX - rect.left, clientY - rect.top);
 		mouseCoordsInfo.value?.updateCoordinatesFromCesium(viewer, position);
-
-		// mouseCoordsInfo2.value = {
-		// 	elevation: mouseCoordsInfo.value.elevation,
-		// 	utmZone: mouseCoordsInfo.value.utmZone,
-		// 	latitude: mouseCoordsInfo.value.latitude,
-		// 	longitude: mouseCoordsInfo.value.longitude,
-		// 	north: mouseCoordsInfo.value.north,
-		// 	east: mouseCoordsInfo.value.east,
-		// };
-		// console.log(mouseCoordsInfo2.value);
 	}
 };
 </script>

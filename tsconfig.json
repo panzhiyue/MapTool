@@ -23,7 +23,9 @@
     "types": [
       "vite/client",
       "unplugin-vue-define-options/macros-global",
-      "node"
+      "node",
+      "vue-cesium/global",
+      "vue-cesium/Cesium"
     ],
     "typeRoots": [
       "./node_modules/@types/",
@@ -66,7 +68,9 @@
     "./electron/*",
     "src/directives/mouseDrag.js",
     "src/directives/mouseDrag.js",
-    "./ee/*"
+    "./ee/*",
+    "node_modules/vue-cesium/Cesium.d.ts",
+    "node_modules/vue-cesium/global.d.ts"
   ],
   "references": [
     {
