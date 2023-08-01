@@ -35,6 +35,8 @@ onMounted(() => {
 		terrainProvider: null,
 		imageryProvider: false,
 		baseLayerPicker: false,
+		fullscreenButton: false,
+		bottomContainer: '333',
 	};
 	cesiumObject.value = new Cesium.Viewer(container.value, options);
 
@@ -53,6 +55,7 @@ provide('cesiumObject', cesiumObject);
 </script>
 <style type="text/css">
 .vue2cesium-viewer {
+	position: relative;
 	height: 100%;
 	width: 100%;
 }

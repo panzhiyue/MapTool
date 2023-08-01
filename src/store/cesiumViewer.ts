@@ -8,7 +8,7 @@ export const useCesiumViewerStore = defineStore({
     id: "cesiumViewer",
     state: (): IState => ({
         viewOpts: {
-            statusBar: true
+            showStatusBar: true
         }
     }),
     actions: {
