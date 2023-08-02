@@ -16,7 +16,7 @@
 </template>
 <script setup>
 import * as Cesium from 'cesium';
-import throttle from '@/utils/private/throttle';
+import { throttle } from '@/utils/index';
 const viewer = inject('viewer').value;
 const rootStyle = reactive({});
 const distanceLabel = ref('');

@@ -27,6 +27,12 @@
 				<div class="section-short ellipsis">
 					<span>侧翻</span><span>{{ cameraInfo.roll }}°</span>
 				</div>
+				<div class="section-short ellipsis">
+					<span>精度</span><span>{{ cameraInfo.longitude }}°</span>
+				</div>
+				<div class="section-short ellipsis">
+					<span>纬度</span><span>{{ cameraInfo.latitude }}°</span>
+				</div>
 				<div class="section ellipsis">
 					<span>视高</span><span>{{ cameraInfo.height }}m</span>
 				</div>
@@ -42,7 +48,7 @@
 </template>
 <script setup>
 import { heightToLevel } from '../../../utils/cesium-helpers';
-import throttle from '@/utils/private/throttle';
+import { throttle } from '@/utils/index';
 import MouseCoords, { extendForMouseCoords } from './MouseCoords';
 const viewer = inject('viewer').value;
 
@@ -53,6 +59,8 @@ const cameraInfo = reactive({
 	roll: 'NaN',
 	height: 'NaN',
 	level: 'NaN',
+	longitude: 'NaN',
+	latitude: 'NaN',
 });
 
 //性能信息
@@ -128,6 +136,12 @@ const onCameraChanged = () => {
 	cameraInfo.pitch = CesiumMath.toDegrees(viewer.camera.pitch).toFixed(1);
 	cameraInfo.roll = CesiumMath.toDegrees(viewer.camera.roll).toFixed(1);
 	cameraInfo.height = viewer.camera.positionCartographic.height.toFixed(2);
+	cameraInfo.longitude = CesiumMath.toDegrees(viewer.camera.positionCartographic.longitude).toFixed(
+		1,
+	);
+	cameraInfo.latitude = CesiumMath.toDegrees(viewer.camera.positionCartographic.latitude).toFixed(
+		1,
+	);
 	cameraInfo.level = heightToLevel(Number(cameraInfo.height)).toFixed(0);
 };
 

@@ -1,20 +1,30 @@
 <template>
 	<div class="main">
 		<div class="item">
-			<span class="name"> 控件 </span>
+			<span class="name"> 场景 </span>
 			<div class="btnbox">
 				<div class="btn">
-					<a-checkbox></a-checkbox>
+					<save-outlined class="chk" />
 				</div>
-				<span class="btnbox-name">图层管理</span>
+				<span class="btnbox-name">保存</span>
+			</div>
+		</div>
+		<div class="item">
+			<span class="name"> 视角 </span>
+			<div class="btnbox">
+				<div class="btn">
+					<a-button type="primary" :size="'small'" @click="flyToGlobal">全球</a-button>
+				</div>
 			</div>
 			<div class="btnbox">
 				<div class="btn">
-					<a-checkbox
-						:checked="cesiumViewerStore.viewOpts.showNavigation"
-						@click="toggleShowNavigation"></a-checkbox>
+					<a-button type="primary" :size="'small'" @click="flyToChina">中国</a-button>
 				</div>
-				<span class="btnbox-name">导航控件</span>
+			</div>
+			<div class="btnbox">
+				<div class="btn">
+					<a-button type="primary" :size="'small'" @click="flyToChina">自定义</a-button>
+				</div>
 			</div>
 			<div class="btnbox">
 				<div class="btn">
@@ -45,6 +55,8 @@
 </template>
 <script setup>
 import { useCesiumViewerStore } from '@/store/cesiumViewer';
+import { SaveOutlined } from '@ant-design/icons-vue';
+import { Cartesian3, Math as CesiumMath } from 'cesium';
 const viewer = inject('viewer').value;
 
 const cesiumViewerStore = useCesiumViewerStore();
@@ -63,6 +75,25 @@ const toggleShowNavigation = () => {
 
 const toggleShowTimeline = () => {
 	cesiumViewerStore.viewOpts.showTimeline = !cesiumViewerStore.viewOpts.showTimeline;
+};
+
+const flyToGlobal = () => {
+	viewer.camera.flyTo({
+		destination: Cartesian3.fromDegrees(-82.5, 35.2, 24908123),
+		orientation: {
+			pitch: CesiumMath.toRadians(-90),
+			roll: CesiumMath.toRadians(0),
+			heading: CesiumMath.toRadians(360),
+		},
+		duration: 3,
+	});
+};
+
+const flyToChina = () => {
+	viewer.camera.flyTo({
+		destination: Cartesian3.fromDegrees(116.435314, 40.960521, 10000000.0),
+		duration: 3,
+	});
 };
 </script>
 
@@ -114,6 +145,11 @@ const toggleShowTimeline = () => {
 				cursor: pointer;
 				.ant-checkbox-wrapper {
 					margin-left: 7px;
+				}
+
+				.anticon {
+					font-size: 30px;
+					margin-left: 2px;
 				}
 			}
 

@@ -1,6 +1,6 @@
 <template>
 	<a-tabs class="nav" v-model:activeKey="activeKey">
-		<a-tab-pane key="1" tab="漫游">Content of Tab Pane 1</a-tab-pane>
+		<a-tab-pane key="1" tab="漫游"><Roam></Roam></a-tab-pane>
 		<a-tab-pane key="2" tab="视图"><View></View></a-tab-pane>
 		<a-tab-pane key="3" tab="影像">Content of Tab Pane 3</a-tab-pane>
 		<a-tab-pane key="4" tab="瓦片">Content of Tab Pane 3</a-tab-pane>
@@ -14,6 +14,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import View from './components/view';
+import Roam from './components/roam';
 const activeKey = ref('1');
 </script>
 <style lang="less" scoped>
@@ -27,6 +28,8 @@ const activeKey = ref('1');
 	width: 100%;
 	background: #6b6b6b;
 
+	.ant-tabs-tab {
+	}
 	.ant-tabs-nav {
 		margin: 0px;
 	}
@@ -36,6 +39,7 @@ const activeKey = ref('1');
 		min-width: 656px;
 		width: 100%;
 		margin: 0px;
+		padding-left: 20px;
 	}
 
 	.ant-tabs-content-holder {

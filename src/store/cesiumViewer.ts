@@ -11,7 +11,7 @@ export const useCesiumViewerStore = defineStore({
             showStatusBar: true,
             showDistanceLegend: true,
             showNavigation: true,
-            showTimeline: true,
+            showTimeline: false,
         }
     }),
     actions: {
