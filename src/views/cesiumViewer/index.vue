@@ -6,6 +6,7 @@
 		<status-bar v-if="cesiumViewerStore.viewOpts.showStatusBar"></status-bar>
 		<distance-legend v-if="cesiumViewerStore.viewOpts.showDistanceLegend"></distance-legend>
 		<navigation v-if="cesiumViewerStore.viewOpts.showNavigation"></navigation>
+		<timeline v-if="cesiumViewerStore.viewOpts.showTimeline"></timeline>
 	</viewer>
 </template>
 <script setup>
@@ -17,6 +18,7 @@ import { useCesiumViewerStore } from '@/store/cesiumViewer';
 import Nav from './components/nav';
 import DistanceLegend from './components/control/distance-legend';
 import Navigation from './components/control/navigation';
+import Timeline from './components/control/timeline';
 
 const cesiumViewerStore = useCesiumViewerStore();
 

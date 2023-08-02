@@ -28,7 +28,10 @@
 				<span class="btnbox-name">状态栏</span>
 			</div>
 			<div class="btnbox">
-				<a-checkbox class="chk"></a-checkbox>
+				<a-checkbox
+					class="chk"
+					:checked="cesiumViewerStore.viewOpts.showTimeline"
+					@click="toggleShowTimeline"></a-checkbox>
 				<span class="btnbox-name">时间线</span>
 			</div>
 		</div>
@@ -52,14 +55,9 @@ const toggleShowNavigation = () => {
 	cesiumViewerStore.viewOpts.showNavigation = !cesiumViewerStore.viewOpts.showNavigation;
 };
 
-watch(
-	() => {
-		return cesiumViewerStore.viewOpts.showNavigation;
-	},
-	() => {
-		console.log(viewer);
-	},
-);
+const toggleShowTimeline = () => {
+	cesiumViewerStore.viewOpts.showTimeline = !cesiumViewerStore.viewOpts.showTimeline;
+};
 </script>
 
 <style lang="less" scoped>

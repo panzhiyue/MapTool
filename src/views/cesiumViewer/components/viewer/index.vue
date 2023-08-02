@@ -6,7 +6,7 @@
 
 <script setup>
 import { ref, getCurrentInstance } from 'vue';
-import * as Cesium from 'cesium';
+import { Viewer, Clock } from 'cesium';
 
 const instance = getCurrentInstance().proxy;
 const ready = ref(false);
@@ -37,8 +37,9 @@ onMounted(() => {
 		imageryProvider: false,
 		baseLayerPicker: false,
 		fullscreenButton: false, //是否显示全屏按钮
+		clock: new Clock(),
 	};
-	cesiumObject.value = new Cesium.Viewer(container.value, options);
+	cesiumObject.value = new Viewer(container.value, options);
 
 	//使用太阳作为光源，可以照亮地球。
 	cesiumObject.value.scene.globe.enableLighting = false;

@@ -119,7 +119,7 @@ const onScenePostRender = throttle((scene) => {
 	max-height: 21px;
 	margin-top: 5px;
 	height: 21px;
-	bottom: 30px;
+	bottom: 60px;
 	right: 10px;
 	z-index: 999;
 	background: rgb(63, 72, 84);
