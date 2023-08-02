@@ -38,7 +38,11 @@ options.zoomInTooltip = '放大';
 options.zoomOutTooltip = '缩小';
 
 //如需自定义罗盘控件，请看下面的自定义罗盘控件
-new CesiumNavigation(viewer, options);
+const navigation = new CesiumNavigation(viewer, options);
+console.log(navigation);
+onUnmounted(() => {
+	navigation.destroy();
+});
 </script>
 <style lang="less">
 .compass {

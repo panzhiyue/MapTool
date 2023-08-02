@@ -5,7 +5,7 @@
 		<image-layer-tianditu layer="cia"></image-layer-tianditu>
 		<status-bar v-if="cesiumViewerStore.viewOpts.showStatusBar"></status-bar>
 		<distance-legend v-if="cesiumViewerStore.viewOpts.showDistanceLegend"></distance-legend>
-		<navigation></navigation>
+		<navigation v-if="cesiumViewerStore.viewOpts.showNavigation"></navigation>
 	</viewer>
 </template>
 <script setup>
