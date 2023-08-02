@@ -89,6 +89,7 @@
     "ant-design-vue": "^3.2.12",
     "better-sqlite3": "^8.3.0",
     "cesium": "^1.107.2",
+    "cesium-navigation-es6": "^3.0.8",
     "dom-to-image": "^2.6.0",
     "electron-devtools-installer": "^3.2.0",
     "exceljs": "^4.3.0",

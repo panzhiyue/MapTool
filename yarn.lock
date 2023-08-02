@@ -92,12 +92,44 @@
     topojson-client "^3.1.0"
     urijs "^1.19.7"
 
+"@cesium/engine@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.npmjs.org/@cesium/engine/-/engine-3.0.2.tgz#c990892ff56c12b563d671f791fb7a3bd660604e"
+  integrity sha512-p7xawdNn6dHOSMD/LtedSrsLqxcTyISi3JpKoKQd8DV4Yev0uwCbo8p7V7NqGXQjPqW7Tq0yAvBYvOMBpg9d1g==
+  dependencies:
+    "@tweenjs/tween.js" "^21.0.0"
+    "@zip.js/zip.js" "2.4.x"
+    autolinker "^4.0.0"
+    bitmap-sdf "^1.0.3"
+    dompurify "^3.0.2"
+    earcut "^2.2.4"
+    grapheme-splitter "^1.0.4"
+    jsep "^1.3.8"
+    kdbush "^4.0.1"
+    ktx-parse "^0.6.0"
+    lerc "^2.0.0"
+    mersenne-twister "^1.1.0"
+    meshoptimizer "^0.19.0"
+    pako "^2.0.4"
+    protobufjs "^7.1.0"
+    rbush "^3.0.1"
+    topojson-client "^3.1.0"
+    urijs "^1.19.7"
+
 "@cesium/widgets@^3.0.1":
   version "3.0.1"
   resolved "https://registry.npmjs.org/@cesium/widgets/-/widgets-3.0.1.tgz#35ffc8e376f0b033e5a85a05e59c71b75f8baa87"
   integrity sha512-VZokEo7oAR23XphiraXpGCp/XsccDIYq8QOMfPho3+kvtru49HOx6/ZDM3IyUXwVvshfrlE92P8c+67Nae4yDg==
   dependencies:
     "@cesium/engine" "^3.0.1"
+    nosleep.js "^0.12.0"
+
+"@cesium/widgets@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.npmjs.org/@cesium/widgets/-/widgets-3.0.2.tgz#f157c7215ff04f1cc1e6d674abb25fedd8f676e6"
+  integrity sha512-ai3BbbxQYcj639jG2rPI+4zz6Tmz+xFG+ynUYjIrYa672iqe2VXQy1ahX4wvmwEvf0YLROJuT53jU7Nq0KZHmA==
+  dependencies:
+    "@cesium/engine" "^3.0.2"
     nosleep.js "^0.12.0"
 
 "@ctrl/tinycolor@^3.4.0":
@@ -2844,6 +2876,13 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==
 
+cesium-navigation-es6@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.npmjs.org/cesium-navigation-es6/-/cesium-navigation-es6-3.0.8.tgz#aa5c627efdbae134c3ac9ff0f407d10f396465df"
+  integrity sha512-RyoY9T02fE9pRNgXCmOD8QlSV5XJ2LPf+O9IpYEkTcyiUztOIwVQwdeT0heHvk+R1eM8jAG6YnRPvfyDsRonEA==
+  dependencies:
+    cesium "^1.88"
+
 cesium@*, cesium@^1.107.2:
   version "1.107.2"
   resolved "https://registry.npmjs.org/cesium/-/cesium-1.107.2.tgz#109d8d2a8bbf977d01f4a9ec5e051d865f9cca70"
@@ -2851,6 +2890,14 @@ cesium@*, cesium@^1.107.2:
   dependencies:
     "@cesium/engine" "^3.0.1"
     "@cesium/widgets" "^3.0.1"
+
+cesium@^1.88:
+  version "1.108.0"
+  resolved "https://registry.npmjs.org/cesium/-/cesium-1.108.0.tgz#a6b9301640c5c1c261cc116d4fad5a33a959ea1b"
+  integrity sha512-8hhRC7O13g6jVws14A16CGcKKdPAZ4xiRUqyrMZ40qCbAoPbsufQY7dFJQ2EE9vR/FGehbon+q8/OBwweQlRaQ==
+  dependencies:
+    "@cesium/engine" "^3.0.2"
+    "@cesium/widgets" "^3.0.2"
 
 chainsaw@~0.1.0:
   version "0.1.0"
@@ -5784,6 +5831,11 @@ ktx-parse@^0.5.0:
   version "0.5.0"
   resolved "https://registry.npmjs.org/ktx-parse/-/ktx-parse-0.5.0.tgz#b4025bbc73ac5386ac37e869de455eab915261bc"
   integrity sha512-5IZrv5s1byUeDTIee1jjJQBiD5LPDB0w9pJJ0oT9BCKKJf16Tuj123vm1Ps0GOHSHmeWPgKM0zuViCVuTRpqaA==
+
+ktx-parse@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.npmjs.org/ktx-parse/-/ktx-parse-0.6.0.tgz#69e12a511cf345546da27b5b046182f5f31f68f9"
+  integrity sha512-hYOJUI86N9+YPm0M3t8hVzW9t5FnFFibRalZCrqHs/qM2eNziqQzBtAaF0ErgkXm8F+5uE8CjPUYr32vWlXLkQ==
 
 latest-version@^5.1.0:
   version "5.1.0"

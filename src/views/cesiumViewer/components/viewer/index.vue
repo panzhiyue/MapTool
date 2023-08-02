@@ -23,22 +23,27 @@ onUnmounted(() => {
 onMounted(() => {
 	emits('beforeLoad', cesiumObject.value);
 	let options = {
-		animation: false,
-		homeButton: false,
-		geocoder: false,
-		sceneModePicker: false,
-		baseLayerPicker: false,
-		timeline: false,
-		infoBox: false,
-		navigationHelpButton: false,
-		selectionIndicator: false,
-		terrainProvider: null,
+		animation: false, //是否创建动画小器件，左下角仪表
+		homeButton: false, //是否显示Home按钮
+		geocoder: false, //是否显示geocoder小器件，右上角查询按钮
+		sceneModePicker: false, //是否显示3D/2D选择器
+		baseLayerPicker: false, //是否显示图层选择器
+		timeline: false, //是否显示时间轴
+		infoBox: false, //是否显示信息框
+		navigationHelpButton: false, //是否显示右上角的帮助按钮
+		selectionIndicator: false, //是否显示选取指示器组件
+		scene3DOnly: true, //如果设置为true，则所有几何图形以3D模式绘制以节约GPU资源
+		terrainProvider: null, //new EllipsoidTerrainProvider(), //地形图层提供者
 		imageryProvider: false,
 		baseLayerPicker: false,
-		fullscreenButton: false,
-		bottomContainer: '333',
+		fullscreenButton: false, //是否显示全屏按钮
 	};
 	cesiumObject.value = new Cesium.Viewer(container.value, options);
+
+	//使用太阳作为光源，可以照亮地球。
+	cesiumObject.value.scene.globe.enableLighting = false;
+	//关闭地面大气效果，（默认为开启状态）
+	cesiumObject.value.scene.globe.showGroundAtmosphere = false;
 
 	ready.value = true;
 	instance.$nextTick(() => {

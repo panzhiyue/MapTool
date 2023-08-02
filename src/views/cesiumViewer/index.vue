@@ -5,6 +5,7 @@
 		<image-layer-tianditu layer="cia"></image-layer-tianditu>
 		<status-bar v-if="cesiumViewerStore.viewOpts.showStatusBar"></status-bar>
 		<distance-legend v-if="cesiumViewerStore.viewOpts.showDistanceLegend"></distance-legend>
+		<navigation></navigation>
 	</viewer>
 </template>
 <script setup>
@@ -15,6 +16,7 @@ import ImageLayerTianditu from './components/image-provider/tianditu';
 import { useCesiumViewerStore } from '@/store/cesiumViewer';
 import Nav from './components/nav';
 import DistanceLegend from './components/control/distance-legend';
+import Navigation from './components/control/navigation';
 
 const cesiumViewerStore = useCesiumViewerStore();
 
