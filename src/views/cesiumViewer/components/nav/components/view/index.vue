@@ -7,15 +7,24 @@
 				<span class="btnbox-name">图层管理</span>
 			</div>
 			<div class="btnbox">
-				<a-checkbox class="chk"></a-checkbox>
+				<a-checkbox
+					class="chk"
+					:checked="cesiumViewerStore.viewOpts.showNavigation"
+					@click="toggleShowNavigation"></a-checkbox>
 				<span class="btnbox-name">导航控件</span>
 			</div>
 			<div class="btnbox">
-				<a-checkbox class="chk"></a-checkbox>
+				<a-checkbox
+					class="chk"
+					:checked="cesiumViewerStore.viewOpts.showDistanceLegend"
+					@click="toggleShowDistanceLegend"></a-checkbox>
 				<span class="btnbox-name">比例尺</span>
 			</div>
 			<div class="btnbox">
-				<a-checkbox class="chk" :checked="showStatusBar" @click="toggleShowStatusBar"></a-checkbox>
+				<a-checkbox
+					class="chk"
+					:checked="cesiumViewerStore.viewOpts.showStatusBar"
+					@click="toggleShowStatusBar"></a-checkbox>
 				<span class="btnbox-name">状态栏</span>
 			</div>
 			<div class="btnbox">
@@ -27,15 +36,30 @@
 </template>
 <script setup>
 import { useCesiumViewerStore } from '@/store/cesiumViewer';
+const viewer = inject('viewer').value;
 
 const cesiumViewerStore = useCesiumViewerStore();
 
-const showStatusBar = computed(() => {
-	return cesiumViewerStore.viewOpts.showStatusBar;
-});
 const toggleShowStatusBar = () => {
 	cesiumViewerStore.viewOpts.showStatusBar = !cesiumViewerStore.viewOpts.showStatusBar;
 };
+
+const toggleShowDistanceLegend = () => {
+	cesiumViewerStore.viewOpts.showDistanceLegend = !cesiumViewerStore.viewOpts.showDistanceLegend;
+};
+
+const toggleShowNavigation = () => {
+	cesiumViewerStore.viewOpts.showNavigation = !cesiumViewerStore.viewOpts.showNavigation;
+};
+
+watch(
+	() => {
+		return cesiumViewerStore.viewOpts.showNavigation;
+	},
+	() => {
+		console.log(viewer);
+	},
+);
 </script>
 
 <style lang="less" scoped>

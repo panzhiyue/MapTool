@@ -1,8 +1,10 @@
 <template>
 	<viewer @ready="handleReady">
 		<Nav></Nav>
-		<image-layer-tianditu></image-layer-tianditu>
+		<image-layer-tianditu layer="img"></image-layer-tianditu>
+		<image-layer-tianditu layer="cia"></image-layer-tianditu>
 		<status-bar v-if="cesiumViewerStore.viewOpts.showStatusBar"></status-bar>
+		<distance-legend v-if="cesiumViewerStore.viewOpts.showDistanceLegend"></distance-legend>
 	</viewer>
 </template>
 <script setup>
@@ -12,6 +14,7 @@ import Viewer from './components/viewer/index.vue';
 import ImageLayerTianditu from './components/image-provider/tianditu';
 import { useCesiumViewerStore } from '@/store/cesiumViewer';
 import Nav from './components/nav';
+import DistanceLegend from './components/control/distance-legend';
 
 const cesiumViewerStore = useCesiumViewerStore();
 
@@ -21,10 +24,6 @@ const isReady = ref(false);
 
 const handleReady = (viewer) => {
 	viewer._cesiumWidget._creditContainer.style.display = 'none';
-	// viewer.terrainProvider = Cesium.Terrain.fromWorldTerrain({
-	// 	requestWaterMask: true,
-	// 	requestVertexNormals: true,
-	// });
 	isReady.value = true;
 };
 </script>
