@@ -1,7 +1,8 @@
-import { debounce } from 'lodash-unified'
+import { debounce } from '@/utils/index'
 import prettifyCoordinates from './prettifyCoordinates'
 import prettifyProjection from './prettifyProjection'
 import EarthGravityModel1996 from './EarthGravityModel1996'
+import { AnyCnameRecord } from 'dns'
 interface MouseCoords {
     proj4Projection: string
     projectionUnits: string
@@ -15,14 +16,14 @@ interface MouseCoords {
     longitude: string
     north: string
     east: string
-    geoidModel: EarthGravityModel1996
+    geoidModel: any//EarthGravityModel1996
     useProjection: boolean
     debounceSampleAccurateHeight: any
     decimal: number
     rangeType: number
 }
 interface MouseCoordsOption {
-    gridFileUrl: string
+    gridFileUrl: any
     proj4Projection: string
     projectionUnits: string
     proj4longlat: string

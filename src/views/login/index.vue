@@ -34,8 +34,8 @@ import { useWindow } from '@/hooks/electron/useWindow';
 import { useRouter } from 'vue-router';
 import { reverseGeocoder } from '@/api/tianditu';
 reverseGeocoder({
-	lon: 116.37304,
-	lat: 39.92594,
+	lon: '116.37304',
+	lat: '39.92594',
 }).then((res) => {
 	console.log(res);
 });

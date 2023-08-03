@@ -13,8 +13,8 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
-import View from './components/view';
-import Roam from './components/roam';
+import View from './components/view/index.vue';
+import Roam from './components/roam/index.vue';
 const activeKey = ref('1');
 </script>
 <style lang="less" scoped>

@@ -79,7 +79,6 @@ export const importVector = (parentId: string, geometryType, tableName: string, 
 // requestAnimationFrame 适配函数
 const raFrame =
     window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
     function (callback) {
         return window.setTimeout(callback, 1000 / 60);
     };
@@ -115,7 +114,6 @@ export const requestAnimationFrame = raFrame;
  */
 export const cancelAnimationFrame =
     window.cancelAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
     function (id) {
         window.clearTimeout(id);
     };

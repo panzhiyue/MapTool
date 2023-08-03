@@ -5,8 +5,7 @@ import Menu from "@/views/electronApi/Menu.vue"
 const router = [
     {
         path: '/electronApiT/os/subwindow',
-        name: 'ElectronTApiOsSubwindow',
-        component: () => import('@/views/electronApi/os/window/subwindow.vue')
+        name: 'ElectronTApiOsSubwindow'
     },
     {
         path: '/electronApi',

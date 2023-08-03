@@ -1,9 +1,9 @@
 <template>
 	<a-layout id="app-layout-sider">
 		<a-layout-sider v-model="collapsed" theme="light" class="layout-sider">
-			<div class="logo">
+			<!-- <div class="logo">
 				<img class="pic-logo" src="~@/assets/logo.png" />
-			</div>
+			</div> -->
 			<a-menu class="menu-item" theme="light" mode="inline">
 				<a-menu-item v-for="(item, index) in menus" :key="index">
 					<router-link :to="{ path: item.path, params: {} }">

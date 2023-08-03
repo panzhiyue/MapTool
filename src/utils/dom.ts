@@ -121,7 +121,8 @@ export function setStyle(element, styleName, value) {
         }
     } else {
         styleName = camelCase(styleName);
-        if (styleName === "opacity" && ieVersion < 9) {
+        if (styleName === "opacity") {
+            // if (styleName === "opacity" && ieVersion < 9) {
             element.style.filter = isNaN(value)
                 ? ""
                 : "alpha(opacity=" + value * 100 + ")";

@@ -35,6 +35,7 @@
     "noEmitOnError": false,
     "alwaysStrict": false, // 编译后的文件是否开启严格模式，默认false
     "noImplicitAny": false, // 不允许隐式的any，默认false(允许)
+    "noImplicitThis": false, //不允许隐式的this
     "strictNullChecks": false, // 是否严格的检查空值，默认false 检查有可能为null的地方
     "strictFunctionTypes": false, // 是否严格检查函数的类型，
     "strictPropertyInitialization": false, // 是否严格检查属性是否初始化，默认false
