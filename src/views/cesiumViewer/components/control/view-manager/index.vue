@@ -5,7 +5,7 @@
 		placement="center-center"
 		width="450px"
 		height="300px"
-		:draggable="{ target: $el }"
+		:draggable="{ target: $parent.$el }"
 		resizable
 		>画板占位内容</panel
 	>
@@ -15,7 +15,6 @@ import Panel from '../panel';
 </script>
 <style lang="less" scoped>
 .view-manager :deep {
-	top: 200px;
 	min-width: 450px;
 }
 </style>

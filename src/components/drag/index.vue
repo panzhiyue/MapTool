@@ -186,9 +186,9 @@ export default {
 		classes() {
 			return {
 				'is-clone': this.clone,
-				'is-dragging': this.dragging,
+				// 'is-dragging': this.dragging,
 				'is-disabled': this.disabled,
-				'is-dragged': this.dragged,
+				// 'is-dragged': this.dragged,
 				drag__handle: this.$el === this.handleEl,
 			};
 		},

@@ -20,10 +20,9 @@ const activeKey = ref('1');
 <style lang="less" scoped>
 .nav :deep {
 	z-index: 9999;
-	position: absolute;
+	position: relative;
 	font-size: 12px;
 	line-height: 1.5;
-	top: 0px;
 	color: white;
 	width: 100%;
 	background: #6b6b6b;

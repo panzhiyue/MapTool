@@ -206,6 +206,7 @@ const onMouseMove = (e) => {
 	font-family: monospace, sans-serif;
 	max-height: 21px;
 	margin-top: 5px;
+	overflow: hidden;
 
 	div {
 		display: inline-block;
