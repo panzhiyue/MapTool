@@ -7,7 +7,7 @@
 				@click="showContent = !showContent"></span>
 			<span class="close" @click="handleClose"></span>
 		</template>
-		<div class=""></div>
+		<slot></slot>
 	</panel>
 </template>
 <script setup>

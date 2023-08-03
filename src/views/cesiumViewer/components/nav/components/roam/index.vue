@@ -28,32 +28,13 @@
 			</div>
 			<div class="btnbox">
 				<div class="btn">
-					<a-button type="primary" :size="'small'" @click="flyToChina">自定义</a-button>
+					<a-button
+						type="primary"
+						:size="'small'"
+						@click="cesiumViewerStore.roamOpts.showViewManager = true"
+						>自定义</a-button
+					>
 				</div>
-			</div>
-			<div class="btnbox">
-				<div class="btn">
-					<a-checkbox
-						:checked="cesiumViewerStore.viewOpts.showDistanceLegend"
-						@click="toggleShowDistanceLegend"></a-checkbox>
-				</div>
-				<span class="btnbox-name">比例尺</span>
-			</div>
-			<div class="btnbox">
-				<div class="btn">
-					<a-checkbox
-						:checked="cesiumViewerStore.viewOpts.showStatusBar"
-						@click="toggleShowStatusBar"></a-checkbox>
-				</div>
-				<span class="btnbox-name">状态栏</span>
-			</div>
-			<div class="btnbox">
-				<div class="btn">
-					<a-checkbox
-						:checked="cesiumViewerStore.viewOpts.showTimeline"
-						@click="toggleShowTimeline"></a-checkbox>
-				</div>
-				<span class="btnbox-name">时间线</span>
 			</div>
 		</div>
 	</div>

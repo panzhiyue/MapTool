@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 
 interface IState {
-    viewOpts: Object
+    viewOpts: Object,
+    roamOpts: Object
 }
 
 export const useCesiumViewerStore = defineStore({
@@ -12,7 +13,11 @@ export const useCesiumViewerStore = defineStore({
             showDistanceLegend: true,
             showNavigation: true,
             showTimeline: false,
+        },
+        roamOpts: {
+            showViewManager: false
         }
+
     }),
     actions: {
     },

@@ -17,7 +17,7 @@ export function heightToLevel(altitude: number) {
  * 场景导出为png图片
  * @param scene 
  */
-export function sceneToPng(scene) {
+export const sceneToPng = (scene) => {
     let image = getSceneImageData(scene)
 
     let link = document.createElement("a");
@@ -29,7 +29,7 @@ export function sceneToPng(scene) {
 
 }
 
-const getSceneImageData = (scene) => {
+export const getSceneImageData = (scene) => {
     let canvas = scene.canvas;
     let image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     return image

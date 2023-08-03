@@ -9,7 +9,8 @@
 			</div>
 			<div v-if="closable" @click="handleClose" class="panel__close">×</div>
 		</div>
-		<resize v-show="showBody" v-bind="resizeOptions" :style="panelSize">
+		<!-- <resize v-show="showBody" v-bind="resizeOptions" :style="panelSize"> -->
+		<div v-show="showBody" :style="panelSize">
 			<div class="panel__body">
 				<slot></slot>
 			</div>
@@ -17,7 +18,8 @@
 				<slot name="footer"></slot>
 			</div>
 			<slot name="append"></slot>
-		</resize>
+		</div>
+		<!-- </resize> -->
 	</drag>
 </template>
 <script>

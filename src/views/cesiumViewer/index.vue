@@ -7,7 +7,7 @@
 		<distance-legend v-if="cesiumViewerStore.viewOpts.showDistanceLegend"></distance-legend>
 		<navigation v-if="cesiumViewerStore.viewOpts.showNavigation"></navigation>
 		<timeline v-if="cesiumViewerStore.viewOpts.showTimeline"></timeline>
-		<view-manager></view-manager>
+		<view-manager v-if="cesiumViewerStore.roamOpts.showViewManager"></view-manager>
 	</viewer>
 </template>
 <script setup>
