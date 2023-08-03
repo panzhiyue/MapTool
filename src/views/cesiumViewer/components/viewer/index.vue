@@ -38,6 +38,12 @@ onMounted(() => {
 		baseLayerPicker: false,
 		fullscreenButton: false, //是否显示全屏按钮
 		clock: new Clock(),
+		contextOptions: {
+			id: 'cesiumCanvas', //must
+			webgl: {
+				preserveDrawingBuffer: true, //此处为true，即可
+			},
+		},
 	};
 	cesiumObject.value = new Viewer(container.value, options);
 

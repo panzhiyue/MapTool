@@ -16,5 +16,6 @@ import Panel from '../panel';
 <style lang="less" scoped>
 .view-manager :deep {
 	min-width: 450px;
+	top: 10px;
 }
 </style>

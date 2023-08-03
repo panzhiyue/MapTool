@@ -8,6 +8,11 @@
 				</div>
 				<span class="btnbox-name">保存</span>
 			</div>
+			<div class="btnbox">
+				<div class="btn">
+					<a-button type="primary" :size="'small'" @click="print">截屏</a-button>
+				</div>
+			</div>
 		</div>
 		<div class="item">
 			<span class="name"> 视角 </span>
@@ -57,6 +62,7 @@
 import { useCesiumViewerStore } from '@/store/cesiumViewer';
 import { SaveOutlined } from '@ant-design/icons-vue';
 import { Cartesian3, Math as CesiumMath } from 'cesium';
+import { sceneToPng } from '../../../../utils/cesium-helpers';
 const viewer = inject('viewer').value;
 
 const cesiumViewerStore = useCesiumViewerStore();
@@ -94,6 +100,10 @@ const flyToChina = () => {
 		destination: Cartesian3.fromDegrees(116.435314, 40.960521, 10000000.0),
 		duration: 3,
 	});
+};
+
+const print = async () => {
+	sceneToPng(viewer.scene);
 };
 </script>
 
