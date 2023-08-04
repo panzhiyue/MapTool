@@ -31,6 +31,7 @@ import { useRoute } from 'vue-router';
 import ResponseCode from '@/enum/ResponseCode';
 import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
+import { getDB } from '@/api/mapTool/index';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
@@ -41,9 +42,10 @@ const oldName = ref(route.query.name as string);
 const type = ref(route.query.type as string);
 
 const { close } = useWindow();
-const handleOk = () => {
+const handleOk = async () => {
+	const db = await getDB();
 	if (oldName.value != name.value) {
-		TableApi.renameColumn(tableName, oldName.value, name.value).then((result) => {
+		TableApi.renameColumn(db, tableName, oldName.value, name.value).then((result) => {
 			if (result.code == ResponseCode.SUCCESS) {
 				close();
 				ipcRenderer.sendTo(sharedObject[WindowName.ATTRIBUTE_TABLE], 'refresh');

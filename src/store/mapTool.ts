@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import { getList as getLayerInfoList } from "@/api/layerInfo";
-import { getList as getMapLayerInfoList } from "@/api/mapLayerInfo";
-import { getById as getMapInfoById, updateById as updateMapInfoById } from "@/api/mapInfo";
-import { getById as getConfigById, updateById as updateConfigById } from "@/api/config";
+import { getList as getLayerInfoList } from "@/api/mapTool/layerInfo";
+import { getList as getMapLayerInfoList } from "@/api/mapTool/mapLayerInfo";
+import { getById as getMapInfoById, updateById as updateMapInfoById } from "@/api/mapTool/mapInfo";
+import { getById as getConfigById, updateById as updateConfigById } from "@/api/mapTool/config";
 import olMap from "ol/Map"
 import Collection from "ol/Collection"
 import BaseLayer from "ol/layer/Base"

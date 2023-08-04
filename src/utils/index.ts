@@ -1,17 +1,20 @@
 import * as TableApi from "@/api/table";
 import ResponseCode from "@/enum/ResponseCode";
 import ResponseResult from "./db/ResponseResult";
-import { add as insertLayerInfo } from "@/api/layerInfo";
+import { add as insertLayerInfo } from "@/api/mapTool/layerInfo";
 import { buildUUID } from "./uuid";
 import { useMainWindow } from "@/hooks/electron/useMainWindow"
 import { message } from "ant-design-vue";
 import { useWindow } from "@/hooks/electron/useWindow";
+import { getDB } from "@/api/mapTool";
 
 const { close } = useWindow();
 
-export const importVector = (parentId: string, geometryType, tableName: string, tableData: any, attributes: any, layerName: string) => {
+export const importVector = async (parentId: string, geometryType, tableName: string, tableData: any, attributes: any, layerName: string) => {
     const { refreshLayerInfos } = useMainWindow();
+    const db = await getDB();
     TableApi.create(
+        db,
         tableName,
         tableData
             .filter((item) => {
@@ -27,6 +30,7 @@ export const importVector = (parentId: string, geometryType, tableName: string, 
         if (result.code == ResponseCode.SUCCESS) {
 
             TableApi.insert(
+                db,
                 tableName,
                 attributes.map((item1) => {
                     let obj = {};

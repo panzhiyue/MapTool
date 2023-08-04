@@ -1,8 +1,9 @@
 
 import { IConfig } from "types";
-import { getBaseFun, IBaseFun } from "./basic"
+import { getBaseFun, IBaseFun } from "../basic"
+import { getDb } from "@/utils/db/MapTool";
 
-const baseFun: IBaseFun = getBaseFun<IConfig>("Config");
+const baseFun: IBaseFun = getBaseFun<IConfig>(await getDb(), "Config");
 
 const getById = baseFun.getById;
 const getList = baseFun.getList;

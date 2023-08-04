@@ -19,7 +19,7 @@
 
 <script setup>
 import { buildUUID } from '@/utils/uuid';
-import { add, updateById } from '@/api/layerInfo';
+import { add, updateById } from '@/api/mapTool/layerInfo';
 import ResponseCode from '@/enum/ResponseCode';
 import { useMapToolStore } from '@/store/mapTool';
 

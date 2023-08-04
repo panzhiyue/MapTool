@@ -31,6 +31,7 @@ import { useRoute } from 'vue-router';
 import ResponseCode from '@/enum/ResponseCode';
 import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
+import { getDB } from '@/api/mapTool/index';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
@@ -40,8 +41,9 @@ const name = ref();
 const type = ref('text');
 
 const { close } = useWindow();
-const handleOk = () => {
-	TableApi.addColumns(tableName, [
+const handleOk = async () => {
+	const db = await getDB();
+	TableApi.addColumns(db, tableName, [
 		{
 			name: name.value,
 			type: type.value,

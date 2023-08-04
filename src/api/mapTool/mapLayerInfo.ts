@@ -1,9 +1,11 @@
-import { getDB } from "@/utils/db/MapTool"
 import ResponseResult from "@/utils/db/ResponseResult"
 import { IMapLayerInfo, IResponseResult } from "types";
-import * as TableApi from "./table"
+import * as TableApi from "../table"
+import { getDB } from "./index"
 
 const _tableName = 'MapLayerInfo';
+
+
 
 export const getList = async (mapId: string | number): Promise<IResponseResult<IMapLayerInfo[]>> => {
     const db = await getDB();
@@ -85,5 +87,6 @@ export const deleteById = async (id: Number): Promise<IResponseResult<any>> => {
  * @param params
  */
 export const getByWhere = async (params: IMapLayerInfo): Promise<ResponseResult<IMapLayerInfo[]>> => {
-    return TableApi.getByWhere(_tableName, params)
+    const db = await getDB();
+    return TableApi.getByWhere(db, _tableName, params)
 }

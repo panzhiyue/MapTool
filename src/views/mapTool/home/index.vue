@@ -53,7 +53,7 @@ import {
 } from '#/index';
 import domtoimage from 'dom-to-image';
 import path from 'path';
-import { getByWhere } from '@/api/mapLayerInfo';
+import { getByWhere } from '@/api/mapTool/mapLayerInfo';
 import ResponseResult from '@/utils/db/ResponseResult';
 import { IMapLayerInfo } from '#/index';
 import { readAsGeoJSON } from '@/api/table';
@@ -72,10 +72,12 @@ import LengthUnits from '@/enum/LengthUnits';
 import { Blob } from 'buffer';
 import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
 import * as utilsol from '@gis-js/utilsol';
+import { getDB } from '@/api/mapTool/index';
 // const gdal = require('gdal-async');
 // const gdal = require('gdal');
 // console.log(path);
 // console.log(gdal);
+
 const { getByAuth } = useCoordinateSystem();
 
 let mapToolStore = useMapToolStore();
@@ -127,10 +129,10 @@ onMounted(async () => {
 			content: '正在导出矢量！',
 			duration: 0,
 		});
-
+		const db = await getDB();
 		const result = await getByWhere({ id: options.layerId as number });
 		const info = JSON.parse(result.data[0].info);
-		const result2 = await readAsGeoJSON(info.table);
+		const result2 = await readAsGeoJSON(db, info.table);
 		const destSpatialReference = getByAuth(options.destSpatialReference);
 		let features = new GeoJSON({
 			dataProjection: 'EPSG:4490',
@@ -205,11 +207,12 @@ onMounted(async () => {
 			content: '正在导出属性表！',
 			duration: 0,
 		});
+		const db = await getDB();
 		const result: ResponseResult<IMapLayerInfo[]> = await getByWhere({
 			id: options.layerId as number,
 		});
 		let info = JSON.parse(result.data[0].info);
-		const result2: ResponseResult<any> = await TableApi.getByWhere(info.table, {});
+		const result2: ResponseResult<any> = await TableApi.getByWhere(db, info.table, {});
 		let data = result2.data;
 		data.forEach((item) => {
 			delete item.geom_wkt;
@@ -238,10 +241,11 @@ onMounted(async () => {
 			content: '正在导出拐点坐标！',
 			duration: 0,
 		});
+		const db = await getDB();
 		const result = await getByWhere({ id: options.layerId as number });
 		console.log(options, result);
 		const info = JSON.parse(result.data[0].info);
-		const result2 = await readAsGeoJSON(info.table);
+		const result2 = await readAsGeoJSON(db, info.table);
 		const destSpatialReference = getByAuth(options.destSpatialReference);
 		let features = new GeoJSON({
 			dataProjection: 'EPSG:4490',
@@ -357,15 +361,15 @@ onMounted(async () => {
 			content: '正在生成距离表！',
 			duration: 0,
 		});
-
+		const db = await getDB();
 		const mapLayerInfo1 = await getByWhere({ id: options.layerId1 });
 		const info1 = JSON.parse(mapLayerInfo1.data[0].info);
-		const layerResult1 = await readAsGeoJSON(info1.table);
+		const layerResult1 = await readAsGeoJSON(db, info1.table);
 		let features1 = new GeoJSON().readFeatures(layerResult1);
 
 		const mapLayerInfo2 = await getByWhere({ id: options.layerId2 });
 		const info2 = JSON.parse(mapLayerInfo2.data[0].info);
-		const layerResult2 = await readAsGeoJSON(info2.table);
+		const layerResult2 = await readAsGeoJSON(db, info2.table);
 		let features2 = new GeoJSON().readFeatures(layerResult2);
 
 		let result = [];

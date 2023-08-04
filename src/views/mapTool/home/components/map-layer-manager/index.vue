@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import { useMapToolStore } from '@/store/mapTool';
-import { updateChecked, deleteById } from '@/api/mapLayerInfo';
+import { updateChecked, deleteById } from '@/api/mapTool/mapLayerInfo';
 import { ComputedRef, Ref } from 'vue';
 import tree, {
 	AntTreeNodeDragEnterEvent,
@@ -57,6 +57,7 @@ import WindowName from '@/enum/WindowName';
 import * as TableApi from '@/api/table';
 import ResponseCode from '@/enum/ResponseCode';
 import StyleIcon from '@/components/style-icon';
+import { getDB } from '@/api/mapTool/index';
 
 let mapToolStore = useMapToolStore();
 
@@ -121,7 +122,7 @@ const handleOpenAttributeTable = (id: Number) => {
 	});
 };
 
-const handleDrop = (info: AntTreeNodeDropEvent) => {
+const handleDrop = async (info: AntTreeNodeDropEvent) => {
 	const dragNodeData = info.dragNode.data; //被拖拽节点数据
 	const dropNodeData = info.node.data; //松开节点数据
 
@@ -143,8 +144,8 @@ const handleDrop = (info: AntTreeNodeDropEvent) => {
 	newMapLayerInfos.forEach((item) => {
 		delete item['m_id'];
 	});
-
-	TableApi.replaceData('MapLayerInfo', newMapLayerInfos).then(async (result) => {
+	const db = await getDB();
+	TableApi.replaceData(db, 'MapLayerInfo', newMapLayerInfos).then(async (result) => {
 		if (result.code == ResponseCode.SUCCESS) {
 			await mapToolStore.getMapLayerInfos(1);
 		}

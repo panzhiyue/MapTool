@@ -26,7 +26,7 @@ import { useWindow } from '@/hooks/electron/useWindow';
 import { useVModel } from '@vueuse/core';
 import { create as createTable } from '@/api/table';
 import SqliteColumnType from '@/enum/SqliteColumnType';
-import { add as addLayerInfo } from '@/api/layerInfo';
+import { add as addLayerInfo } from '@/api/mapTool/layerInfo';
 import { useRoute } from 'vue-router';
 import { message } from 'ant-design-vue';
 import ResponseCode from '@/enum/ResponseCode';

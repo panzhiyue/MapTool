@@ -1,11 +1,8 @@
 import { IFeature, IGeoJSON } from "#/geojson";
 import { IResponseResult } from "#/index";
-import { ITableStructure } from "@/components/table-structure";
 import SqliteColumnType from "@/enum/SqliteColumnType";
-import { getDB } from "@/utils/db/MapTool"
 import ResponseResult from "@/utils/db/ResponseResult"
 import { WKT, GeoJSON } from "ol/format"
-import { Knex } from "knex"
 import { IColumnStructure } from "#/database";
 /**
  * 创建表
@@ -13,8 +10,8 @@ import { IColumnStructure } from "#/database";
  * @param tableStructure 表结构
  * @returns 
  */
-export const create = async (tableName: String, tableStructure: IColumnStructure[]): Promise<IResponseResult<any>> => {
-    const db = await getDB();
+export const create = async (db: any, tableName: String, tableStructure: IColumnStructure[]): Promise<IResponseResult<any>> => {
+    console.log(db);
     return await db.schema.hasTable(tableName).then(async (exists: Boolean) => {
         if (!exists) {
             return await db.schema
@@ -79,8 +76,7 @@ export const create = async (tableName: String, tableStructure: IColumnStructure
  * 往表中插入数据
  * @param tableName 表名
  */
-export const insert = async (tableName: String, data: Object[]): Promise<IResponseResult<any>> => {
-    const db = await getDB();
+export const insert = async (db: any, tableName: String, data: Object[]): Promise<IResponseResult<any>> => {
     return await db.schema.hasTable(tableName).then(async (exists: Boolean) => {
         if (exists) {
             return await db.transaction(async (trx: any) => {
@@ -112,8 +108,7 @@ export const insert = async (tableName: String, data: Object[]): Promise<IRespon
     })
 }
 
-export const readAsGeoJSON = async (tableName: String): Promise<ResponseResult<any>> => {
-    const db = await getDB();
+export const readAsGeoJSON = async (db: any, tableName: String): Promise<ResponseResult<any>> => {
     return await db.schema.hasTable(tableName).then(async (exists) => {
         if (exists) {
             return await db(tableName).select().then((result) => {
@@ -140,8 +135,7 @@ export const readAsGeoJSON = async (tableName: String): Promise<ResponseResult<a
     })
 }
 
-export const getByWhere = async (tableName: String, params: Object): Promise<ResponseResult<any>> => {
-    const db = await getDB();
+export const getByWhere = async (db: any, tableName: String, params: Object): Promise<ResponseResult<any>> => {
     return await db(tableName).where(params).select().then((result: any) => {
         return new Promise((resolve, reject) => {
             resolve(ResponseResult.buildSuccess(result));
@@ -157,8 +151,7 @@ export const getByWhere = async (tableName: String, params: Object): Promise<Res
  * 删除表
  * @param tableName 表名
  */
-export const drop = async (tableName: String): Promise<ResponseResult<any>> => {
-    const db = await getDB();
+export const drop = async (db: any, tableName: String): Promise<ResponseResult<any>> => {
     return await db.schema.dropTable(tableName).then((result) => {
         return new Promise((resolve, reject) => {
             resolve(ResponseResult.buildSuccess(result));
@@ -175,8 +168,7 @@ export const drop = async (tableName: String): Promise<ResponseResult<any>> => {
  * @param tableName 表名
  * @returns 
  */
-export const getTableStruct = async (tableName: String): Promise<ResponseResult<IColumnStructure[]>> => {
-    const db = await getDB();
+export const getTableStruct = async (db: any, tableName: String): Promise<ResponseResult<IColumnStructure[]>> => {
     return await db.raw(`PRAGMA table_info("${tableName}")`).then((result) => {
         console.log(result);
         return new Promise((resolve, reject) => {
@@ -203,8 +195,7 @@ export const getTableStruct = async (tableName: String): Promise<ResponseResult<
  * @param columns 列定义
  * @returns 
  */
-export const addColumns = async (tableName: string, columns: IColumnStructure[]): Promise<ResponseResult<any>> => {
-    const db = await getDB();
+export const addColumns = async (db: any, tableName: string, columns: IColumnStructure[]): Promise<ResponseResult<any>> => {
     return await db.schema.alterTable(tableName, (table) => {
         columns.forEach((structure: IColumnStructure) => {
             switch (structure.type) {
@@ -251,8 +242,7 @@ export const addColumns = async (tableName: string, columns: IColumnStructure[])
  * @param columns 名
  * @returns 
  */
-export const deleteColumns = async (tableName: string, columns: string[]): Promise<ResponseResult<any>> => {
-    const db = await getDB();
+export const deleteColumns = async (db: any, tableName: string, columns: string[]): Promise<ResponseResult<any>> => {
     return await db.schema.alterTable(tableName, (table) => {
         columns.forEach((name) => {
             table.dropColumn(name);
@@ -275,8 +265,7 @@ export const deleteColumns = async (tableName: string, columns: string[]): Promi
  * @param newName 新字段名称
  * @returns 
  */
-export const renameColumn = async (tableName: string, oldName: string, newName: string): Promise<ResponseResult<any>> => {
-    const db = await getDB();
+export const renameColumn = async (db: any, tableName: string, oldName: string, newName: string): Promise<ResponseResult<any>> => {
     return await db.schema.alterTable(tableName, (table) => {
         table.renameColumn(oldName, newName);
     }).then((result) => {
@@ -297,8 +286,7 @@ export const renameColumn = async (tableName: string, oldName: string, newName: 
  * @param sql sql语句
  * @returns 
  */
-export const updateColumnBySql = async (tableName: string, fieldName: string, sql: string): Promise<ResponseResult<any>> => {
-    const db = await getDB();
+export const updateColumnBySql = async (db: any, tableName: string, fieldName: string, sql: string): Promise<ResponseResult<any>> => {
     return await db.raw(`update ${tableName} set ${fieldName} = ${sql}`).then((result) => {
         return new Promise((resolve, reject) => {
             resolve(ResponseResult.buildSuccess(result));
@@ -311,8 +299,7 @@ export const updateColumnBySql = async (tableName: string, fieldName: string, sq
 }
 
 
-export const replaceData = async (tableName: string, data: any[]): Promise<ResponseResult<any>> => {
-    const db = await getDB();
+export const replaceData = async (db: any, tableName: string, data: any[]): Promise<ResponseResult<any>> => {
     return await db.transaction(async (trx: any) => {
         let promises = [];
 
@@ -340,8 +327,7 @@ export const replaceData = async (tableName: string, data: any[]): Promise<Respo
     })
 }
 
-export const updateByWhere = async (tableName: string, data: any, where): Promise<ResponseResult<any>> => {
-    const db = await getDB();
+export const updateByWhere = async (db: any, tableName: string, data: any, where): Promise<ResponseResult<any>> => {
     return await db(tableName).where(where).update(data).then((result: any) => {
         return new Promise((resolve, reject) => {
             resolve(ResponseResult.buildSuccess(result));

@@ -39,18 +39,19 @@ import { useMapToolStore } from '@/store/mapTool';
 
 import { ILayerInfo } from 'types';
 import { onMounted, Ref } from 'vue';
-import { add as addMapLayerInfo } from '@/api/mapLayerInfo';
-import { getByWhere, deleteById } from '@/api/layerInfo';
+import { add as addMapLayerInfo } from '@/api/mapTool/mapLayerInfo';
+import { getByWhere, deleteById } from '@/api/mapTool/layerInfo';
 import { drop as dropTable } from '@/api/table';
 import AddOrEditMenu from './AddOrEditMenu.vue';
 import ResponseCode from '@/enum/ResponseCode';
 import { message } from 'ant-design-vue';
-import * as MapLayerInfoApi from '@/api/mapLayerInfo';
+import * as MapLayerInfoApi from '@/api/mapTool/mapLayerInfo';
 import { buildUUID } from '@/utils/uuid';
 import tree, { AntTreeNodeDropEvent } from 'ant-design-vue/lib/tree';
 import * as TableApi from '@/api/table';
 import { getDefaultStyle } from '@/utils/style';
 import WindowName from '@/enum/WindowName';
+import { getDB } from '@/api/mapTool/index';
 const remote = require('@electron/remote');
 
 let mapToolStore = useMapToolStore();
@@ -151,6 +152,7 @@ const handleAddToMap = (data: ILayerInfo) => {
 
 const handleDelete = async (data: any) => {
 	const id = data.data.id;
+	const db = await getDB();
 	getByWhere({ parentId: id }).then((result) => {
 		if (result.code == ResponseCode.SUCCESS) {
 			if (result.data.length > 0) {
@@ -167,7 +169,7 @@ const handleDelete = async (data: any) => {
 				} else {
 					deleteById(id).then(async (result) => {
 						if (data.data.info?.table) {
-							await dropTable(data.data.info.table).then((r) => {});
+							await dropTable(db, data.data.info.table).then((r) => {});
 						}
 						mapToolStore.getLayerInfos(1).then(() => {});
 					});
@@ -212,7 +214,7 @@ const handleDrop = (info: AntTreeNodeDropEvent) => {
 		delete item['m_id'];
 	});
 
-	TableApi.replaceData('LayerInfo', newLayerInfos).then(async (result) => {
+	TableApi.replaceData(db, 'LayerInfo', newLayerInfos).then(async (result) => {
 		if (result.code == ResponseCode.SUCCESS) {
 			await mapToolStore.getLayerInfos(1);
 		}

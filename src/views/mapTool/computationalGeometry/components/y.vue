@@ -20,6 +20,7 @@ import { WKT } from 'ol/format';
 import { getCenterOfMass } from '@/utils/gis';
 import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
+import { getDB } from '@/api/mapTool/index';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
@@ -32,14 +33,15 @@ const fieldName = ref(route.query.fieldName as string);
 
 const { close } = useWindow();
 const handleOk = async () => {
-	let result = await TableApi.getByWhere(tableName.value, {});
+	const db = await getDB();
+	let result = await TableApi.getByWhere(db, tableName.value, {});
 	let data = result.data.concat([]);
 	data.forEach((item, index) => {
 		const center = getCenterOfMass(formatWKT.readGeometry(item.geom_wkt));
 		item[fieldName.value] = center[1];
 	});
 
-	TableApi.replaceData(tableName.value, data).then((result) => {
+	TableApi.replaceData(db, tableName.value, data).then((result) => {
 		if (result.code == ResponseCode.SUCCESS) {
 			close();
 			ipcRenderer.sendTo(sharedObject[WindowName.ATTRIBUTE_TABLE], 'refresh');

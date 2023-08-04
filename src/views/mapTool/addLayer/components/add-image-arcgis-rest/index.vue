@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import { useWindow } from '@/hooks/electron/useWindow';
 import { useVModel } from '@vueuse/core';
-import { add as addLayerInfo } from '@/api/layerInfo';
+import { add as addLayerInfo } from '@/api/mapTool/layerInfo';
 import { message } from 'ant-design-vue';
 import { buildUUID } from '@/utils/uuid';
 import { useRoute } from 'vue-router';

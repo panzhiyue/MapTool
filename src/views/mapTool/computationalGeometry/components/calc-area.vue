@@ -32,6 +32,7 @@ import WindowName from '@/enum/WindowName';
 import EnumSelect from '@/components/enum-select';
 import AreaUnits from '@/enum/AreaUnits';
 import { conversionAreaUnit } from '@/utils/unit';
+import { getDB } from '@/api/mapTool/index';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
@@ -46,7 +47,8 @@ const unitSelected = ref(AreaUnits.平方米);
 
 const { close } = useWindow();
 const handleOk = async () => {
-	let result = await TableApi.getByWhere(tableName.value, {});
+	const db = await getDB();
+	let result = await TableApi.getByWhere(db, tableName.value, {});
 	let data = result.data.concat([]);
 	data.forEach((item, index) => {
 		const area = conversionAreaUnit(
@@ -57,7 +59,7 @@ const handleOk = async () => {
 		item[fieldName.value] = area;
 	});
 
-	TableApi.replaceData(tableName.value, data).then((result) => {
+	TableApi.replaceData(db, tableName.value, data).then((result) => {
 		if (result.code == ResponseCode.SUCCESS) {
 			close();
 			ipcRenderer.sendTo(sharedObject[WindowName.ATTRIBUTE_TABLE], 'refresh');

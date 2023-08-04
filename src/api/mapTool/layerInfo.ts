@@ -1,7 +1,8 @@
-import { getDB } from "@/utils/db/MapTool"
+
 import ResponseResult from "@/utils/db/ResponseResult"
-import { ILayerInfo, IResponseResult } from "types";
-import * as TableApi from "./table"
+import * as TableApi from "../table"
+import { getDB } from "./index"
+import { ILayerInfo, IResponseResult } from "#/index";
 
 const _tableName = 'LayerInfo';
 /**
@@ -67,7 +68,8 @@ export const updateById = async (data: ILayerInfo) => {
  * @param params
  */
 export const getByWhere = async (params: ILayerInfo): Promise<ResponseResult<ILayerInfo[]>> => {
-    return TableApi.getByWhere(_tableName, params)
+    const db = await getDB();
+    return TableApi.getByWhere(db, _tableName, params)
 }
 
 /**

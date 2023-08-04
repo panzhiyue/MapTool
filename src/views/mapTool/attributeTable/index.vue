@@ -51,7 +51,7 @@
 </template>
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
-import { getByWhere } from '@/api/mapLayerInfo';
+import { getByWhere } from '@/api/mapTool/mapLayerInfo';
 import * as TableApi from '@/api/table';
 import { IColumnStructure } from '#/database';
 import { Ref } from 'vue';
@@ -62,6 +62,7 @@ import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
 import ColumnMenuType from '@/enum/ColumnMenuType';
 import ResponseCode from '@/enum/ResponseCode';
+import { getDB } from '@/api/mapTool/index';
 
 const route = useRoute();
 
@@ -78,10 +79,11 @@ onMounted(async () => {
 });
 
 const init = async () => {
+	const db = await getDB();
 	let result1 = await getByWhere({ id: layerId });
 	layerInfo.value = JSON.parse(result1.data[0].info);
-	tableData.value = (await TableApi.getByWhere(layerInfo.value.table, {})).data;
-	columnStructs.value = (await TableApi.getTableStruct(layerInfo.value.table)).data;
+	tableData.value = (await TableApi.getByWhere(db, layerInfo.value.table, {})).data;
+	columnStructs.value = (await TableApi.getTableStruct(db, layerInfo.value.table)).data;
 
 	columns.value = columnStructs.value
 		.filter((item: IColumnStructure) => {
@@ -139,7 +141,8 @@ const handleClick = () => {
 	menuVisible.value = false;
 };
 
-const handleClickMenu = (type: ColumnMenuType) => {
+const handleClickMenu = async (type: ColumnMenuType) => {
+	const db = await getDB();
 	switch (type) {
 		case ColumnMenuType.FIELD_CALCULATOR: {
 			console.log(menuData.value);
@@ -173,7 +176,7 @@ const handleClickMenu = (type: ColumnMenuType) => {
 			break;
 		}
 		case ColumnMenuType.DELETE: {
-			TableApi.deleteColumns(layerInfo.value.table, [menuData.value.title]).then((result) => {
+			TableApi.deleteColumns(db, layerInfo.value.table, [menuData.value.title]).then((result) => {
 				if (result.code == ResponseCode.SUCCESS) {
 					init();
 				} else {

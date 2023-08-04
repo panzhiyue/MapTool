@@ -1,5 +1,5 @@
 import { Ref } from "vue";
-import { getList } from "@/api/mapLayerInfo"
+import { getList } from "@/api/mapTool/mapLayerInfo"
 import { IMapLayerInfo, IResponseResult } from "#/index";
 
 export function useMapLayerInfo(mapLayerInfoId: Ref<string>) {

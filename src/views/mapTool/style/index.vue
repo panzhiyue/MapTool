@@ -46,7 +46,7 @@
 <script lang="ts" setup>
 import ListBox from '@/components/list-box';
 import { useRoute } from 'vue-router';
-import { getByWhere } from '@/api/mapLayerInfo';
+import { getByWhere } from '@/api/mapTool/mapLayerInfo';
 import StyleIcon from '@/components/style-icon';
 import ColorPicker from '@/components/color-picker';
 import { useWindow } from '@/hooks/electron/useWindow';
@@ -54,6 +54,7 @@ import * as TableApi from '@/api/table';
 import { useMainWindow } from '@/hooks/electron/useMainWindow';
 import StyleType from '@/enum/StyleType';
 import ToolContainer from '@/components/tool-container';
+import { getDB } from '@/api/mapTool/index';
 
 const route = useRoute();
 const id = route.query.id as string;
@@ -78,13 +79,14 @@ const handleCancel = () => {
 	close();
 };
 
-const handleOk = () => {
+const handleOk = async () => {
+	const db = await getDB();
 	const data = Object.assign({}, layerInfo.value);
 
 	data.info.styles[0] = styleInfo.value;
 	data.info = JSON.stringify(data.info);
 	// console.log(layerInfo.value);
-	TableApi.updateByWhere('MapLayerInfo', data, { id: data.id }).then((result) => {
+	TableApi.updateByWhere(db, 'MapLayerInfo', data, { id: data.id }).then((result) => {
 		refreshMapLayerInfos();
 		close();
 	});

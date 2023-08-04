@@ -1,7 +1,8 @@
 import { IMapInfo } from "types";
-import { getBaseFun, IBaseFun } from "./basic";
+import { getBaseFun, IBaseFun } from "../basic";
+import { getDB } from "./index"
 
-const baseFun: IBaseFun = getBaseFun<IMapInfo>("MapInfo")
+const baseFun: IBaseFun = getBaseFun<IMapInfo>(await getDB(), "MapInfo")
 
 
 const getById = baseFun.getById;

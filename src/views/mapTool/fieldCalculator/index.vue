@@ -60,7 +60,7 @@ import { useWindow } from '@/hooks/electron/useWindow';
 import ResponseCode from '@/enum/ResponseCode';
 import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
-import { createMinMaxResolution } from 'ol/resolutionconstraint';
+import { getDB } from '@/api/mapTool/index';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
@@ -73,7 +73,8 @@ const fieldType = ref(route.query.fieldType as string);
 const sqlText = ref('');
 const columnStructs = ref([]);
 onMounted(async () => {
-	columnStructs.value = (await TableApi.getTableStruct(tableName.value)).data;
+	const db = await getDB();
+	columnStructs.value = (await TableApi.getTableStruct(db, tableName.value)).data;
 });
 
 const fieldItems = computed(() => {
@@ -160,7 +161,8 @@ const canOk = computed(() => {
 
 const { close } = useWindow();
 const handleOk = () => {
-	TableApi.updateColumnBySql(tableName.value, fieldName.value, sqlText.value).then((result) => {
+	const db = await getDB();
+	TableApi.updateColumnBySql(db, tableName.value, fieldName.value, sqlText.value).then((result) => {
 		if (result.code == ResponseCode.SUCCESS) {
 			close();
 			ipcRenderer.sendTo(sharedObject[WindowName.ATTRIBUTE_TABLE], 'refresh');
