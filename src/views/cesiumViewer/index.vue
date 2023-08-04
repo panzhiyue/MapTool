@@ -8,6 +8,7 @@
 		<navigation v-if="cesiumViewerStore.viewOpts.showNavigation"></navigation>
 		<timeline v-if="cesiumViewerStore.viewOpts.showTimeline"></timeline>
 		<view-manager v-if="cesiumViewerStore.roamOpts.showViewManager"></view-manager>
+		<layer-manager v-if="cesiumViewerStore.viewOpts.showLayerManager"></layer-manager>
 	</viewer>
 </template>
 <script setup>
@@ -22,6 +23,7 @@ import DistanceLegend from './components/control/distance-legend';
 import Navigation from './components/control/navigation';
 import Timeline from './components/control/timeline';
 import ViewManager from './components/control/view-manager';
+import LayerManager from './components/control/layer-manager';
 
 const instance = getCurrentInstance().proxy;
 const cesiumViewerStore = useCesiumViewerStore();

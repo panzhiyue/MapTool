@@ -48,22 +48,6 @@ const viewer = inject('viewer').value;
 
 const cesiumViewerStore = useCesiumViewerStore();
 
-const toggleShowStatusBar = () => {
-	cesiumViewerStore.viewOpts.showStatusBar = !cesiumViewerStore.viewOpts.showStatusBar;
-};
-
-const toggleShowDistanceLegend = () => {
-	cesiumViewerStore.viewOpts.showDistanceLegend = !cesiumViewerStore.viewOpts.showDistanceLegend;
-};
-
-const toggleShowNavigation = () => {
-	cesiumViewerStore.viewOpts.showNavigation = !cesiumViewerStore.viewOpts.showNavigation;
-};
-
-const toggleShowTimeline = () => {
-	cesiumViewerStore.viewOpts.showTimeline = !cesiumViewerStore.viewOpts.showTimeline;
-};
-
 const flyToGlobal = () => {
 	viewer.camera.flyTo({
 		destination: Cartesian3.fromDegrees(-82.5, 35.2, 24908123),

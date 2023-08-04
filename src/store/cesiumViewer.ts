@@ -13,6 +13,7 @@ export const useCesiumViewerStore = defineStore({
             showDistanceLegend: true,
             showNavigation: true,
             showTimeline: false,
+            showLayerManager: true
         },
         roamOpts: {
             showViewManager: false

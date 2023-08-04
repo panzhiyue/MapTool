@@ -4,7 +4,9 @@
 			<span class="name"> 控件 </span>
 			<div class="btnbox">
 				<div class="btn">
-					<a-checkbox></a-checkbox>
+					<a-checkbox
+						:checked="cesiumViewerStore.viewOpts.showLayerManager"
+						@click="toggleShowLayerManager"></a-checkbox>
 				</div>
 				<span class="btnbox-name">图层管理</span>
 			</div>
@@ -63,6 +65,10 @@ const toggleShowNavigation = () => {
 
 const toggleShowTimeline = () => {
 	cesiumViewerStore.viewOpts.showTimeline = !cesiumViewerStore.viewOpts.showTimeline;
+};
+
+const toggleShowLayerManager = () => {
+	cesiumViewerStore.viewOpts.showLayerManager = !cesiumViewerStore.viewOpts.showLayerManager;
 };
 </script>
 

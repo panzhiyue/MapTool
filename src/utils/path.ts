@@ -6,7 +6,6 @@ const remote = require('@electron/remote'); //1
  * @returns {string}
  */
 export function getStaticPath() {
-    console.log(process.cwd());
     return PATH.join(process.cwd(), "static")
 }
 
@@ -16,7 +15,9 @@ export function getStaticPath() {
  * @returns {string}
  */
 export function getDbPath() {
-    return PATH.join(getStaticPath(), "sqlite.db");
+    console.log(remote.app.getPath('userData'));
+    // return PATH.join(getStaticPath(), "sqlite.db");
+    return PATH.join(remote.app.getPath('userData'), "sqlite.db");
 }
 
 /**

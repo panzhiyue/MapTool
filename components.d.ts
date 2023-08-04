@@ -44,7 +44,6 @@ declare module '@vue/runtime-core' {
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     ATree: typeof import('ant-design-vue/es')['Tree']
-    AUploadDragger: typeof import('ant-design-vue/es')['UploadDragger']
     ColorPicker: typeof import('./src/components/color-picker/src/color-picker.vue')['default']
     CoordinateSystemInfo: typeof import('./src/components/coordinte-system-info/src/coordinate-system-info.vue')['default']
     DirectoryTree: typeof import('./src/components/directory-tree/src/directory-tree.vue')['default']
