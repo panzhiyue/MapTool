@@ -32,7 +32,7 @@ import WindowName from '@/enum/WindowName';
 import EnumSelect from '@/components/enum-select';
 import LengthUnits from '@/enum/LengthUnits';
 import { conversionLengthUnit } from '@/utils/unit';
-import { getDB } from '@/api/mapTool/index';
+import { getDB } from '@/utils/db/MapTool';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 

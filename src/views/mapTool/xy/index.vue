@@ -10,11 +10,11 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 
 const lng = ref();
 const lat = ref();
-const { panTo, zoomTo } = useMainWindow();
+const { panTo, zoomTo } = useMapToolWindow();
 const handlePanTo = () => {
 	panTo(parseFloat(lng.value), parseFloat(lat.value));
 };

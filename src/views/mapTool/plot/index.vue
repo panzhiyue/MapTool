@@ -6,7 +6,7 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 import { useWindow } from '@/hooks/electron/useWindow';
 import WindowName from '@/enum/WindowName';
 const remote = require('@electron/remote');
@@ -110,7 +110,7 @@ const types = ref([
 	},
 ]);
 
-const { plot } = useMainWindow();
+const { plot } = useMapToolWindow();
 const handlePlot = (type) => {
 	plot({
 		fromWindowId: sharedObject[WindowName.PLOT],

@@ -15,14 +15,14 @@
 </template>
 <script lang="ts" setup>
 import MeasureType from '@/enum/MeasureType';
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 import WindowName from '@/enum/WindowName';
 import { ipcRenderer } from 'electron';
 import { useWindow } from '@/hooks/electron/useWindow';
 const remote = require('@electron/remote');
 const sharedObject = remote.getGlobal('sharedObject');
 
-const { measure } = useMainWindow();
+const { measure } = useMapToolWindow();
 const hanldeMeasureLineString = () => {
 	measure({
 		fromWindowId: sharedObject[WindowName.MEASURE],

@@ -72,7 +72,7 @@ import LengthUnits from '@/enum/LengthUnits';
 import { Blob } from 'buffer';
 import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
 import * as utilsol from '@gis-js/utilsol';
-import { getDB } from '@/api/mapTool/index';
+import { getDB } from '@/utils/db/MapTool';
 // const gdal = require('gdal-async');
 // const gdal = require('gdal');
 // console.log(path);

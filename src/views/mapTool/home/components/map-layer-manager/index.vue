@@ -57,7 +57,7 @@ import WindowName from '@/enum/WindowName';
 import * as TableApi from '@/api/table';
 import ResponseCode from '@/enum/ResponseCode';
 import StyleIcon from '@/components/style-icon';
-import { getDB } from '@/api/mapTool/index';
+import { getDB } from '@/utils/db/MapTool';
 
 let mapToolStore = useMapToolStore();
 

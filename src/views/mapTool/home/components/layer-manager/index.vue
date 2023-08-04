@@ -51,7 +51,7 @@ import tree, { AntTreeNodeDropEvent } from 'ant-design-vue/lib/tree';
 import * as TableApi from '@/api/table';
 import { getDefaultStyle } from '@/utils/style';
 import WindowName from '@/enum/WindowName';
-import { getDB } from '@/api/mapTool/index';
+import { getDB } from '@/utils/db/MapTool';
 const remote = require('@electron/remote');
 
 let mapToolStore = useMapToolStore();

@@ -31,7 +31,7 @@ import { useRoute } from 'vue-router';
 import ResponseCode from '@/enum/ResponseCode';
 import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
-import { getDB } from '@/api/mapTool/index';
+import { getDB } from '@/utils/db/MapTool';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 

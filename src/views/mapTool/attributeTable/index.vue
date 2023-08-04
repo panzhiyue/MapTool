@@ -62,7 +62,7 @@ import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
 import ColumnMenuType from '@/enum/ColumnMenuType';
 import ResponseCode from '@/enum/ResponseCode';
-import { getDB } from '@/api/mapTool/index';
+import { getDB } from '@/utils/db/MapTool';
 
 const route = useRoute();
 

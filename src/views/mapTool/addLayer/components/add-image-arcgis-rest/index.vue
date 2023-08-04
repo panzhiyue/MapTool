@@ -33,7 +33,7 @@ import { message } from 'ant-design-vue';
 import { buildUUID } from '@/utils/uuid';
 import { useRoute } from 'vue-router';
 import ResponseCode from '@/enum/ResponseCode';
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 
 const route = useRoute();
 const props = defineProps({
@@ -61,7 +61,7 @@ const handlePre = () => {
 const handlePreMost = () => {
 	currentStep.value = 0;
 };
-const { refreshLayerInfos, refreshMapLayerInfos } = useMainWindow();
+const { refreshLayerInfos, refreshMapLayerInfos } = useMapToolWindow();
 const handleOk = () => {
 	addLayerInfo({
 		id: buildUUID(),

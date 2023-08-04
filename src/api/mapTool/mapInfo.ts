@@ -1,6 +1,6 @@
 import { IMapInfo } from "types";
 import { getBaseFun, IBaseFun } from "../basic";
-import { getDB } from "./index"
+import { getDB } from "@/utils/db/MapTool";
 
 const baseFun: IBaseFun = getBaseFun<IMapInfo>(await getDB(), "MapInfo")
 

@@ -31,7 +31,7 @@ import { useRoute } from 'vue-router';
 import { message } from 'ant-design-vue';
 import ResponseCode from '@/enum/ResponseCode';
 import { buildUUID } from '@/utils/uuid';
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 
 const route = useRoute();
 const props = defineProps({
@@ -79,7 +79,7 @@ const handlePre = () => {
 const handlePreMost = () => {
 	currentStep.value = 0;
 };
-const { refreshLayerInfos } = useMainWindow();
+const { refreshLayerInfos } = useMapToolWindow();
 const handleOk = () => {
 	createTable(tableName.value, tableData)
 		.then((result) => {

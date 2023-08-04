@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import InputSavePath from '@/components/input-save-path';
 import { useWindow } from '@/hooks/electron/useWindow';
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 import WindowName from '@/enum/WindowName';
 import path from 'path';
 import ToolContainer from '@/components/tool-container';
@@ -41,7 +41,7 @@ const filters = [
 ];
 
 const { close } = useWindow();
-const { exportImage } = useMainWindow();
+const { exportImage } = useMapToolWindow();
 const handleOk = () => {
 	let ext = path.extname(filePath.value).slice(1);
 	exportImage({

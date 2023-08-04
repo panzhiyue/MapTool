@@ -543,7 +543,7 @@ const createTable = async () => {
 
 
 
-export const getDb = async () => {
+export const getDB = async () => {
   if (!db) {
     await initDB();
   }

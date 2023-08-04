@@ -35,7 +35,7 @@ import MapLayerSelect from '@/components/map-layer-select';
 import InputSavePath from '@/components/input-save-path';
 import path from 'path';
 import { useWindow } from '@/hooks/electron/useWindow';
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 import WindowName from '@/enum/WindowName';
 import ToolContainer from '@/components/tool-container';
 import { useMapToolStore } from '@/store/mapTool';
@@ -67,7 +67,7 @@ const filters = ref([
 	},
 ]);
 const { close } = useWindow();
-const { exportVector } = useMainWindow();
+const { exportVector } = useMapToolWindow();
 const handleOk = () => {
 	let ext = path.extname(savePath.value).slice(1);
 	exportVector({

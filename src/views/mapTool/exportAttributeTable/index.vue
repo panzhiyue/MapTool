@@ -32,7 +32,7 @@
 import MapLayerSelect from '@/components/map-layer-select';
 import InputSavePath from '@/components/input-save-path';
 
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 import WindowName from '@/enum/WindowName';
 import { useWindow } from '@/hooks/electron/useWindow';
 import ToolContainer from '@/components/tool-container';
@@ -52,7 +52,7 @@ const filters = ref([
 
 const header = ref(true);
 
-const { exportAttributeTable } = useMainWindow();
+const { exportAttributeTable } = useMapToolWindow();
 const { close } = useWindow();
 const handleOk = () => {
 	exportAttributeTable({

@@ -4,40 +4,40 @@ import { ipcRenderer } from "electron"
 const remote = require("@electron/remote")
 let sharedObject = remote.getGlobal("sharedObject");
 
-export function useMainWindow() {
+export function useMapToolWindow() {
     /**
      * 刷新图层信息
      */
     const refreshLayerInfos = () => {
-        ipcRenderer.sendTo(sharedObject.Main, "refresh-layerInfo");
+        ipcRenderer.sendTo(sharedObject.MapTool, "refresh-layerInfo");
     }
 
     /**
      * 刷新地图图层信息
      */
     const refreshMapLayerInfos = () => {
-        ipcRenderer.sendTo(sharedObject.Main, "refresh-mapLayerInfo");
+        ipcRenderer.sendTo(sharedObject.MapTool, "refresh-mapLayerInfo");
     }
 
     /**
      * 导出图片
      */
     const exportImage = (options: IExportImageOptions) => {
-        ipcRenderer.sendTo(sharedObject.Main, "exportImage", options);
+        ipcRenderer.sendTo(sharedObject.MapTool, "exportImage", options);
     }
 
     /**
      * 导出矢量
      */
     const exportVector = (options: IExportVectorOptions) => {
-        ipcRenderer.sendTo(sharedObject.Main, "exportVector", options);
+        ipcRenderer.sendTo(sharedObject.MapTool, "exportVector", options);
     }
 
     /**
      * 导出属性表
      */
     const exportAttributeTable = (options: IExportAttributeTableOptions) => {
-        ipcRenderer.sendTo(sharedObject.Main, "exportAttributeTable", options);
+        ipcRenderer.sendTo(sharedObject.MapTool, "exportAttributeTable", options);
     }
 
     /**
@@ -46,7 +46,7 @@ export function useMainWindow() {
      * @param lat 纬度
      */
     const panTo = (lng: number, lat: number) => {
-        ipcRenderer.sendTo(sharedObject.Main, "panTo", lng, lat);
+        ipcRenderer.sendTo(sharedObject.MapTool, "panTo", lng, lat);
     }
 
     /**
@@ -56,7 +56,7 @@ export function useMainWindow() {
      * @param zoom 层级
      */
     const zoomTo = (lng: number, lat: number, zoom: number) => {
-        ipcRenderer.sendTo(sharedObject.Main, "zoomTo", lng, lat, zoom);
+        ipcRenderer.sendTo(sharedObject.MapTool, "zoomTo", lng, lat, zoom);
     }
 
     /**
@@ -64,7 +64,7 @@ export function useMainWindow() {
      * @param options 
      */
     const measure = (options: IMeasureOptions) => {
-        ipcRenderer.sendTo(sharedObject.Main, "measure", options)
+        ipcRenderer.sendTo(sharedObject.MapTool, "measure", options)
     }
 
     /**
@@ -72,16 +72,16 @@ export function useMainWindow() {
      * @param options 
      */
     const plot = (options: IPlotOptions) => {
-        ipcRenderer.sendTo(sharedObject.Main, "plot", options)
+        ipcRenderer.sendTo(sharedObject.MapTool, "plot", options)
     }
 
 
     const createDistanceTable = (options: ICreateDistanceTableOptions) => {
-        ipcRenderer.sendTo(sharedObject.Main, "createDistanceTable", options)
+        ipcRenderer.sendTo(sharedObject.MapTool, "createDistanceTable", options)
     }
 
     const exportKneePointTable = (options) => {
-        ipcRenderer.sendTo(sharedObject.Main, "exportKneePointTable", options)
+        ipcRenderer.sendTo(sharedObject.MapTool, "exportKneePointTable", options)
     }
 
     return { refreshLayerInfos, refreshMapLayerInfos, exportImage, exportVector, exportAttributeTable, panTo, zoomTo, measure, plot, createDistanceTable, exportKneePointTable }

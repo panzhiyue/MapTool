@@ -1,7 +1,7 @@
 
 import ResponseResult from "@/utils/db/ResponseResult"
 import * as TableApi from "../table"
-import { getDB } from "./index"
+import { getDB } from "@/utils/db/MapTool"
 import { ILayerInfo, IResponseResult } from "#/index";
 
 const _tableName = 'LayerInfo';

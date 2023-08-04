@@ -1,9 +1,9 @@
-import { getDb as getMapToolDb } from "./MapTool"
+import { getDB as getMapToolDB } from "./MapTool"
 import DbType from "./DbType"
 export const getDbByType = async (type) => {
     switch (type) {
         case DbType.MAPTOOL: {
-            return await getMapToolDb()
+            return await getMapToolDB()
         }
     }
     return null

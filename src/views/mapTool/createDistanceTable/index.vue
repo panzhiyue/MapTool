@@ -58,7 +58,7 @@
 import { ref, watch, computed, Ref } from 'vue';
 import MapLayerSelect from '@/components/map-layer-select';
 import { useWindow } from '@/hooks/electron/useWindow';
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 import WindowName from '@/enum/WindowName';
 import TableStructureCompare, {
 	ITableStructureCompare,
@@ -150,7 +150,7 @@ const lengthValue = ref(0);
 const lengthUnit = ref(LengthUnits.米);
 const countValue = ref(1);
 const { close } = useWindow();
-const { createDistanceTable } = useMainWindow();
+const { createDistanceTable } = useMapToolWindow();
 const handleOk = () => {
 	createDistanceTable({
 		layerId1: mapLayerId1.value,

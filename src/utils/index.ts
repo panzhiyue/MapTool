@@ -3,15 +3,15 @@ import ResponseCode from "@/enum/ResponseCode";
 import ResponseResult from "./db/ResponseResult";
 import { add as insertLayerInfo } from "@/api/mapTool/layerInfo";
 import { buildUUID } from "./uuid";
-import { useMainWindow } from "@/hooks/electron/useMainWindow"
+import { useMapToolWindow } from "@/hooks/electron/useMapToolWindow"
 import { message } from "ant-design-vue";
 import { useWindow } from "@/hooks/electron/useWindow";
-import { getDB } from "@/api/mapTool";
+import { getDB } from "@/utils/db/MapTool"
 
 const { close } = useWindow();
 
 export const importVector = async (parentId: string, geometryType, tableName: string, tableData: any, attributes: any, layerName: string) => {
-    const { refreshLayerInfos } = useMainWindow();
+    const { refreshLayerInfos } = useMapToolWindow();
     const db = await getDB();
     TableApi.create(
         db,
@@ -61,7 +61,9 @@ export const importVector = async (parentId: string, geometryType, tableName: st
                             geometryType: geometryType,
                         },
                     }).then((result) => {
+                        console.log(result);
                         if (result.code == ResponseCode.SUCCESS) {
+                            console.log(1);
                             refreshLayerInfos();
                             close();
                         } else {

@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useWindow } from '@/hooks/electron/useWindow';
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 import MapLayerSelect from '@/components/map-layer-select';
 import path from 'path';
 import WindowName from '@/enum/WindowName';
@@ -54,7 +54,7 @@ const filters = ref([
 const savePath = ref('');
 
 const { close } = useWindow();
-const { exportKneePointTable } = useMainWindow();
+const { exportKneePointTable } = useMapToolWindow();
 const handleOk = () => {
 	let ext = path.extname(savePath.value).slice(1);
 	exportKneePointTable({

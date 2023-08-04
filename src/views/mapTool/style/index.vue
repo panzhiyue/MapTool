@@ -51,10 +51,10 @@ import StyleIcon from '@/components/style-icon';
 import ColorPicker from '@/components/color-picker';
 import { useWindow } from '@/hooks/electron/useWindow';
 import * as TableApi from '@/api/table';
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
 import StyleType from '@/enum/StyleType';
 import ToolContainer from '@/components/tool-container';
-import { getDB } from '@/api/mapTool/index';
+import { getDB } from '@/utils/db/MapTool';
 
 const route = useRoute();
 const id = route.query.id as string;
@@ -74,7 +74,7 @@ onMounted(async () => {
 	styleInfo.value = layerInfo.value.info.styles[0];
 });
 const { close } = useWindow();
-const { refreshMapLayerInfos } = useMainWindow();
+const { refreshMapLayerInfos } = useMapToolWindow();
 const handleCancel = () => {
 	close();
 };

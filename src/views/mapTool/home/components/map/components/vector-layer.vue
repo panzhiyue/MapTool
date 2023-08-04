@@ -7,7 +7,7 @@
 import { GeoJSON } from 'ol/format';
 import { readAsGeoJSON } from '@/api/table';
 import { PropType, Ref } from 'vue';
-import { Projection } from 'ol/proj';
+import { getDB } from '@/utils/db/MapTool';
 const props = defineProps({
 	tableName: {
 		type: String,
@@ -21,8 +21,9 @@ const props = defineProps({
 });
 const features: Ref<any[]> = ref([]);
 
-onMounted(() => {
-	readAsGeoJSON(props.tableName).then((result) => {
+onMounted(async () => {
+	const db = await getDB();
+	readAsGeoJSON(db, props.tableName).then((result) => {
 		features.value = new GeoJSON({
 			dataProjection: props.dataProjection,
 			featureProjection: props.featureProjection,
