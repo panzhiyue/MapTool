@@ -27,6 +27,7 @@ export const importVector = async (parentId: string, geometryType, tableName: st
                 };
             })
     ).then((result: ResponseResult<any>) => {
+        console.log(result);
         if (result.code == ResponseCode.SUCCESS) {
 
             TableApi.insert(

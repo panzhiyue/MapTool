@@ -5,6 +5,14 @@
 				<div class="tips">表结构？</div>
 				<a-space>图层名 <a-input v-model:value="layerName"></a-input></a-space>
 				<a-space>表名 <a-input v-model:value="tableName"></a-input></a-space>
+				<a-space
+					>几何类型
+					<a-select v-model:value="geometryType">
+						<a-select-option value="点">点</a-select-option>
+						<a-select-option value="线">线</a-select-option>
+						<a-select-option value="面">面</a-select-option>
+					</a-select></a-space
+				>
 				<table-structure
 					class="tableStructure mt-20px scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
 					v-model:value="tableData"></table-structure>
@@ -32,6 +40,9 @@ import { message } from 'ant-design-vue';
 import ResponseCode from '@/enum/ResponseCode';
 import { buildUUID } from '@/utils/uuid';
 import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
+import { getDB } from '@/utils/db/MapTool';
+import { importVector } from '@/utils';
+import dayjs from 'dayjs';
 
 const route = useRoute();
 const props = defineProps({
@@ -44,28 +55,22 @@ const emits = defineEmits(['update:current']);
 
 const currentStep = useVModel(props, 'current', emits);
 
-const layerName = ref('');
-const tableName = ref('vector');
+const geometryType = ref('点');
+const layerName = ref('test');
+const tableName = ref('vector_' + dayjs().unix().toString());
 const tableData = reactive([
 	{
 		key: 1,
 		name: 'name',
 		type: SqliteColumnType.TEXT,
-		length: '',
+		length: 20,
 		scale: '',
 		primary: true,
 		selected: true,
 	},
-	{
-		key: 2,
-		name: 'type',
-		type: SqliteColumnType.TEXT,
-		length: '',
-		scale: '',
-		primary: false,
-		selected: true,
-	},
 ]);
+
+const attributes = ref([]);
 
 const { close } = useWindow();
 const handleCancel = () => {
@@ -80,34 +85,49 @@ const handlePreMost = () => {
 	currentStep.value = 0;
 };
 const { refreshLayerInfos } = useMapToolWindow();
-const handleOk = () => {
-	createTable(tableName.value, tableData)
-		.then((result) => {
-			addLayerInfo({
-				id: buildUUID(),
-				parentId: route.query.parentId as string,
-				mapId: 1,
-				title: layerName.value,
-				type: 'layer',
-				canDelete: true,
-				canEdit: true,
-				expand: true,
-				info: {
-					type: 'vector',
-					table: tableName.value,
-				},
-			}).then((result1) => {
-				if (result1.code == ResponseCode.SUCCESS) {
-					refreshLayerInfos();
-					close();
-				} else {
-					message.error(result1.msg, 1);
-				}
-			});
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+const handleOk = async () => {
+	importVector(
+		route.query.parentId as string,
+		geometryType.value,
+		tableName.value,
+		tableData.map((item) => {
+			return {
+				...item,
+				destName: item.name,
+			};
+		}),
+		attributes.value,
+		layerName.value,
+	);
+	// const db = await getDB();
+	// createTable(db, tableName.value, tableData)
+	// 	.then((result) => {
+	// 		console.log(layerName);
+	// 		addLayerInfo({
+	// 			id: buildUUID(),
+	// 			parentId: route.query.parentId as string,
+	// 			mapId: 1,
+	// 			title: layerName.value,
+	// 			type: 'layer',
+	// 			canDelete: true,
+	// 			canEdit: true,
+	// 			expand: true,
+	// 			info: {
+	// 				type: 'vector',
+	// 				table: tableName.value,
+	// 			},
+	// 		}).then((result1) => {
+	// 			if (result1.code == ResponseCode.SUCCESS) {
+	// 				refreshLayerInfos();
+	// 				close();
+	// 			} else {
+	// 				message.error(result1.msg, 1);
+	// 			}
+	// 		});
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(err);
+	// 	});
 };
 </script>
 <style lang="less" scoped>
