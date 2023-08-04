@@ -3,7 +3,7 @@
 </template>
 <script setup lang="ts">
 import { IMapLayerInfo } from '#/index';
-import { useHomeStore } from '@/store/mapTool';
+import { useMapToolStore } from '@/store/mapTool';
 import { useVModel } from '@vueuse/core';
 
 const props = defineProps({
@@ -18,11 +18,11 @@ const emits = defineEmits(['update:value']);
 
 const selectedLayer = useVModel(props, 'value', emits);
 
-const homeStore = useHomeStore();
+const mapToolStore = useMapToolStore();
 const options = ref([]);
 
 onMounted(() => {
-	homeStore.getMapLayerInfos(1).then((result: IMapLayerInfo[]) => {
+	mapToolStore.getMapLayerInfos(1).then((result: IMapLayerInfo[]) => {
 		options.value = result
 			.filter((item: IMapLayerInfo) => {
 				return props.layerTypes.indexOf(item.info.type) > -1;

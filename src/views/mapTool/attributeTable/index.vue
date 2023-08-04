@@ -208,7 +208,6 @@ const handleClickMenu = async (type: ColumnMenuType) => {
 
 const handleAddColumn = () => {
 	console.log(process.type);
-	let a = JSON.parse('aaaa');
 	// throw new Error('THIS IS AN ERROR');
 	ipcRenderer.send(
 		'open-win',
