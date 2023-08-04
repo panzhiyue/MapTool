@@ -1,5 +1,5 @@
 import { IResponseResult } from "#/index";
-import { getDB } from "@/utils/db";
+import { getDB } from "@/utils/db/MapTool";
 import ResponseResult from "@/utils/db/ResponseResult";
 
 export interface IBaseFun {
@@ -55,7 +55,7 @@ export const getBaseFun = <T extends { id?: any }>(tableName: string): IBaseFun 
         let param: any = Object.assign({}, data);
         delete param.id;
         const db = await getDB();
-        return await db('MapInfo').where({ id: id }).update(param).then((result: any) => {
+        return await db(tableName).where({ id: id }).update(param).then((result: any) => {
             return new Promise((resolve, reject) => {
                 resolve(ResponseResult.buildSuccess(result));
             })

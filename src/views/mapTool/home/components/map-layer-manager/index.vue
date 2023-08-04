@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { useHomeStore } from '@/store/home';
+import { useMapToolStore } from '@/store/mapTool';
 import { updateChecked, deleteById } from '@/api/mapLayerInfo';
 import { ComputedRef, Ref } from 'vue';
 import tree, {
@@ -57,12 +57,11 @@ import WindowName from '@/enum/WindowName';
 import * as TableApi from '@/api/table';
 import ResponseCode from '@/enum/ResponseCode';
 import StyleIcon from '@/components/style-icon';
-import { DownOutlined, SmileOutlined, FrownOutlined, FrownFilled } from '@ant-design/icons-vue';
 
-let homeStore = useHomeStore();
+let mapToolStore = useMapToolStore();
 
 const mapLayerInfos = computed(() => {
-	return homeStore.mapLayerInfos;
+	return mapToolStore.mapLayerInfos;
 });
 
 const treeData: ComputedRef<Undefinerable<DataNode[]>> = computed(() => {
@@ -96,19 +95,19 @@ const handleCheck = (
 	node: CheckInfo,
 ) => {
 	updateChecked(checked as Number[]).then((result) => {
-		homeStore.getMapLayerInfos(1);
+		mapToolStore.getMapLayerInfos(1);
 	});
 };
 
 const handleDelete = (id: Number) => {
 	deleteById(id).then(() => {
-		homeStore.getMapLayerInfos(1);
+		mapToolStore.getMapLayerInfos(1);
 	});
 };
 
 const handleZoomTo = (id) => {
-	let layer = homeStore.getLayerBySysId(id);
-	homeStore.map.getView().fit(layer.getSource().getExtent(), {
+	let layer = mapToolStore.getLayerBySysId(id);
+	mapToolStore.map.getView().fit(layer.getSource().getExtent(), {
 		padding: [30, 30, 30, 30],
 	});
 };
@@ -147,7 +146,7 @@ const handleDrop = (info: AntTreeNodeDropEvent) => {
 
 	TableApi.replaceData('MapLayerInfo', newMapLayerInfos).then(async (result) => {
 		if (result.code == ResponseCode.SUCCESS) {
-			await homeStore.getMapLayerInfos(1);
+			await mapToolStore.getMapLayerInfos(1);
 		}
 	});
 };

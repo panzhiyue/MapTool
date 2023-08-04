@@ -21,9 +21,9 @@
 import { buildUUID } from '@/utils/uuid';
 import { add, updateById } from '@/api/layerInfo';
 import ResponseCode from '@/enum/ResponseCode';
-import { useHomeStore } from '@/store/home';
+import { useMapToolStore } from '@/store/mapTool';
 
-const homeSotre = useHomeStore();
+const mapToolStore = useMapToolStore();
 
 let menu = ref(null);
 
@@ -67,7 +67,7 @@ const handleOk = () => {
 			if (type.value == 'add') {
 				add(menu.value).then((result) => {
 					if (result.code == ResponseCode.SUCCESS) {
-						homeSotre.getLayerInfos(1).then(() => {
+						mapToolStore.getLayerInfos(1).then(() => {
 							visible.value = false;
 						});
 					}
@@ -75,7 +75,7 @@ const handleOk = () => {
 			} else {
 				updateById(menu.value).then((result) => {
 					if (result.code == ResponseCode.SUCCESS) {
-						homeSotre.getLayerInfos(1).then(() => {
+						mapToolStore.getLayerInfos(1).then(() => {
 							visible.value = false;
 						});
 					}

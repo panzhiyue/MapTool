@@ -30,14 +30,12 @@ import { useWindow } from '@/hooks/electron/useWindow';
 import { useVModel } from '@vueuse/core';
 import { add as addLayerInfo } from '@/api/layerInfo';
 import { message } from 'ant-design-vue';
-import { useHomeStore } from '@/store/home';
 import { buildUUID } from '@/utils/uuid';
 import { useRoute } from 'vue-router';
 import ResponseCode from '@/enum/ResponseCode';
 import { useMainWindow } from '@/hooks/electron/useMainWindow';
 
 const route = useRoute();
-const homeStore = useHomeStore();
 const props = defineProps({
 	current: {
 		type: Number,

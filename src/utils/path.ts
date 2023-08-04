@@ -13,11 +13,13 @@ export function getStaticPath() {
 /**
  * 获取db数据库文件路径
  * @returns {string}
+ * @examples
+ * getDbPath('MapTool.db')
  */
-export function getDbPath() {
+export function getDbPath(name: string) {
     console.log(remote.app.getPath('userData'));
     // return PATH.join(getStaticPath(), "sqlite.db");
-    return PATH.join(remote.app.getPath('userData'), "sqlite.db");
+    return PATH.join(remote.app.getPath('userData'), name);
 }
 
 /**

@@ -89,7 +89,7 @@
 
 				<grid-layer v-if="showGrid" :zIndex="9999"></grid-layer>
 			</div>
-			<status-bar v-show="homeStore.config.isShowStatusbar"></status-bar>
+			<status-bar v-show="mapToolStore.config.isShowStatusbar"></status-bar>
 			<div v-if="measureType">
 				<vue2ol-interaction-measure :type="measureType" :active="true"></vue2ol-interaction-measure>
 				<!-- <vue2ol-layer-vector :zIndex="901">
@@ -112,7 +112,7 @@
 			</div>
 			<vue2ol-interaction-dragpan v-if="mapInfo.pan" :active="true"></vue2ol-interaction-dragpan>
 			<vue2ol-interaction-dragzoom
-				v-if="mapInfo.dragZoomIn"
+				v-if="mapToolStore.mapInfo.dragZoomIn"
 				:active="true"
 				:options="{
 					condition: () => {
@@ -140,7 +140,7 @@
 </template>
 <script setup lang="ts">
 import GeoJSON from 'ol/format/GeoJSON';
-import { useHomeStore } from '@/store/home';
+import { useMapToolStore } from '@/store/mapTool';
 import { IMapInfo, IMapLayerInfo } from 'types';
 import { MapEvent } from 'ol';
 import { ComputedRef, Ref } from 'vue';
@@ -152,7 +152,7 @@ import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
 
 const { getByAuth } = useCoordinateSystem();
 let proj = getByAuth('EPSG:4490').getProjection();
-let homeStore = useHomeStore();
+let mapToolStore = useMapToolStore();
 const format = ref(new GeoJSON());
 const mapOptions = reactive({
 	controls: [],
@@ -160,11 +160,11 @@ const mapOptions = reactive({
 	clipPolygon: null,
 });
 const viewOptions = reactive({
-	projection: getByAuth(homeStore.mapInfo.srs).getProjection(),
+	projection: getByAuth(mapToolStore.mapInfo.srs).getProjection(),
 });
 
 const mapLayer: ComputedRef<IMapLayerInfo[]> = computed(() => {
-	return homeStore.mapLayerInfos.map((item: IMapLayerInfo) => {
+	return mapToolStore.mapLayerInfos.map((item: IMapLayerInfo) => {
 		return {
 			...item,
 			checked: item.checked ? true : false,
@@ -175,12 +175,13 @@ const mapLayer: ComputedRef<IMapLayerInfo[]> = computed(() => {
 onMounted(() => {});
 
 const mapInfo: ComputedRef<IMapInfo | null> = computed(() => {
-	return homeStore.mapInfo;
+	return mapToolStore.mapInfo;
 });
+console.log(mapInfo);
 const isReady = ref(false);
 const handleMapReady = (mapObject: any) => {
 	mapObject.updateSize();
-	homeStore.setMap(mapObject);
+	mapToolStore.setMap(mapObject);
 	isReady.value = true;
 };
 
@@ -195,7 +196,7 @@ const handleMapMoveEnd = (e: MapEvent) => {
 		zoom,
 	};
 
-	homeStore.setMapInfo(info);
+	mapToolStore.setMapInfo(info);
 };
 
 const onSourceInit = (source) => {
@@ -206,22 +207,22 @@ const onSourceInit = (source) => {
 };
 
 const measureType = computed(() => {
-	return homeStore.measureType;
+	return mapToolStore.measureType;
 });
 
 const handleMeasureDrawEnd = (event) => {
 	event.target.source_.clear();
-	if (homeStore.measureCallback) {
-		homeStore.measureCallback(event.feature.getGeometry());
+	if (mapToolStore.measureCallback) {
+		mapToolStore.measureCallback(event.feature.getGeometry());
 	}
 };
 
 const plotType = computed(() => {
-	return homeStore.plotType;
+	return mapToolStore.plotType;
 });
 
 const showGrid = computed(() => {
-	return homeStore.showGrid;
+	return mapToolStore.showGrid;
 });
 
 const getStyle = (info) => {

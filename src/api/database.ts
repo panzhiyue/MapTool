@@ -1,4 +1,4 @@
-import { getDB } from "@/utils/db/index"
+import { getDB } from "@/utils/db/MapTool"
 import ResponseResult from "@/utils/db/ResponseResult"
 
 /**

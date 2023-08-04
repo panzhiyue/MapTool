@@ -35,7 +35,7 @@
 </template>
 <script setup lang="ts">
 import { ipcRenderer } from 'electron';
-import { useHomeStore } from '@/store/home';
+import { useMapToolStore } from '@/store/mapTool';
 
 import { ILayerInfo } from 'types';
 import { onMounted, Ref } from 'vue';
@@ -53,10 +53,10 @@ import { getDefaultStyle } from '@/utils/style';
 import WindowName from '@/enum/WindowName';
 const remote = require('@electron/remote');
 
-let homeStore = useHomeStore();
+let mapToolStore = useMapToolStore();
 
 const layerInfos = computed(() => {
-	return homeStore.layerInfos;
+	return mapToolStore.layerInfos;
 });
 console.log(111);
 const treeData = computed(() => {
@@ -142,7 +142,7 @@ const handleAddToMap = (data: ILayerInfo) => {
 		checked: true,
 	}).then((result) => {
 		if (result.code == ResponseCode.SUCCESS) {
-			homeStore.getMapLayerInfos(1);
+			mapToolStore.getMapLayerInfos(1);
 		} else {
 			remote.dialog.showErrorBox('添加到地图', result.msg);
 		}
@@ -169,7 +169,7 @@ const handleDelete = async (data: any) => {
 						if (data.data.info?.table) {
 							await dropTable(data.data.info.table).then((r) => {});
 						}
-						homeStore.getLayerInfos(1).then(() => {});
+						mapToolStore.getLayerInfos(1).then(() => {});
 					});
 				}
 			});
@@ -179,7 +179,7 @@ const handleDelete = async (data: any) => {
 
 onMounted(() => {
 	ipcRenderer.addListener('addLayer-close', () => {
-		homeStore.getMapLayerInfos(1).then(() => {});
+		mapToolStore.getMapLayerInfos(1).then(() => {});
 	});
 });
 
@@ -214,7 +214,7 @@ const handleDrop = (info: AntTreeNodeDropEvent) => {
 
 	TableApi.replaceData('LayerInfo', newLayerInfos).then(async (result) => {
 		if (result.code == ResponseCode.SUCCESS) {
-			await homeStore.getLayerInfos(1);
+			await mapToolStore.getLayerInfos(1);
 		}
 	});
 };

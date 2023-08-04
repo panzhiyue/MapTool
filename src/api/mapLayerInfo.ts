@@ -1,11 +1,11 @@
-import { getDB } from "@/utils/db/index"
+import { getDB } from "@/utils/db/MapTool"
 import ResponseResult from "@/utils/db/ResponseResult"
 import { IMapLayerInfo, IResponseResult } from "types";
 import * as TableApi from "./table"
 
 const _tableName = 'MapLayerInfo';
 
-export const getList = async (mapId: string|number): Promise<IResponseResult<IMapLayerInfo[]>> => {
+export const getList = async (mapId: string | number): Promise<IResponseResult<IMapLayerInfo[]>> => {
     const db = await getDB();
     return await db(_tableName).select().whereIn('mapId', [0, mapId]).then((result: any) => {
         result.forEach((item: any) => {

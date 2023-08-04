@@ -109,9 +109,9 @@
 <script lang="ts" setup>
 import { ipcRenderer } from 'electron';
 import WindowName from '@/enum/WindowName';
-import { useHomeStore } from '@/store/home';
+import { useMapToolStore } from '@/store/mapTool';
 import * as ElectronUtil from '@/utils/electron';
-const homeStore = useHomeStore();
+const mapToolStore = useMapToolStore();
 const handleShowTool = () => {
 	ipcRenderer.send(
 		'open-win',
@@ -155,7 +155,7 @@ const handleShowPlot = () => {
 };
 
 const handleShowGrid = () => {
-	homeStore.setShowGrid(!homeStore.showGrid);
+	mapToolStore.setShowGrid(!mapToolStore.showGrid);
 };
 
 const handleShowCoordinateConversion = () => {
@@ -197,9 +197,9 @@ const showAboutWindow = () => {
  * 切换状态栏显示与隐藏
  */
 const handleToggleStatusbar = () => {
-	homeStore.setConfig({
-		...homeStore.config,
-		isShowStatusbar: !homeStore.config.isShowStatusbar,
+	mapToolStore.setConfig({
+		...mapToolStore.config,
+		isShowStatusbar: !mapToolStore.config.isShowStatusbar,
 	});
 };
 

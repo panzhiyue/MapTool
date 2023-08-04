@@ -57,15 +57,11 @@ import * as olProj from 'ol/proj';
 import { message } from 'ant-design-vue';
 import { useVModel } from '@vueuse/core';
 import { useRoute } from 'vue-router';
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
-import { useWindow } from '@/hooks/electron/useWindow';
 import dayjs from 'dayjs';
 import { importVector } from '@/utils';
 import { useAddLayer } from '../../useAddLayer';
-import { useHomeStore } from '@/store/home';
 
 const route = useRoute();
-const homeStore = useHomeStore();
 
 const props = defineProps({
 	current: {

@@ -22,14 +22,12 @@
 import InputSavePath from '@/components/input-save-path';
 import { useWindow } from '@/hooks/electron/useWindow';
 import { useMainWindow } from '@/hooks/electron/useMainWindow';
-import { useHomeStore } from '@/store/home';
 import WindowName from '@/enum/WindowName';
 import path from 'path';
 import ToolContainer from '@/components/tool-container';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
-const homeStore = useHomeStore();
 const filePath = ref('');
 const filters = [
 	{

@@ -76,17 +76,17 @@ import { useWindow } from '@/hooks/electron/useWindow';
 import CoordinateSystemInfo from '@/components/coordinte-system-info';
 import { ipcRenderer } from 'electron';
 import { useRoute } from 'vue-router';
-import { useHomeStore } from '@/store/home';
+import { useMapToolStore } from '@/store/mapTool';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
-const homeStore = useHomeStore();
+const mapToolStore = useMapToolStore();
 const route = useRoute();
-homeStore.initProjection();
-const staticPath = homeStore.staticPath;
+mapToolStore.initProjection();
+const staticPath = mapToolStore.staticPath;
 const filterStr = ref('');
 const treeData = computed(() => {
-	let spatial_ref_sys = homeStore.spatial_ref_sys;
+	let spatial_ref_sys = mapToolStore.spatial_ref_sys;
 	if (!spatial_ref_sys) {
 		return [];
 	}
@@ -117,7 +117,7 @@ const treeData = computed(() => {
 	}
 	return result;
 
-	// return homeStore.spatial_ref_sys.map()
+	// return mapToolStore.spatial_ref_sys.map()
 });
 
 const directoryTreeDom = ref(null);

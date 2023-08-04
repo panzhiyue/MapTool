@@ -41,21 +41,12 @@
 <script lang="ts" setup>
 import { useWindow } from '@/hooks/electron/useWindow';
 import { useVModel } from '@vueuse/core';
-import { create as createTable } from '@/api/table';
-import SqliteColumnType from '@/enum/SqliteColumnType';
-import { add as addLayerInfo } from '@/api/layerInfo';
 import { useRoute } from 'vue-router';
-import { useHomeStore } from '@/store/home';
-import { message } from 'ant-design-vue';
-import ResponseCode from '@/enum/ResponseCode';
-import { buildUUID } from '@/utils/uuid';
-import { useMainWindow } from '@/hooks/electron/useMainWindow';
 import dayjs from 'dayjs';
 import { useAddLayer } from '../../useAddLayer';
 import { importVector } from '@/utils';
 import { WKT, GeoJSON } from 'ol/format';
 import { Feature } from 'ol';
-import { Item } from 'ant-design-vue/lib/menu';
 
 const route = useRoute();
 const props = defineProps({

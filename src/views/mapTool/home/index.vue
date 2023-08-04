@@ -1,5 +1,5 @@
 <template>
-	<a-layout class="main" v-if="homeStore.ready">
+	<a-layout class="main" v-if="mapToolStore.ready && mapInfo">
 		<a-layout-header class="header">
 			<!-- <sys-header></sys-header> -->
 			<sys-menu></sys-menu>
@@ -38,7 +38,7 @@ import Map from './components/map/index.vue';
 import MapLayerManager from './components/map-layer-manager/index.vue';
 import LayerManager from './components/layer-manager/index.vue';
 import SysHeader from './components/header/index.vue';
-import { useHomeStore } from '@/store/home';
+import { useMapToolStore } from '@/store/mapTool';
 import { ipcRenderer } from 'electron';
 import ToolBar from './components/tool-bar/index.vue';
 import SysMenu from './components/menu/index.vue';
@@ -78,22 +78,22 @@ import * as utilsol from '@gis-js/utilsol';
 // console.log(gdal);
 const { getByAuth } = useCoordinateSystem();
 
-let homeStore = useHomeStore();
+let mapToolStore = useMapToolStore();
+const mapInfo = computed(() => {
+	return mapToolStore.mapInfo;
+});
 
-const selectedKeys1 = ref(['2']);
-const selectedKeys2 = ref(['1']);
-const collapsed = ref(false);
-const openKeys = ref(['sub1']);
-
-onMounted(() => {
-	homeStore.initData('1');
-
+onBeforeMount(async () => {
+	await mapToolStore.initData('1');
+	console.log(mapInfo);
+});
+onMounted(async () => {
 	ipcRenderer.on('refresh-mapLayerInfo', () => {
-		homeStore.getMapLayerInfos(1).then(() => {});
+		mapToolStore.getMapLayerInfos(1).then(() => {});
 	});
 
 	ipcRenderer.on('refresh-layerInfo', () => {
-		homeStore.getLayerInfos(1).then(() => {});
+		mapToolStore.getLayerInfos(1).then(() => {});
 	});
 
 	ipcRenderer.on('exportImage', async (event, options: IExportImageOptions) => {
@@ -101,7 +101,7 @@ onMounted(() => {
 			content: '正在导出图片！',
 			duration: 0,
 		});
-		let dom: any = homeStore.map.getTarget();
+		let dom: any = mapToolStore.map.getTarget();
 		if (options.control == false) {
 			dom = dom.getElementsByClassName('ol-layers')[0];
 		}
@@ -309,22 +309,22 @@ onMounted(() => {
 	});
 
 	ipcRenderer.on('panTo', (e, lng, lat) => {
-		homeStore.map.getView().fit(new Point([lng, lat]), {
-			maxZoom: homeStore.map.getView().getZoom(),
+		mapToolStore.map.getView().fit(new Point([lng, lat]), {
+			maxZoom: mapToolStore.map.getView().getZoom(),
 			duration: 1000,
 		});
 	});
 
 	ipcRenderer.on('zoomTo', (e, lng, lat, zoom) => {
-		homeStore.map.getView().fit(new Point([lng, lat]), {
+		mapToolStore.map.getView().fit(new Point([lng, lat]), {
 			maxZoom: zoom,
 			duration: 1000,
 		});
 	});
 
 	ipcRenderer.on('measure', (e, options: IMeasureOptions) => {
-		homeStore.setMeasureType(options.type);
-		homeStore.setMeasureCallback((geometry) => {
+		mapToolStore.setMeasureType(options.type);
+		mapToolStore.setMeasureCallback((geometry) => {
 			let result = [];
 			if (options.type == MeasureType.LINESTRING) {
 				result.push({
@@ -348,7 +348,7 @@ onMounted(() => {
 	});
 
 	ipcRenderer.on('plot', (e, options: IPlotOptions) => {
-		homeStore.setPlotType(options.type);
+		mapToolStore.setPlotType(options.type);
 	});
 
 	ipcRenderer.on('createDistanceTable', async (e, options: ICreateDistanceTableOptions) => {

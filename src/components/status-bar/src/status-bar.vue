@@ -2,7 +2,7 @@
 	<div class="status-bar">
 		<a-space
 			>坐标系:<span class="cursor-pointer" @click="handleChangeCoordinateSystem">{{
-				getByAuth(homeStore.mapInfo.srs).name
+				getByAuth(mapToolStore.mapInfo.srs).name
 			}}</span
 			>分辨率:<span>{{ resolution }}</span
 			>层级<span>{{ zoom }}</span> X:<span>{{ x }}</span> Y:<span>{{ y }}</span></a-space
@@ -12,11 +12,11 @@
 <script lang="ts" setup>
 import { findParentMap } from '@gis-js/vue2ol';
 import { getCurrentInstance } from 'vue';
-import { useHomeStore } from '@/store/home';
+import { useMapToolStore } from '@/store/mapTool';
 import { transform } from 'ol/proj';
 import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
 
-const homeStore = useHomeStore();
+const mapToolStore = useMapToolStore();
 
 const instance: any = getCurrentInstance();
 const map = ref(null);
@@ -27,7 +27,7 @@ const resolution = ref(0);
 const zoom = ref(0);
 
 onMounted(() => {
-	map.value = homeStore.map;
+	map.value = mapToolStore.map;
 	map.value.on('pointermove', (evt) => {
 		let pixel = map.value.getEventPixel(evt.originalEvent); //鼠标当前像素坐标
 		let coordinate = map.value.getCoordinateFromPixel(pixel); //鼠标当前坐标位置
@@ -49,17 +49,17 @@ const { selectCoordinateSystem, getByAuth } = useCoordinateSystem();
 const handleChangeCoordinateSystem = () => {
 	selectCoordinateSystem((spatialReference) => {
 		let destCoor = transform(
-			[homeStore.mapInfo.centerx, homeStore.mapInfo.centery],
-			getByAuth(homeStore.mapInfo.srs).getProjection(),
+			[mapToolStore.mapInfo.centerx, mapToolStore.mapInfo.centery],
+			getByAuth(mapToolStore.mapInfo.srs).getProjection(),
 			getByAuth(spatialReference).getProjection(),
 		);
-		homeStore.setMapInfo({
-			...homeStore.mapInfo,
+		mapToolStore.setMapInfo({
+			...mapToolStore.mapInfo,
 			srs: spatialReference,
 			centerx: destCoor[0],
 			centery: destCoor[1],
 		});
-		homeStore.map.render();
+		mapToolStore.map.render();
 	});
 };
 </script>

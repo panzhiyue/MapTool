@@ -2,7 +2,7 @@ import { IFeature, IGeoJSON } from "#/geojson";
 import { IResponseResult } from "#/index";
 import { ITableStructure } from "@/components/table-structure";
 import SqliteColumnType from "@/enum/SqliteColumnType";
-import { getDB } from "@/utils/db/index"
+import { getDB } from "@/utils/db/MapTool"
 import ResponseResult from "@/utils/db/ResponseResult"
 import { WKT, GeoJSON } from "ol/format"
 import { Knex } from "knex"

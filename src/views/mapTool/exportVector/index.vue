@@ -38,12 +38,12 @@ import { useWindow } from '@/hooks/electron/useWindow';
 import { useMainWindow } from '@/hooks/electron/useMainWindow';
 import WindowName from '@/enum/WindowName';
 import ToolContainer from '@/components/tool-container';
-import { useHomeStore } from '@/store/home';
+import { useMapToolStore } from '@/store/mapTool';
 import { IMapInfo } from '#/index';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
-const homeStore = useHomeStore();
+const mapToolStore = useMapToolStore();
 const selectLayer = ref();
 
 const savePath = ref('');
@@ -88,7 +88,7 @@ const handleCancel = () => {
 
 const coordinateSystem = ref(null);
 
-homeStore.getMapInfo('1').then((mapInfo: IMapInfo) => {
+mapToolStore.getMapInfo('1').then((mapInfo: IMapInfo) => {
 	coordinateSystem.value = mapInfo.srs;
 });
 </script>

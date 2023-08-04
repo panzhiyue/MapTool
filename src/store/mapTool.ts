@@ -32,7 +32,7 @@ interface IState {
   staticPath: string
 }
 
-export const useHomeStore = defineStore({
+export const useMapToolStore = defineStore({
   id: "home",
   state: (): IState => ({
     map: null,
@@ -59,6 +59,7 @@ export const useHomeStore = defineStore({
     async getMapInfo(mapId: string | number): Promise<IMapInfo> {
       return new Promise((inject, reject) => {
         getMapInfoById(mapId).then((result) => {
+          console.log("getMapInfoById", result);
           this.mapInfo = result.data;
           inject(this.mapInfo);
         }).catch((err) => {

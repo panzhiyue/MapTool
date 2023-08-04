@@ -28,14 +28,12 @@ import { create as createTable } from '@/api/table';
 import SqliteColumnType from '@/enum/SqliteColumnType';
 import { add as addLayerInfo } from '@/api/layerInfo';
 import { useRoute } from 'vue-router';
-import { useHomeStore } from '@/store/home';
 import { message } from 'ant-design-vue';
 import ResponseCode from '@/enum/ResponseCode';
 import { buildUUID } from '@/utils/uuid';
 import { useMainWindow } from '@/hooks/electron/useMainWindow';
 
 const route = useRoute();
-const homeStore = useHomeStore();
 const props = defineProps({
 	current: {
 		type: Number,

@@ -24,28 +24,28 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import { useHomeStore } from '@/store/home';
+import { useMapToolStore } from '@/store/mapTool';
 
-const homeStore = useHomeStore();
+const mapToolStore = useMapToolStore();
 
 const mapInfo = computed(() => {
-	return homeStore.mapInfo;
+	return mapToolStore.mapInfo;
 });
 
 const handlePan = () => {
-	homeStore.setPan(true);
+	mapToolStore.setPan(true);
 };
 
 const handleSelect = () => {
-	homeStore.setSelect(true);
+	mapToolStore.setSelect(true);
 };
 
 const handleDragZoomIn = () => {
-	homeStore.setDragZoomIn(true);
+	mapToolStore.setDragZoomIn(true);
 };
 
 const handleDragZoomOut = () => {
-	homeStore.setDragZoomOut(true);
+	mapToolStore.setDragZoomOut(true);
 };
 
 const handleHelp = () => {};
