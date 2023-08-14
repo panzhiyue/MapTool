@@ -381,7 +381,8 @@ const GraffitiCanvas = function () {
                 .replace("image/png", "image/octet-stream")}),auto`;
 
         } else {
-            cbtCanvas.style.cursor = (isNull(b) ? isDrawing() : b) ? cursors[0] : cursors[1];
+            //  cbtCanvas.style.cursor = (isNull(b) ? isDrawing() : b) ? cursors[0] : cursors[1];
+            cbtCanvas.style.cursor = "default"
         }
 
     };

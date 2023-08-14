@@ -43,7 +43,6 @@ const drawUtil = new GraffitiCanvas();
 
 const resizeCanvas = () => {
 	console.log(dom.value.parentNode);
-	console.log(dom.value.parentNode.clientWidth);
 	dom.value.width = dom.value.parentNode.clientWidth;
 	dom.value.height = dom.value.parentNode.clientHeight;
 };
@@ -52,11 +51,10 @@ window.addEventListener('resize', resizeCanvas, false);
 onMounted(() => {
 	resizeCanvas();
 	if (drawUtil.init({ dom: dom.value })) {
-		console.log(3333);
 		drawUtil.setPaintConfig({
-			shadowBlur: 0.1,
-			lineWidth: 1,
-			strokeStyle: '#000',
+			shadowBlur: 0,
+			lineWidth: 2,
+			strokeStyle: '#f00',
 		});
 	}
 	drawUtil.begin(1);

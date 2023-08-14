@@ -30,8 +30,25 @@
 					}}
 				</p>
 				<template #extra>
-					<a-checkbox v-model:checked="item.check">显示答案</a-checkbox>
+					<a-checkbox v-model:checked="item.check">答案</a-checkbox>
+					<a-checkbox v-model:checked="item.showCanvas">画布</a-checkbox>
 				</template>
+				<!-- <div v-if="item.showCanvas" class="w-full h-full" style="position: relative">
+					<graffiti-board></graffiti-board>
+				</div> -->
+				<a-modal
+					v-model:visible="item.showCanvas"
+					:footer="null"
+					width="100%"
+					height="100%"
+					:bodyStyle="{ width: '100%', height: '100%' }"
+					:dialogStyle="{ width: '100%', height: '100%' }"
+					style="width: 100%; height: 100%"
+					wrap-class-name="graffiti-board-modal">
+					<div class="w-full h-full" style="min-height: 400px">
+						<graffiti-board></graffiti-board>
+					</div>
+				</a-modal>
 			</a-card>
 		</div>
 	</div>
@@ -39,6 +56,7 @@
 <script lang="ts" setup>
 import { Ref, ref } from 'vue';
 import timer from '@/components/timer/index.vue';
+import GraffitiBoard from '@/components/graffiti-board/index.vue';
 const integerDigit = ref(3);
 const decimalDigit = ref(0);
 const maxValue = ref(999);
@@ -82,7 +100,7 @@ const handleHide = () => {
 };
 </script>
 <style lang="less" scoped>
-.container {
+.container :deep {
 	width: 100%;
 	height: 100%;
 	overflow: auto;
@@ -119,6 +137,44 @@ const handleHide = () => {
 			margin-left: 12px;
 			margin-top: 10px;
 		}
+	}
+}
+
+.full-modal {
+	margin-top: 10px;
+}
+</style>
+<style lang="less">
+.graffiti-board-modal {
+	margin: 0px;
+	padding: 0px;
+	.ant-modal {
+		margin: 0px;
+		top: 0px;
+		left: 0;
+		right: 0;
+		padding: 0px;
+		height: 100%;
+		background-color: rgba(f, 0, 0, 0);
+		max-width: 100%;
+
+		.ant-modal-content {
+			margin: 0px;
+			top: 0px;
+			padding: 0px;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0);
+
+			.ant-modal-body {
+				padding: 0px;
+				margin: 0px;
+				padding: 10px;
+			}
+		}
+	}
+
+	.ant-modal-close-x {
+		color: #fff;
 	}
 }
 </style>
