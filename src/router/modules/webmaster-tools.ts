@@ -13,6 +13,11 @@ const router =
             component: () => import('@/views/webmaster-tools/calculation-baseperiod/index.vue')
         },
         {
+            path: '/webmaster-tools/percentile/recite',
+            name: 'WebmastertoolsPercentileRecite',
+            component: () => import('@/views/webmaster-tools/percentile/recite.vue')
+        },
+        {
             path: '/webmaster-tools/graffiti-board',
             name: 'WebmastertoolsGraffitiboard',
             component: () => import('@/views/webmaster-tools/graffiti-board/index.vue')

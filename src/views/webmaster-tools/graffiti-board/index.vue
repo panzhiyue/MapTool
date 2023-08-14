@@ -1,63 +1,75 @@
 <template>
-	<div class="container">
-		<vue2ol-map :options="{ interactions: [] }" @ready="handleReady">
-			<vue2ol-view :options="viewOptions"></vue2ol-view>
-			<!-- <vue2ol-layer-tile>
-				<vue2ol-source-tdt></vue2ol-source-tdt>
-			</vue2ol-layer-tile> -->
-			<vue2ol-layer-vector :zIndex="901" :style-obj="style1">
-				<vue2ol-source-vector>
-					<vue2ol-interaction-plotdraw
-						:active="true"
-						type="finearrow"
-						:style-obj="style1"></vue2ol-interaction-plotdraw>
-				</vue2ol-source-vector>
-			</vue2ol-layer-vector>
-		</vue2ol-map>
+	<div class="w-full h-full">
+		<div class="form-group">
+			<a-button type="button" class="btn btn-warning" id="drawPen" @click="draw(1)">画笔</a-button>
+			<a-button type="button" class="btn btn-warning" id="drawLine" @click="draw(2)"
+				>绘制线条</a-button
+			>
+			<a-button type="button" class="btn btn-warning" id="drawArror" @click="draw(21)"
+				>绘制箭头</a-button
+			>
+			<a-button type="button" class="btn btn-warning" id="drawTriangle" @click="draw(3)"
+				>绘制三角形</a-button
+			>
+			<a-button type="button" class="btn btn-warning" id="drawRect" @click="draw(4)"
+				>绘制矩形</a-button
+			>
+			<a-button type="button" class="btn btn-warning" id="drawParallel" @click="draw(41)"
+				>绘制平行四边形</a-button
+			>
+			<a-button type="button" class="btn btn-warning" id="drawTrape" @click="draw(42)"
+				>绘制梯形</a-button
+			>
+			<a-button type="button" class="btn btn-warning" id="drawPolygon" @click="draw(5)"
+				>绘制多边形</a-button
+			>
+			<a-button type="button" class="btn btn-warning" id="drawCircle" @click="draw(6)"
+				>绘制圆</a-button
+			>
+			<a-button type="button" class="btn btn-danger" id="clearAll" @click="clearAll()"
+				>清空</a-button
+			>
+		</div>
+		<canvas class="main" ref="dom"></canvas>
 	</div>
 </template>
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
-import * as style from 'ol/style';
+import GraffitiCanvas from '@/utils/GraffitiCanvas.ts';
 
-const viewOptions = reactive({
-	projection: 'EPSG:4326',
-	center: [0, 0],
-	zoom: 0,
-});
+const dom = ref(null);
+const drawUtil = new GraffitiCanvas();
 
-const style1 = new style.Style({
-	stroke: new style.Stroke({
-		color: '#ff0000',
-		width: 1,
-	}),
-	// fill: new style.Fill({
-	// 	color: 'rgba(255,0,0,0.4)',
-	// }),
-});
-// (paintConfig = {
-// 	//绘图基础配置
-// 	lineWidth: 1, //线条宽度，默认1
-// 	strokeStyle: '#ff0000', //画笔颜色，默认红色
-// 	fillStyle: '#ff0000', //填充色
-// 	shadowBlur: 5, //阴影模糊级别
-// 	lineJoin: 'round', //线条交角样式，默认圆角
-// 	lineCap: 'round', //线条结束样式，默认圆角
-// 	enableFill: false, //不允许填充颜色
-// }),
+const resizeCanvas = () => {
+	dom.value.width = window.innerWidth;
+	dom.value.height = window.innerHeight;
+};
+window.addEventListener('resize', resizeCanvas, false);
+
 onMounted(() => {
-	// let graffitiBoard = new GraffitiBoard({
-	// 	canvas: canvas.value,
-	// });
+	resizeCanvas();
+	if (drawUtil.init({ dom: dom.value })) {
+		console.log(3333);
+		drawUtil.setPaintConfig({
+			shadowBlur: 0.1,
+			lineWidth: 1,
+			strokeStyle: '#000',
+		});
+	}
+	drawUtil.begin(1);
 });
-const isReady = ref(false);
-const handleReady = () => {
-	isReady.value = true;
+
+onUnmounted(() => {
+	window.removeEventListener('resize', resizeCanvas, false);
+});
+
+const clearAll = drawUtil.clear;
+
+const draw = (type) => {
+	drawUtil.begin(type);
 };
 </script>
 <style lang="less" scoped>
 .container {
-	width: 100%;
-	height: 100%;
 }
 </style>

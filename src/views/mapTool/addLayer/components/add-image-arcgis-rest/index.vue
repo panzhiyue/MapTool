@@ -33,7 +33,7 @@ import { message } from 'ant-design-vue';
 import { buildUUID } from '@/utils/uuid';
 import { useRoute } from 'vue-router';
 import ResponseCode from '@/enum/ResponseCode';
-import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow';
+import { useMapToolWindow } from '@/hooks/electron/useMapToolWindow.ts';
 
 const route = useRoute();
 const props = defineProps({

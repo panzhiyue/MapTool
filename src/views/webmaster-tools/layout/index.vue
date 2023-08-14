@@ -28,6 +28,10 @@ const menus = reactive([
 		path: '/webmaster-tools/calculation-baseperiod',
 	},
 	{
+		title: '百化分背诵',
+		path: '/webmaster-tools/percentile/recite',
+	},
+	{
 		title: '涂鸦板',
 		path: '/webmaster-tools/graffiti-board',
 	},
