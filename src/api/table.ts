@@ -339,3 +339,74 @@ export const updateByWhere = async (db: any, tableName: string, data: any, where
     })
 }
 
+
+
+
+/**
+ * 获取数据列表
+ */
+export const getList = async <T extends { id?: any }>(db: any, tableName: string): Promise<IResponseResult<Array<T>>> => {
+    return await db(tableName).select().then((result: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
+
+/**
+ * 获取指定id数据
+ * @param id 指定Id
+ */
+export const getById = async <T extends { id?: any }>(db: any, tableName: string, id: string | number): Promise<IResponseResult<T>> => {
+    return await db(tableName).select().where({ id: id }).first().then((result: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
+
+/**
+ * 更新指定id数据
+ * @param data 
+ */
+export const updateById = async <T extends { id?: any }>(db: any, tableName: string, data: T): Promise<IResponseResult<any>> => {
+    let id = data.id;
+    let param: any = Object.assign({}, data);
+    delete param.id;
+    return await db(tableName).where({ id: id }).update(param).then((result: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
+
+
+/**
+ * 删除指定id数据
+ * @param id id
+ */
+export const deleteById = async (db: any, tableName: string, id: Number): Promise<IResponseResult<any>> => {
+    return await db(tableName).where({ id: id }).delete().then((result: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildSuccess(result));
+        })
+    }).catch((err: any) => {
+        return new Promise((resolve, reject) => {
+            resolve(ResponseResult.buildError(err.message))
+        })
+    })
+}
+
+

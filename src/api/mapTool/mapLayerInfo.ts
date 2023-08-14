@@ -70,15 +70,7 @@ export const updateChecked = async (checkedKeys: Array<Number>) => {
  */
 export const deleteById = async (id: Number): Promise<IResponseResult<any>> => {
     const db = await getDB();
-    return await db(_tableName).where({ id: id }).delete().then((result: any) => {
-        return new Promise((resolve, reject) => {
-            resolve(ResponseResult.buildSuccess(result));
-        })
-    }).catch((err: any) => {
-        return new Promise((resolve, reject) => {
-            resolve(ResponseResult.buildError(err.message))
-        })
-    })
+    return TableApi.deleteById(db, _tableName, id);
 }
 
 
