@@ -92,7 +92,7 @@ class Application {
      * 
      */
     getMainWindow() {
-        let preload = join(__dirname, '../preload/index.ts')
+        let preload = join(__dirname, '../preload/index.js')
         let win = new BrowserWindow({
             title: '地图管理工具',
 

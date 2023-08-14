@@ -7,6 +7,11 @@ const _tableName = 'MapLayerInfo';
 
 
 
+/**
+ * 获取列表
+ * @param mapId 
+ * @returns 
+ */
 export const getList = async (mapId: string | number): Promise<IResponseResult<IMapLayerInfo[]>> => {
     const db = await getDB();
     return await db(_tableName).select().whereIn('mapId', [0, mapId]).then((result: any) => {
@@ -23,6 +28,11 @@ export const getList = async (mapId: string | number): Promise<IResponseResult<I
     })
 }
 
+/**
+ * 添加数据
+ * @param data 
+ * @returns 
+ */
 export const add = async (data: IMapLayerInfo) => {
     const db = await getDB();
     return await db(_tableName).insert(data).then((result: any) => {
@@ -36,6 +46,11 @@ export const add = async (data: IMapLayerInfo) => {
     })
 }
 
+/**
+ * 更新checked值
+ * @param checkedKeys 
+ * @returns 
+ */
 export const updateChecked = async (checkedKeys: Array<Number>) => {
     const db = await getDB();
     return await db.transaction(async (trx: any) => {
