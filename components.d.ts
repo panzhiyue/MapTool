@@ -50,6 +50,7 @@ declare module '@vue/runtime-core' {
     Drag: typeof import('./src/components/drag/index.vue')['default']
     Editor: typeof import('./src/components/vector-editor/src/editor.vue')['default']
     EnumSelect: typeof import('./src/components/enum-select/src/enum-select.vue')['default']
+    GraffitiBoard: typeof import('./src/components/graffiti-board/index.vue')['default']
     GroupBox: typeof import('./src/components/group-box/src/group-box.vue')['default']
     Header: typeof import('./src/components/header/index.vue')['default']
     InputLength: typeof import('./src/components/input-length/src/input-length.vue')['default']
