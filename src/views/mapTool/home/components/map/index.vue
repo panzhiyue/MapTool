@@ -89,6 +89,7 @@
 
 				<grid-layer v-if="showGrid" :zIndex="9999"></grid-layer>
 			</div>
+			<!-- <edit v-if="mapToolStore.editLayerId"></edit> -->
 			<status-bar v-show="mapToolStore.config.isShowStatusbar"></status-bar>
 			<div v-if="measureType">
 				<vue2ol-interaction-measure :type="measureType" :active="true"></vue2ol-interaction-measure>
@@ -149,6 +150,7 @@ import StatusBar from '@/components/status-bar/index';
 import GridLayer from './components/grid-layer.vue';
 import { getOLStyle } from '@/utils/style';
 import { useCoordinateSystem } from '@/hooks/useCoordinateSystem';
+// import Edit from '../edit/index';
 
 const { getByAuth } = useCoordinateSystem();
 let proj = getByAuth('EPSG:4490').getProjection();
@@ -177,7 +179,6 @@ onMounted(() => {});
 const mapInfo: ComputedRef<IMapInfo | null> = computed(() => {
 	return mapToolStore.mapInfo;
 });
-console.log(mapInfo);
 const isReady = ref(false);
 const handleMapReady = (mapObject: any) => {
 	mapObject.updateSize();

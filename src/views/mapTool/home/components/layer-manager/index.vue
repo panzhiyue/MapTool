@@ -59,7 +59,6 @@ let mapToolStore = useMapToolStore();
 const layerInfos = computed(() => {
 	return mapToolStore.layerInfos;
 });
-console.log(111);
 const treeData = computed(() => {
 	let children = !layerInfos.value
 		? []
@@ -185,7 +184,8 @@ onMounted(() => {
 	});
 });
 
-const handleDrop = (info: AntTreeNodeDropEvent) => {
+const handleDrop = async (info: AntTreeNodeDropEvent) => {
+	const db = await getDB();
 	const dragNodeData = info.dragNode.data; //被拖拽节点数据
 	const dropNodeData = info.node.data; //松开节点数据
 

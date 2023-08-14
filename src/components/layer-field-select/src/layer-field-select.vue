@@ -7,6 +7,7 @@ import { IColumnStructure } from '#/database';
 import { getTableStruct } from '@/api/table';
 import ResponseResult from '@/utils/db/ResponseResult';
 import { useVModel } from '@vueuse/core';
+import { getDB } from '@/utils/db/MapTool';
 
 const props = defineProps({
 	/**
@@ -25,8 +26,9 @@ const emits = defineEmits(['update:value']);
 const value2 = useVModel(props, 'value', emits);
 const options = ref(null);
 
-const initOptions = () => {
-	getTableStruct(props.tableName).then((result: ResponseResult<IColumnStructure[]>) => {
+const initOptions = async () => {
+	const db = await getDB();
+	getTableStruct(db, props.tableName).then((result: ResponseResult<IColumnStructure[]>) => {
 		options.value = result.data.map((item) => {
 			return {
 				value: item.name,

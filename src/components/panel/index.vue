@@ -227,7 +227,7 @@ export default {
 }
 .panel__body {
 	padding: 10px 16px;
-	height: calc(100% - 40px);
+	/* height: calc(100% - 40px); */
 	overflow: auto;
 }
 .panel__footer {

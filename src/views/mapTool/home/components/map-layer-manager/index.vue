@@ -26,6 +26,7 @@
 						<a-menu>
 							<a-menu-item @click="handleZoomTo(treeKey)">缩放至图层</a-menu-item>
 							<a-menu-item @click="handleOpenAttributeTable(treeKey)">打开属性表</a-menu-item>
+							<a-menu-item @click="handleEdit(treeKey)">编辑</a-menu-item>
 							<a-menu-item @click="handleDelete(treeKey)">删除</a-menu-item>
 						</a-menu>
 					</template>
@@ -159,6 +160,13 @@ const handleShowStyleSelector = (data) => {
 		frame: true,
 		parent: WindowName.MAPTOOL,
 	});
+};
+
+/**
+ * 编辑图层
+ */
+const handleEdit = (id: any) => {
+	mapToolStore.editLayerId = id;
 };
 </script>
 

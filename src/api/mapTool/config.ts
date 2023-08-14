@@ -1,4 +1,3 @@
-
 import { IConfig } from "types";
 import { getBaseFun, IBaseFun } from "../basic"
 import { getDB } from "@/utils/db/MapTool";

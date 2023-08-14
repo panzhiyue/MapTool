@@ -92,7 +92,7 @@ class Application {
      * 
      */
     getMainWindow() {
-        let preload = join(__dirname, '../preload/index.js')
+        let preload = join(__dirname, '../preload/index.ts')
         let win = new BrowserWindow({
             title: '地图管理工具',
 
@@ -217,12 +217,12 @@ class Application {
         const indexHtml = join(process.env.DIST, 'index.html')
         if (app.isPackaged) {
             this.mainWindow.loadFile(indexHtml)
-            // // 打开开发工具
+            // 打开开发工具
             this.mainWindow.webContents.openDevTools();
         } else {
             this.mainWindow.loadURL(url)
             // Open devTool if the app is not packaged
-            // win.webContents.openDevTools()
+            this.mainWindow.webContents.openDevTools()
         }
     }
 }

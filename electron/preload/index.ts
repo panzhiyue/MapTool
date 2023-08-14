@@ -1,9 +1,8 @@
-/*************************************************
- ** preload为预加载模块，该文件将会在程序启动时加载 **
- *************************************************/
+// @ts-nocheck
 
-
-function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
+/** docoment 加载完成 */
+function domReady(...args) {
+  const condition = args.length ? [...args] : ['complete', 'interactive']
   return new Promise(resolve => {
     if (condition.includes(document.readyState)) {
       resolve(true)
@@ -17,81 +16,121 @@ function domReady(condition: DocumentReadyState[] = ['complete', 'interactive'])
   })
 }
 
-const safeDOM = {
-  append(parent: HTMLElement, child: HTMLElement) {
-    if (!Array.from(parent.children).find(e => e === child)) {
-      return parent.appendChild(child)
-    }
-  },
-  remove(parent: HTMLElement, child: HTMLElement) {
-    if (Array.from(parent.children).find(e => e === child)) {
-      return parent.removeChild(child)
-    }
-  },
-}
+/** 插入 loading */
+function loadingBootstrap() {
+  const loadingStyle = document.createElement('style');
+  const loadingBox = document.createElement('div');
 
-/**
- * https://tobiasahlin.com/spinkit
- * https://connoratherton.com/loaders
- * https://projects.lukehaas.me/css-loaders
- * https://matejkustec.github.io/SpinThatShit
- */
-function useLoading() {
-  const className = `loaders-css__square-spin`
-  const styleContent = `
-@keyframes square-spin {
-  25% { transform: perspective(100px) rotateX(180deg) rotateY(0); }
-  50% { transform: perspective(100px) rotateX(180deg) rotateY(180deg); }
-  75% { transform: perspective(100px) rotateX(0) rotateY(180deg); }
-  100% { transform: perspective(100px) rotateX(0) rotateY(0); }
-}
-.${className} > div {
-  animation-fill-mode: both;
-  width: 50px;
-  height: 50px;
-  background: #fff;
-  animation: square-spin 3s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite;
-}
-.app-loading-wrap {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #282c34;
-  z-index: 9;
-}
-    `
-  const oStyle = document.createElement('style')
-  const oDiv = document.createElement('div')
+  loadingStyle.id = 'preload-loading-style';
+  loadingBox.id = 'preload-loading-box';
 
-  oStyle.id = 'app-loading-style'
-  oStyle.innerHTML = styleContent
-  oDiv.className = 'app-loading-wrap'
-  oDiv.innerHTML = `<div class="${className}"><div></div></div>`
+  loadingStyle.textContent += `
+  /* https://projects.lukehaas.me/css-loaders/ */
+  .loading-box { height: 100vh; width: 100vw; position: fixed; left: 0; top: 0; display: flex; align-items: center; background-color: #242424; z-index: 9; }
 
-  return {
-    appendLoading() {
-      safeDOM.append(document.head, oStyle)
-      safeDOM.append(document.body, oDiv)
-    },
-    removeLoading() {
-      safeDOM.remove(document.head, oStyle)
-      safeDOM.remove(document.body, oDiv)
-    },
+  .load1 .loader,
+  .load1 .loader:before,
+  .load1 .loader:after {
+    background: #ffffff;
+    -webkit-animation: load1 1s infinite ease-in-out;
+    animation: load1 1s infinite ease-in-out;
+    width: 1em;
+    height: 4em;
   }
+
+  .load1 .loader {
+    color: #ffffff;
+    text-indent: -9999em;
+    margin: 88px auto;
+    position: relative;
+    font-size: 11px;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+  }
+
+  .load1 .loader:before,
+  .load1 .loader:after {
+    position: absolute;
+    top: 0;
+    content: '';
+  }
+
+  .load1 .loader:before {
+    left: -1.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+  }
+
+  .load1 .loader:after {
+    left: 1.5em;
+  }
+
+  @-webkit-keyframes load1 {
+
+    0%,
+    80%,
+    100% {
+      box-shadow: 0 0;
+      height: 4em;
+    }
+
+    40% {
+      box-shadow: 0 -2em;
+      height: 5em;
+    }
+  }
+
+  @keyframes load1 {
+
+    0%,
+    80%,
+    100% {
+      box-shadow: 0 0;
+      height: 4em;
+    }
+
+    40% {
+      box-shadow: 0 -2em;
+      height: 5em;
+    }
+  }`;
+
+  loadingBox.classList.add('loading-box', 'load1');
+  loadingBox.innerHTML += '<div class="loader"></div>';
+
+  const appendLoading = () => {
+    document.head.appendChild(loadingStyle);
+    document.body.appendChild(loadingBox);
+  };
+
+  const removeLoading = () => {
+    const _loadingStyle = document.getElementById('preload-loading-style');
+    const _loadingBox = document.getElementById('preload-loading-box');
+
+    // Ensure the remove child exists. 
+    _loadingStyle && document.head.removeChild(_loadingStyle);
+    _loadingBox && document.body.removeChild(_loadingBox);
+  };
+
+  return { loadingStyle, loadingBox, removeLoading, appendLoading }
 }
 
-// ----------------------------------------------------------------------
+; (async function () {
+  await domReady();
 
-const { appendLoading, removeLoading } = useLoading()
-domReady().then(appendLoading)
+  let _isCallRemoveLoading = false;
+  const { removeLoading, appendLoading } = loadingBootstrap();
 
-window.onmessage = ev => {
-  ev.data.payload === 'removeLoading' && removeLoading()
-}
+  window.removeLoading = () => {
+    _isCallRemoveLoading = true;
+    removeLoading();
+  };
 
-setTimeout(removeLoading, 4999)
+  // 5 秒超时自动关闭
+  setTimeout(() => !_isCallRemoveLoading && removeLoading(), 4999);
+
+  appendLoading();
+})();

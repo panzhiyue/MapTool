@@ -29,7 +29,8 @@ interface IState {
   showGrid: boolean,
   ready: boolean,  //是否准备完毕
   spatial_ref_sys: any,
-  staticPath: string
+  staticPath: string,
+  editLayerId: string
 }
 
 export const useMapToolStore = defineStore({
@@ -46,7 +47,8 @@ export const useMapToolStore = defineStore({
     showGrid: false,
     ready: false,
     spatial_ref_sys: null,
-    staticPath: staticPath
+    staticPath: staticPath,
+    editLayerId: null
   }),
   actions: {
     setMap(data: Nullable<olMap>) {

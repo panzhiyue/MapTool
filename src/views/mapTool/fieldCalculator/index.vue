@@ -160,7 +160,7 @@ const canOk = computed(() => {
 });
 
 const { close } = useWindow();
-const handleOk = () => {
+const handleOk = async () => {
 	const db = await getDB();
 	TableApi.updateColumnBySql(db, tableName.value, fieldName.value, sqlText.value).then((result) => {
 		if (result.code == ResponseCode.SUCCESS) {

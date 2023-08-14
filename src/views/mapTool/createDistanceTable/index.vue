@@ -73,6 +73,7 @@ import LengthUnits from '@/enum/LengthUnits';
 import InputNumber from '@/components/input-number';
 import ToolContainer from '@/components/tool-container';
 import ScrollBox from '@/components/scroll-box';
+import { getDB } from '@/utils/db/MapTool';
 const remote = require('@electron/remote');
 let sharedObject = remote.getGlobal('sharedObject');
 
@@ -103,8 +104,14 @@ const tableName2 = computed(() => {
 	return '';
 });
 
-const { tableStructure: tableStructure1, tableData: tableData1 } = useTable(tableName1);
-const { tableStructure: tableStructure2, tableData: tableData2 } = useTable(tableName2);
+const { tableStructure: tableStructure1, tableData: tableData1 } = useTable(
+	await getDB(),
+	tableName1,
+);
+const { tableStructure: tableStructure2, tableData: tableData2 } = useTable(
+	await getDB(),
+	tableName2,
+);
 
 const columns = ref([
 	{
