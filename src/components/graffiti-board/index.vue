@@ -29,6 +29,7 @@
 			<a-button type="button" class="btn btn-danger" id="clearAll" @click="clearAll()"
 				>清空</a-button
 			>
+			<a-button type="button" class="btn btn-danger" id="clearAll" @click="draw(-1)">清空</a-button>
 		</div>
 		<canvas class="main" ref="dom"></canvas>
 	</div>

@@ -61,6 +61,7 @@ const GraffitiCanvas = function () {
         arrow: 21,
         parallel: 41,
         trapezoid: 42,
+        erase: -1
     },
         cursors = ['crosshair', 'pointer']; //鼠标图形
     //全局变量
@@ -91,6 +92,7 @@ const GraffitiCanvas = function () {
         cuAngle: null, //当前箭头角度
         vertex: [], //坐标点
         isContinuous: false, //默认不连续绘图,如果是连续绘图，每次绘图保存到shapes列表
+        isErase: false, //是否开始擦除
     },
         shapes = new Array(); /*绘制的图形列表*/
     var drawnSnapshot; /*绘制历史快照，用于连续绘图时记录上次的每次绘图*/
@@ -360,7 +362,28 @@ const GraffitiCanvas = function () {
 
     /** 切换鼠标样式*/
     var switchCorser = function (b) {
-        cbtCanvas.style.cursor = (isNull(b) ? isDrawing() : b) ? cursors[0] : cursors[1];
+        console.log(b);
+        if (b === 'erase') {
+            // if (true) {
+            let canvas = document.createElement("canvas");
+            canvas.width = 32;
+            canvas.height = 32;
+            let ctx = canvas.getContext("2d")
+            ctx.beginPath();
+            ctx.arc(16, 16, 15, 0, 2 * Math.PI);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = "rgba(0,0,0,1)"
+            ctx.fillStyle = "rgba(0,0,0,0.3)"
+            ctx.stroke();
+            ctx.fill();
+            cbtCanvas.style.cursor = `url(${canvas
+                .toDataURL("image/png")
+                .replace("image/png", "image/octet-stream")}),auto`;
+
+        } else {
+            cbtCanvas.style.cursor = (isNull(b) ? isDrawing() : b) ? cursors[0] : cursors[1];
+        }
+
     };
     /**是否连续绘图*/
     var isContinuous = function (b) {
@@ -472,6 +495,9 @@ const GraffitiCanvas = function () {
             //console.log("选择："+ctrlConfig.kind);
             //设置起始点
             switch (ctrlConfig.kind) {
+                case graphkind.erase:
+                    ctrlConfig.isErase = true;
+                    break;
                 case graphkind.pen: //画笔(不松开鼠标按键一直画)
                     beginDrawing(); //开始绘制
                     var p = new Point(e.offsetX, e.offsetY);
@@ -534,6 +560,23 @@ const GraffitiCanvas = function () {
     };
     //鼠标移动（拖动，根据鼠标移动的位置不断重绘图形）
     var mouseMove = function (e) {
+        if (ctrlConfig.isErase) {
+            // 获取当前点坐标
+            var x = e.offsetX;
+            var y = e.offsetY;
+            // 将当前点为左上角32x32个像素点的颜色设置为透明
+            for (var i = 0; i <= 32; i++) {
+                for (var j = 0; j <= 32; j++) {
+                    var px = x + i;
+                    var py = y + j;
+                    if (px >= 0 && px < cbtCanvas.width && py >= 0 && py < cbtCanvas.height) {
+                        var imgData = cxt.getImageData(px, py, 1, 1);
+                        imgData.data[3] = 0;
+                        cxt.putImageData(imgData, px, py);
+                    }
+                }
+            }
+        }
         if (isDrawing() && hasStartPoint()) {
             //检查是否开始绘制，检查是否有开始坐标点
             //画笔不需要重绘
@@ -629,6 +672,9 @@ const GraffitiCanvas = function () {
                 stopDrawing(); //结束绘制
             }
         }
+        if (ctrlConfig.isErase) {
+            ctrlConfig.isErase = false;
+        }
     };
     //鼠标移出
     var mouseOut = function (e) {
@@ -700,7 +746,12 @@ const GraffitiCanvas = function () {
             } else {
                 ctrlConfig.kind = k;
             }
-            switchCorser(true); //切换鼠标样式
+            if (k === -1) {
+                switchCorser('erase'); //切换鼠标样式
+            } else {
+                switchCorser(true); //切换鼠标样式
+            }
+
         },
         /**点坐标*/
         Point: Point,
