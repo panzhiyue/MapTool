@@ -1,11 +1,10 @@
-<!--百化分背诵-->
+<!--资料-公式-->
 <template>
 	<div class="container">
 		<div class="header">
 			<div class="btn-container">
 				<a-checkbox v-model:checked="disruptOrder">打乱顺序</a-checkbox>
-				<a-button class="ml-5" @click="handleClick1">百分数背小数</a-button>
-				<a-button class="ml-5" @click="handleClick2">小数背百分数</a-button>
+				<a-button class="ml-5" @click="handleClick">重新排列</a-button>
 				<a-button class="ml-5" @click="handleShow">显示答案</a-button>
 				<a-button class="ml-5" @click="handleHide">隐藏答案</a-button>
 			</div>
@@ -26,26 +25,7 @@ import { Ref, ref } from 'vue';
 const disruptOrder = ref(true);
 const list: Ref<any> = ref([]);
 
-const originList = [
-	{ fraction: '1/2', percentage: '50%' },
-	{ fraction: '1/4', percentage: '25%' },
-	{ fraction: '1/8', percentage: '12.5%' },
-	{ fraction: '1/16', percentage: '6.25%' },
-	{ fraction: '1/3', percentage: '33.3%' },
-	{ fraction: '1/6', percentage: '16.7%' },
-	{ fraction: '1/12', percentage: '8.3%' },
-	{ fraction: '1/5', percentage: '20%' },
-	{ fraction: '1/10', percentage: '10%' },
-	{ fraction: '1/20', percentage: '5%' },
-	{ fraction: '1/7', percentage: '14.3%' },
-	{ fraction: '1/14', percentage: '7.1%' },
-	{ fraction: '1/9', percentage: '11.1%' },
-	{ fraction: '1/13', percentage: '7.7%' },
-	{ fraction: '1/15', percentage: '6.7%' },
-	{ fraction: '1/17', percentage: '5.9%' },
-	{ fraction: '1/18', percentage: '5.6%' },
-	{ fraction: '1/19', percentage: '5.3%' },
-];
+const originList = [{ name: '1/2', formula: '50%' }];
 
 const shuffle = (arr) => {
 	let length = arr.length,
@@ -59,26 +39,13 @@ const shuffle = (arr) => {
 	}
 	return arr;
 };
-const handleClick2 = () => {
-	list.value = [];
 
-	list.value = originList.map((item) => {
-		return {
-			show: `小数:${item.fraction}`,
-			hide: `百分数:${item.percentage}`,
-		};
-	});
-	if (disruptOrder.value) {
-		list.value = shuffle(list.value);
-	}
-};
-
-const handleClick1 = () => {
+const handleClick = () => {
 	list.value = [];
 	list.value = originList.map((item) => {
 		return {
-			hide: `小数:${item.fraction}`,
-			show: `百分数:${item.percentage}`,
+			show: `名称:${item.name}`,
+			hide: `公式:${item.formula}`,
 		};
 	});
 	if (disruptOrder.value) {

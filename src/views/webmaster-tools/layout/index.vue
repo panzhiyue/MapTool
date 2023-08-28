@@ -32,6 +32,14 @@ const menus = reactive([
 		path: '/webmaster-tools/percentile/recite',
 	},
 	{
+		title: '资料-公式',
+		path: '/webmaster-tools/information-formula',
+	},
+	{
+		title: '数学运算-公式',
+		path: '/webmaster-tools/math-formula',
+	},
+	{
 		title: '涂鸦板',
 		path: '/webmaster-tools/graffiti-board',
 	},

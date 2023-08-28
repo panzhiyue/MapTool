@@ -18,6 +18,16 @@ const router =
             component: () => import('@/views/webmaster-tools/percentile/recite.vue')
         },
         {
+            path: '/webmaster-tools/math/formula',
+            name: 'WebmastertoolsMathFormula',
+            component: () => import('@/views/webmaster-tools/math/formula.vue')
+        },
+        {
+            path: '/webmaster-tools/information/formula',
+            name: 'WebmastertoolsInformationFormula',
+            component: () => import('@/views/webmaster-tools/information/formula.vue')
+        },
+        {
             path: '/webmaster-tools/graffiti-board',
             name: 'WebmastertoolsGraffitiboard',
             component: () => import('@/views/webmaster-tools/graffiti-board/index.vue')
